@@ -1,5 +1,11 @@
-class Data:
-    def __init__(self, X):
-        self.Y = X
+from Layer import *
+
+class Data(Layer):
+    def __init__(self, model, layer_name = "", *args, **kwargs):
+        self.model = None
+        self.Y = model
+        self.dim_out = model.shape[1]
+        self.next_layers = []
+        self.lr = 0.0
     def __str__(self):
         return "It is a Data Layer"

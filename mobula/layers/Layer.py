@@ -6,6 +6,8 @@ class Layer:
         # V
         # (batch_size, dim_out, H, W)
         self.model = model
+        self.next_layers = []
+        self.model.next_layers.append(self)
         self.layer_name = layer_name
         self.dim_out = dim_out
         self.args = args
