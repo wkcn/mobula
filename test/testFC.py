@@ -1,11 +1,11 @@
 from testlib import *
 from mobula.layers import Data, FC
 
-X = np.zeros((4,1,1,2))
-X[0,0,0,:] = [0,0]
-X[1,0,0,:] = [0,1]
-X[2,0,0,:] = [1,0]
-X[3,0,0,:] = [1,1]
+X = np.zeros((4,2,1,1))
+X[0,:,0,0] = [0,0]
+X[1,:,0,0] = [0,1]
+X[2,:,0,0] = [1,0]
+X[3,:,0,0] = [1,1]
 
 data = Data(X)
 
