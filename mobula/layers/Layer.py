@@ -1,5 +1,4 @@
 from Defines import * 
-from LayerGradient import *
 class Layer:
     def __init__(self, model, layer_name, dim_out, *args, **kwargs):
         # NCHW
@@ -13,10 +12,15 @@ class Layer:
         self.kwargs = kwargs
         self.lr = kwargs.get("lr", 1.0)
         self.Y = np.zeros((0,0,0,0))
-        self.gradient = None
     def reshape(self):
         pass
+    def reshape2(self):
+        pass
     def forward(self):
+        pass
+    def backward(self):
+        pass
+    def update(self, lr):
         pass
     @property
     def shape(self):
