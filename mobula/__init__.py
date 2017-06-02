@@ -1,1 +1,1 @@
-from net import *
+from Net import *

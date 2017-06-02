@@ -1,6 +1,6 @@
 from Defines import * 
 class Layer:
-    def __init__(self, model, layer_name, dim_out, *args, **kwargs):
+    def __init__(self, model, layer_name, dim_out = 0, *args, **kwargs):
         # NCHW
         # (batch_size, dim_in, H, W)
         # V
