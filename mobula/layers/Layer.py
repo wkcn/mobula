@@ -1,6 +1,6 @@
 from Defines import * 
-class Layer:
-    def __init__(self, model, layer_name, dim_out = 0, *args, **kwargs):
+class Layer(object):
+    def __init__(self, model, layer_name = "", *args, **kwargs):
         # NCHW
         # (batch_size, dim_in, H, W)
         # V
@@ -9,7 +9,6 @@ class Layer:
         self.next_layers = []
         self.model.next_layers.append(self)
         self.layer_name = layer_name
-        self.dim_out = dim_out
         self.args = args
         self.kwargs = kwargs
         self.lr = kwargs.get("lr", 1.0)
@@ -27,6 +26,12 @@ class Layer:
     @property
     def shape(self):
         return self.Y.shape
+    @shape.setter
+    def shape(self, value):
+        raise RuntimeError("Don't Change Layer.shape")
     @property
     def X(self):
         return self.model.Y
+    @X.setter
+    def X(self, value):
+        raise RuntimeError("Don't Change Layer.X")

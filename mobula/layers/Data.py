@@ -2,6 +2,7 @@ from Layer import *
 
 class Data(Layer):
     def __init__(self, model, layer_name = "", *args, **kwargs):
+        self.layer_name = layer_name
         self.model = None
         self.Y = model
         self.dim_out = model.shape[1]
