@@ -1,17 +1,18 @@
 from Layer import *
 
-class ReLU(Layer):
+class Tanh(Layer):
     def __init__(self, model, *args, **kwargs):
         Layer.__init__(self, model, *args, **kwargs)
     def __str__(self):
-        return "It is a ReLU Layer"
+        return "It is a Tanh Layer"
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
     def reshape2(self):
         self.dX = np.zeros(self.X.shape)
     def forward(self):
-        self.Y = self.X.copy()
-        self.Y[self.X < 0] = 0.0
+        a = np.exp(self.X)
+        b = np.exp(-self.X)
+        self.c = a + b 
+        self.Y = (a - b) / (self.c)
     def backward(self):
-        self.dX = self.dY.copy()
-        self.dX[self.X < 0] = 0.0
+        self.dX = 4.0 / np.multiply(self.c, self.c)
