@@ -6,7 +6,7 @@ import numpy as np
 def test_layer_y(layer, X):
     from mobula.layers import Data
     data = Data(X, "data") 
-    l = layer(data, "relu")
+    l = layer(data, "testLayer")
     l.forward()
     l.dY = np.ones(l.Y.shape)
     l.backward()

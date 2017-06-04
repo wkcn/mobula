@@ -3,6 +3,7 @@ from Data import *
 
 # Layers
 from FC import *
+from Conv import *
 
 # Activate Layer
 from Sigmoid import *
