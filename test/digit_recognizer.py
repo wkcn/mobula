@@ -11,6 +11,7 @@ first = True
 X = []
 Y = []
 k = 0
+labels = []
 for row in reader:
     if first:
         first = False
@@ -22,12 +23,15 @@ for row in reader:
     q = np.zeros(10)
     q[label] = 1.0
     Y.append(q)
+    labels.append(label)
     '''
     plt.imshow(x, "gray")
     plt.show()
     print x
     '''
-    break
+    #if k > 1000:
+    #    break
+print ("Read OK", k)
 
 '''
 X = np.zeros((4,1,28,28))
@@ -37,9 +41,10 @@ Y = (np.matrix("0;1;1;1"))
 X = np.array(X) / 255.0
 X.shape = (k,1,28,28)
 Y = np.matrix(Y).reshape((k,10)).astype(np.double)
+labels = np.array(labels)
 
 
-data = Data(X, "Data")
+data = Data(X, "Data", batch_size = 100, labels = Y)
 
 conv1 = Conv(data, "Conv1", dim_out=20, kernel = 5)
 
@@ -50,7 +55,7 @@ sig1 = Sigmoid(fc1, "relu1")
 fc2 = FC(sig1, "fc2", dim_out = 10)
 sig2 = Sigmoid(fc2, "sig2")
 
-loss = CrossEntropy(sig2, "Loss", label = Y) 
+loss = CrossEntropy(sig2, "Loss", label = data.labels) 
 net = Net()
 net.setLoss(loss)
 
@@ -60,5 +65,11 @@ net.reshape2()
 net.lr = 0.1
 for i in range(10000):
     net.forward()
+    pre = np.argmax(sig2.Y,1)
+    pre.resize(pre.size)
+    right = np.argmax(data.labels, 1).reshape(pre.size)
+    bs = (pre == right) 
+    b = np.sum(bs)
+    print "Accuracy: %f" % (b * 1.0 / len(pre))
     net.backward()
     print "Iter: %d, Cost: %f" % (i, loss.Y)
