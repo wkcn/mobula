@@ -42,18 +42,21 @@ class Conv(Layer):
         self.X_col = self.get_col(self.X)
         self.Y = (np.dot(self.W, self.X_col).swapaxes(0, 1) + self.b).reshape((self.X.shape[0], self.dim_out, self.NH, self.NW))
     def backward(self):
-        self.dW = np.mean([np.dot(self.dY[i,:,:,:].reshape((self.dim_out, self.NHW)), self.X_col[i,:,:].T) for i in range(self.X.shape[0])], 0)
-        self.db = np.mean(self.dY, 0)
-        dX_col = np.dot(self.W.T, self.dY.reshape(self.X.shape[0], self.dim_out, self.NH * self.NW)).swapaxes(0, 1)
-        self.dX = np.zeros(self.X.shape)
         N,C,H,W = self.X.shape
+        self.dY.resize((N, self.dim_out, self.NHW))
+        self.dW = np.mean([np.dot(self.dY[i, :, :], self.X_col[i,:,:].T) for i in range(self.X.shape[0])], 0)
+        self.db = np.mean(self.dY, 0)
+
+        dX_col = np.dot(self.W.T, np.asarray(self.dY)).swapaxes(0, 1)
+
+        self.dX = np.zeros(self.X.shape)
         HW = H * W
         khw = self.kernel_h * self.kernel_w
         si = self.I.size
         self.I.resize(si)
         for n in range(N):
             for c in range(C):
-                f = dX_col[c,khw * c:khw * (c+1), :].reshape(si) 
+                f = dX_col[n,khw * c:khw * (c+1), :].reshape(si) 
                 np.add.at(self.dX[n,c,:,:].reshape(HW), self.I[self.I != -1], f[self.I != -1])
     def update(self, lr):
         self.W -= lr * self.dW

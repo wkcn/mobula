@@ -19,15 +19,14 @@ class FC(Layer):
         self.Y = np.zeros((self.XN, self.dim_out))
     def forward(self):
         # Y = W * X + b
-        self.X.shape = (self.XN, self.C)
-        self.Y = np.dot(self.X, self.W.T) + self.b.T
+        self.Y = np.dot(self.X.reshape((self.XN, self.C)), self.W.T) + self.b.T
     def reshape2(self):
         self.dX = np.zeros(self.X.shape)
         self.dW = np.zeros(self.W.shape)
         self.db = np.zeros(self.b.shape)
     def backward(self):
         self.dX = np.dot(self.dY, self.W)
-        self.dW = np.dot(self.dY.T, self.X) / self.XN
+        self.dW = np.dot(self.dY.T, self.X.reshape((self.XN, self.C))) / self.XN
         self.db = np.mean(self.dY, 0).T
     def update(self, lr):
         self.W -= lr * self.dW
