@@ -27,7 +27,7 @@ class FC(Layer):
     def backward(self):
         self.dX = np.dot(self.dY, self.W)
         self.dW = np.dot(self.dY.T, self.X.reshape((self.XN, self.C))) / self.XN
-        self.db = np.mean(self.dY, 0).T
+        self.db = np.mean(self.dY, 0).T.reshape(self.db.shape)
     def update(self, lr):
         self.W -= lr * self.dW
-        self.b -= lr * self.db 
+        self.b -= lr * self.db

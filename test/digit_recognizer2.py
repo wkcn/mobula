@@ -5,46 +5,20 @@ from mobula.layers import FC, Conv
 from mobula.layers import Sigmoid, ReLU, Tanh, CrossEntropy
 from mobula.layers import Data
 import matplotlib.pyplot as plt
+import scipy.io as sio
 
-reader = csv.reader(open("./train.csv"))
-first = True
-X = []
-Y = []
-k = 0
-labels = []
-for row in reader:
-    if first:
-        first = False
-        continue
-    label = int(row[0])
-    x = np.matrix([int(w) for w in row[1:]]).reshape((28,28))
-    k += 1
-    X.append(x)
-    q = np.zeros(10)
-    q[label] = 1.0
-    Y.append(q)
-    labels.append(label)
-    '''
-    plt.imshow(x, "gray")
-    plt.show()
-    print x
-    '''
-    if k > 1000:
-        break
-print ("Read OK", k)
+filename = "./ex4data1.mat"
+load_data = sio.loadmat(filename)
 
-'''
-X = np.zeros((4,1,28,28))
+X = load_data['X']
+T = load_data['y']
+X.shape = (5000,1,20,20)
+T[T == 10] = 0
+Y = np.zeros((5000, 10))
+for i in range(5000):
+    Y[i, T[i]] = 1.0
 
-Y = (np.matrix("0;1;1;1"))
-'''
-X = np.array(X) / 255.0
-X.shape = (k,1,28,28)
-Y = np.matrix(Y).reshape((k,10)).astype(np.double)
-labels = np.array(labels)
-
-
-data = Data(X, "Data", batch_size = 100, labels = Y)
+data = Data(X, "Data", batch_size = 5000, labels = Y)
 
 #conv1 = Conv(data, "Conv1", dim_out=10, kernel = 5)
 
@@ -71,8 +45,8 @@ net.setLoss(loss)
 net.reshape()
 net.reshape2()
 
-net.lr = 0.01
-for i in range(10000):
+net.lr = 0.3
+for i in range(100000):
     net.forward()
     pre = np.argmax(sig2.Y,1)
     pre.resize(pre.size)

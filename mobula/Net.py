@@ -48,6 +48,10 @@ class Net:
     def reshape2(self):
         for l in self.topo:
             l.reshape2()
+            try:
+                print (l.layer_name, l.db.shape)
+            except:
+                pass
     def forward(self):
         for l in self.topo:
             l.forward()
