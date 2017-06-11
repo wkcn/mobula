@@ -20,7 +20,7 @@ class Data(Layer):
             if self.batch_size < yshape[0]:
                 yshape[0] = self.batch_size
             self.Y = np.zeros(yshape)
-            if self._label != None:
+            if self._label is not None:
                 lshape = [self._label.shape[i] for i in range(len(self._label.shape))]
                 if self.batch_size < lshape[0]:
                     lshape[0] = self.batch_size
@@ -29,7 +29,7 @@ class Data(Layer):
             self.Y = self.allY 
             self.label = self._label
     def forward(self):
-        if self.batch_size == None:
+        if self.batch_size is None:
             return
         i = 0
         while i < self.batch_size:

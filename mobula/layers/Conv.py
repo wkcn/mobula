@@ -26,11 +26,11 @@ class Conv(Layer):
     def reshape(self):
         # (NCHW)
         N,C,H,W = self.X.shape
+        self.NH = (H + self.pad_h * 2 - self.kernel_h + 1) // self.stride
+        self.NW = (W + self.pad_w * 2 - self.kernel_w + 1) // self.stride
         self.Y = np.zeros((N, self.dim_out, self.NH, self.NW))
         # Convolution Core
         if self.first_reshape:
-            self.NH = (H + self.pad_h * 2 - self.kernel_h + 1) // self.stride
-            self.NW = (W + self.pad_w * 2 - self.kernel_w + 1) // self.stride
             self.NHW = self.NH * self.NW
             # self.W = Xavier((self.dim_out, self.X.shape[1], self.kernel_h, self.kernel_w)) 
             self.W = Xavier((self.dim_out, C * self.kernel_w * self.kernel_h))
