@@ -17,20 +17,26 @@ class Conv(Layer):
             self.kernel_w = kwargs["kernel_w"]
             self.kernel_h = kwargs["kernel_h"]
         self.stride = kwargs.get("stride", 1)
+
+        self.W = None
+        self.b = None
+        self.first_reshape = True
     def __str__(self):
         return "It is a Convolution Layer"
     def reshape(self):
         # (NCHW)
         N,C,H,W = self.X.shape
-        self.NH = (H + self.pad_h * 2 - self.kernel_h + 1) // self.stride
-        self.NW = (W + self.pad_w * 2 - self.kernel_w + 1) // self.stride
-        self.NHW = self.NH * self.NW
         self.Y = np.zeros((N, self.dim_out, self.NH, self.NW))
         # Convolution Core
-        # self.W = Xavier((self.dim_out, self.X.shape[1], self.kernel_h, self.kernel_w)) 
-        self.W = Xavier((self.dim_out, C * self.kernel_w * self.kernel_h))
-        self.b = Xavier((self.dim_out, self.NHW))
-        self.I = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride)
+        if self.first_reshape:
+            self.NH = (H + self.pad_h * 2 - self.kernel_h + 1) // self.stride
+            self.NW = (W + self.pad_w * 2 - self.kernel_w + 1) // self.stride
+            self.NHW = self.NH * self.NW
+            # self.W = Xavier((self.dim_out, self.X.shape[1], self.kernel_h, self.kernel_w)) 
+            self.W = Xavier((self.dim_out, C * self.kernel_w * self.kernel_h))
+            self.b = Xavier((self.dim_out, self.NHW))
+            self.I = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride)
+            self.first_reshape = False
     def get_col(self, X):
         return np.stack([np.vstack(\
                 [im2col(\

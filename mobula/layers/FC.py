@@ -3,20 +3,24 @@ from Layer import *
 class FC(Layer):
     def __init__(self, model, *args, **kwargs):
         Layer.__init__(self, model, *args, **kwargs)
-        self.W = np.zeros((0,0))
-        self.b = np.arange(0)
+        self.W = None 
+        self.b = None 
         self.XN = 0
         self.C = 0
         self.dim_out = kwargs["dim_out"]
+        self.first_reshape = True
     def __str__(self):
         return "It is a Full Conneted Layer"
     def reshape(self):
         # NCHW
         self.XN = self.X.shape[0]
         self.C = self.X.size // self.XN 
-        self.W = Xavier((self.dim_out ,self.C))
-        self.b = Xavier((self.dim_out, 1))
         self.Y = np.zeros((self.XN, self.dim_out))
+        if self.first_reshape:
+            self.W = Xavier((self.dim_out ,self.C))
+            self.b = Xavier((self.dim_out, 1))
+            self.first_reshape = False
+
     def forward(self):
         # Y = W * X + b
         self.Y = np.dot(self.X.reshape((self.XN, self.C)), self.W.T) + self.b.T
