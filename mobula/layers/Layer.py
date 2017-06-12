@@ -1,4 +1,4 @@
-from Defines import * 
+from .Defines import * 
 class Layer(object):
     def __init__(self, model, layer_name = "", *args, **kwargs):
         # NCHW

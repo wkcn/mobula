@@ -1,4 +1,4 @@
-from Layer import *
+from .Layer import *
 
 class FC(Layer):
     def __init__(self, model, *args, **kwargs):
@@ -8,7 +8,6 @@ class FC(Layer):
         self.XN = 0
         self.C = 0
         self.dim_out = kwargs["dim_out"]
-        self.first_reshape = True
     def __str__(self):
         return "It is a Full Conneted Layer"
     def reshape(self):
@@ -16,10 +15,9 @@ class FC(Layer):
         self.XN = self.X.shape[0]
         self.C = self.X.size // self.XN 
         self.Y = np.zeros((self.XN, self.dim_out))
-        if self.first_reshape:
+        if self.W is None:
             self.W = Xavier((self.dim_out ,self.C))
             self.b = Xavier((self.dim_out, 1))
-            self.first_reshape = False
 
     def forward(self):
         # Y = W * X + b

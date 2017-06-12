@@ -1,4 +1,4 @@
-from Layer import *
+from .Layer import *
 
 class Data(Layer):
     def __init__(self, model, layer_name = "", *args, **kwargs):
@@ -14,6 +14,11 @@ class Data(Layer):
         self.N = len(self.allY)
     def __str__(self):
         return "It is a Data Layer"
+    def set_data(self, Y):
+        self.allY = Y
+        self.N = len(self.allY)
+    def set_label(self, label):
+        self._label = label
     def reshape(self):
         if self.batch_size:
             yshape = [self.allY.shape[i] for i in range(len(self.allY.shape))]

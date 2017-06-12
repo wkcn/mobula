@@ -1,4 +1,4 @@
-from Layer import *
+from .Layer import *
 
 class Sigmoid(Layer):
     def __init__(self, model, *args, **kwargs):

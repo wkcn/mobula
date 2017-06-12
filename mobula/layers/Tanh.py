@@ -1,4 +1,4 @@
-from Layer import *
+from .Layer import *
 
 class Tanh(Layer):
     def __init__(self, model, *args, **kwargs):
