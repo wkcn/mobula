@@ -29,7 +29,7 @@ class Data(Layer):
                 lshape = [self._label.shape[i] for i in range(len(self._label.shape))]
                 if self.batch_size < lshape[0]:
                     lshape[0] = self.batch_size
-                self.label = np.zeros(lshape) 
+                self.label = np.zeros(lshape).astype(np.int)
         else:
             self.Y = self.allY 
             self.label = self._label

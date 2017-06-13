@@ -1,5 +1,6 @@
 #coding=utf-8
 import copy
+import time
 try:
     import queue
 except:
@@ -42,6 +43,10 @@ class Net:
                 if cs[l.model] == 0:
                     q.put(l.model)
         self.topo = st[::-1]
+        t = time.time()
+        for l in self.topo:
+            l.forward_time = 0.0
+            l.backward_time = 0.0
     def reshape(self):
         for l in self.topo:
             l.reshape()
@@ -50,9 +55,12 @@ class Net:
             l.reshape2()
     def forward(self):
         for l in self.topo:
+            t = time.time()
             l.forward()
+            l.forward_time += time.time() - t 
     def backward(self):
         for l in self.topo[::-1]:
+            t = time.time()
             num_next_layers = len(l.next_layers)
             if num_next_layers > 0:
                 if num_next_layers == 1:
@@ -63,3 +71,7 @@ class Net:
                         l.dY += e.dX
             l.backward()
             l.update(self.lr * l.lr)
+            l.backward_time += time.time() - t 
+    def time(self):
+        for l in self.topo:
+            print (l.layer_name, l.forward_time, l.backward_time)

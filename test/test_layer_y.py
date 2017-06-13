@@ -1,9 +1,10 @@
 from testlib import *
-from mobula.layers import Sigmoid, ReLU, Tanh
+import mobula.layers as L
 import matplotlib.pyplot as plt
 
 X = np.matrix(np.arange(-10,10,0.1)).T
-Y, dX = test_layer_y(Tanh, X)
+Y, dX = test_layer_y(L.Softmax, X)
+print (Y)
 
 plt.subplot(121)
 plt.plot(X, Y, 'b')
