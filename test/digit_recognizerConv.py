@@ -20,7 +20,7 @@ for i in range(5000):
 
 data = Data(X, "Data", batch_size = 128, label = Y)
 
-conv1 = Conv(data, "Conv1", dim_out=10, kernel = 3)
+conv1 = Conv(data, "Conv1", dim_out=8, kernel = 3)
 #conv2 = Conv(conv1, "Conv2", dim_out=20, kernel = 5)
 
 '''
@@ -32,7 +32,7 @@ sig2 = Sigmoid(fc2, "sig2")
 loss = CrossEntropy(sig2, "Loss", label = data.labels) 
 '''
 
-fc1 = FC(conv1, "fc1", dim_out = 25)
+fc1 = FC(conv1, "fc1", dim_out = 15)
 sig1 = Sigmoid(fc1, "sig1")
 fc2 = FC(sig1, "fc2", dim_out = 10)
 sig2 = Sigmoid(fc2, "sig2")
@@ -44,7 +44,7 @@ net.setLoss(loss)
 net.reshape()
 net.reshape2()
 
-net.lr = 0.3
+net.lr = 0.2
 for i in range(100000):
     net.forward()
 
@@ -61,7 +61,8 @@ for i in range(100000):
     net.backward()
 
     if i % 100 == 0:
-        print "Iter: %d, Cost: %f" % (i, loss.Y)
+        print ("Iter: %d, Cost: %f" % (i, loss.Y))
+        net.time()
         old_batch_size = data.batch_size
         data.batch_size = None
         net.reshape()

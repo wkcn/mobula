@@ -12,7 +12,6 @@ class SoftmaxWithLoss(LossLayer):
     def reshape2(self):
         self.dX = np.zeros(self.X.shape)
     def forward(self):
-        self.update_label()
         e = np.exp(self.X)
         self.s = np.sum(e, 1)
         self.Y = np.asarray(e / np.asmatrix(self.s).T)

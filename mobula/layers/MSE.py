@@ -8,7 +8,6 @@ class MSE(LossLayer):
     def reshape(self):
         self.Y = 0.
     def forward(self):
-        self.update_label()
         self.d = (self.X - self.label)
         self.Y = np.mean(np.multiply(self.d,self.d))
     def reshape2(self):

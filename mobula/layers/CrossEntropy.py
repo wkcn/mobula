@@ -8,7 +8,6 @@ class CrossEntropy(LossLayer):
     def reshape(self):
         self.Y = 0.
     def forward(self):
-        self.update_label()
         self.Y = np.mean(- np.multiply(self.label, np.log(self.X)) - \
                np.multiply(1.0 - self.label, np.log(1.0 - self.X)))
     def reshape2(self):

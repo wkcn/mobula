@@ -4,7 +4,6 @@ from mobula import Net
 from mobula.layers import FC, Conv
 from mobula.layers import Sigmoid, ReLU, Tanh, CrossEntropy, SoftmaxWithLoss, Softmax
 from mobula.layers import Data
-import matplotlib.pyplot as plt
 import scipy.io as sio
 
 filename = "./ex4data1.mat"
@@ -28,7 +27,7 @@ for i in range(0,5000,100):
     plt.show()
 '''
 
-data = Data(X, "Data", batch_size = 256, label = Y)
+data = Data(X, "Data", batch_size = 128, label = Y)
 
 #conv1 = Conv(data, "Conv1", dim_out=10, kernel = 5)
 
@@ -56,13 +55,13 @@ net.setLoss(loss)
 net.reshape()
 net.reshape2()
 
-net.lr = 0.4
+net.lr = 0.1
 for i in range(100000):
     net.forward()
     net.backward()
 
-    if i % 100 == 0:
-        print "Iter: %d, Cost: %f" % (i, loss.loss)
+    if i % 2000 == 0:
+        print ("Iter: %d, Cost: %f" % (i, loss.loss))
         net.time()
         old_batch_size = data.batch_size
         data.batch_size = None

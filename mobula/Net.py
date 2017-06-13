@@ -47,6 +47,8 @@ class Net:
         for l in self.topo:
             l.forward_time = 0.0
             l.backward_time = 0.0
+            self.forward_times = 0
+            self.backward_times = 0
     def reshape(self):
         for l in self.topo:
             l.reshape()
@@ -54,11 +56,13 @@ class Net:
         for l in self.topo:
             l.reshape2()
     def forward(self):
+        self.forward_times += 1
         for l in self.topo:
             t = time.time()
             l.forward()
             l.forward_time += time.time() - t 
     def backward(self):
+        self.backward_times += 1
         for l in self.topo[::-1]:
             t = time.time()
             num_next_layers = len(l.next_layers)
@@ -73,5 +77,6 @@ class Net:
             l.update(self.lr * l.lr)
             l.backward_time += time.time() - t 
     def time(self):
+        print ("name\t|forward_time\t|backward_time\t|forward_mean\t|backward_mean\t|forward_times: %d, backward_times: %d" % (self.forward_times, self.backward_times))
         for l in self.topo:
-            print (l.layer_name, l.forward_time, l.backward_time)
+            print ("%s\t|%f\t|%f\t|%f\t|%f" % (l.layer_name, l.forward_time, l.backward_time, l.forward_time / self.forward_times, l.backward_time / self.backward_times))

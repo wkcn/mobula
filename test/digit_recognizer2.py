@@ -69,7 +69,7 @@ for i in range(50000):
     net.backward()
 
     if i % 2000 == 0:
-        print "Iter: %d, Cost: %f" % (i, loss.Y)
+        print ("Iter: %d, Cost: %f" % (i, loss.Y))
         net.time()
         old_batch_size = data.batch_size
         data.batch_size = None
