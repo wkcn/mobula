@@ -9,7 +9,10 @@ X[1,0,:,:] = np.arange(125, 150).reshape((5,5))
 
 data = Data(X, "data") 
 conv = Conv(data, "Conv", pad = 0, kernel_h = 2, kernel_w = 3, dim_out = 3)
+data.reshape()
+data.forward()
 conv.reshape()
+conv.reshape2()
 conv.forward()
 print "X", conv.X.shape
 print conv.X_col.shape

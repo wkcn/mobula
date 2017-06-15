@@ -34,4 +34,5 @@ class Layer(object):
         return self.model.Y
     @X.setter
     def X(self, value):
-        raise RuntimeError("Don't Change Layer.X")
+        #raise RuntimeError("Don't Change Layer.X")
+        self.model.Y = value

@@ -10,6 +10,8 @@ X[3,:,0,0] = [1,1]
 Y = np.matrix("8;10;12;14")
 
 data = Data(X)
+data.reshape()
+data.forward()
 
 fc1 = FC(data, "fc1", dim_out = 1)
 fc1.reshape()
