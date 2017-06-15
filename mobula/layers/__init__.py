@@ -8,6 +8,7 @@ from .Conv import *
 # Activate Layer
 from .Sigmoid import *
 from .ReLU import *
+from .PReLU import *
 from .Tanh import *
 from .Softmax import *
 
