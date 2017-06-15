@@ -5,7 +5,7 @@ class PReLU(Layer):
         Layer.__init__(self, model, *args, **kwargs)
         self.a = 0.25
     def __str__(self):
-        return "It is a ReLU Layer"
+        return "It is a PReLU Layer"
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
     def reshape2(self):

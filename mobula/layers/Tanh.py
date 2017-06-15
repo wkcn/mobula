@@ -15,4 +15,4 @@ class Tanh(Layer):
         self.c = a + b 
         self.Y = (a - b) / (self.c)
     def backward(self):
-        self.dX = 4.0 / np.multiply(self.c, self.c)
+        self.dX = np.multiply(self.dY, 4.0 / np.square(self.c))
