@@ -4,11 +4,11 @@ import numpy as np
 def Xavier(shape):
     # shape: (dim_out, dim_in)
     R = np.random.random(shape)
-    k = np.sqrt(6.0 / (shape[0] + shape[1]))
+    k = np.sqrt(6.0 / R.size)
     return -k + (2 * k) * R
 
 
-def im2col(A, BSZ, stepsize=1):
+def im2col(A, BSZ, stepsize = 1):
     # Parameters
     m,n = A.shape
     s0, s1 = A.strides    

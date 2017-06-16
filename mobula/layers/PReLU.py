@@ -17,6 +17,6 @@ class PReLU(Layer):
         self.dX = self.dY.copy()
         self.dX[self.X < 0] *= self.a
     def update(self, lr):
-        if (self.X < 0).any():
-            bx = self.X < 0
+        bx = self.X < 0
+        if bx.any():
             self.a -= lr * np.mean(np.multiply(self.dY[bx], self.X[bx]))
