@@ -31,38 +31,41 @@ class Conv(Layer):
         # Convolution Core
         if self.W is None:
             self.NHW = self.NH * self.NW
-            # self.W = Xavier((self.dim_out, self.X.shape[1], self.kernel_h, self.kernel_w)) 
-            self.W = Xavier((self.dim_out, C * self.kernel_w * self.kernel_h))
+            self.W = Xavier((self.dim_out, C, self.kernel_w * self.kernel_h))
             self.b = Xavier((self.dim_out, self.NHW))
-            I = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride).flatten()
-            self.bi = (I != -1)
-            self.idx = I[self.bi]
+            self.PH = H + self.pad_h * 2
+            self.PW = W + self.pad_w * 2
+            # X_col index
+            self.I = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride).flatten()
+
+        B = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride).flatten()
+        bb = (B != -1)
+        self.Bb = np.repeat(bb, N*C) # boolean
+        #[0, HW, 2HW, 3HW...] * (HW)
+        tb = B[bb]
+        self.Bi = np.repeat(np.arange(N * C) * (H*W), len(tb)) + np.repeat(tb, N * C) 
+
     def get_col(self, X):
-        return np.stack([np.vstack(\
-                [im2col(\
-                np.pad(X[n,c,:,:], ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant"), \
-                (self.kernel_h, self.kernel_w), self.stride) \
-                for c in range(X.shape[1])]) \
-                for n in range(X.shape[0])])
+        pad = np.pad(X, ((0,0),(0,0),(self.pad_h,self.pad_h),(self.pad_w,self.pad_w)), "constant")
+        N,C,H,W = self.X.shape
+        return pad.reshape((N,C,self.PH * self.PW))[:,:,self.I].reshape((N,C,self.kernel_h * self.kernel_w,self.NHW))
     def forward(self):
-        self.X_col = self.get_col(self.X)
-        self.Y = (np.dot(self.W, self.X_col).swapaxes(0, 1) + self.b).reshape(self.Y.shape)
+        self.X_col = self.get_col(self.X) # (N, C, kernel_h * kernel_w, NH * NW) 
+        self.Y = (np.tensordot(self.X_col, self.W, axes = ([1,2],[1,2])).swapaxes(1,2) + self.b).reshape(self.Y.shape)
     def backward(self):
         N,C,H,W = self.X.shape
-        self.dY.resize((N, self.dim_out, self.NHW))
-        self.dW = np.mean([np.dot(self.dY[i, :, :], self.X_col[i,:,:].T) for i in range(self.X.shape[0])], 0)
-        self.db = np.mean(self.dY, 0)
-
-        dX_col = np.dot(self.W.T, np.asarray(self.dY)).swapaxes(0, 1)
-
+        self.dY.resize((N,self.dim_out,self.NHW))
+        # Update dW
+        # dY: (N,D,W')
+        # X_col: (N,C,H',W')
+        # dW: (N,D,C,H')
+        self.dW = np.tensordot(self.dY, self.X_col, axes = ([0, 2],[0, 3])) / N
+        # Update db
+        self.db =  np.mean(self.dY, 0) 
+        # Update dX
+        dX_col = np.tensordot(self.dY, self.W, axes = ([1],[0]))
         self.dX = np.zeros(self.X.shape)
-        HW = H * W
-        khw = self.kernel_h * self.kernel_w
-        si = self.bi.size
-        for n in range(N):
-            for c in range(C):
-                f = dX_col[n,khw * c:khw * (c+1), :].reshape(si) 
-                np.add.at(self.dX[n,c,:,:].reshape(HW), self.idx, f[self.bi])
+        np.add.at(self.dX.flatten(), self.Bi, dX_col.flatten()[self.Bb])
     def update(self, lr):
         self.W -= lr * self.dW
         self.b -= lr * self.db
