@@ -25,8 +25,8 @@ class Conv(Layer):
     def reshape(self):
         # (NCHW)
         N,C,H,W = self.X.shape
-        self.NH = (H + self.pad_h * 2 - self.kernel_h + 1) // self.stride
-        self.NW = (W + self.pad_w * 2 - self.kernel_w + 1) // self.stride
+        self.NH = (H + self.pad_h * 2 - self.kernel_h) // self.stride + 1
+        self.NW = (W + self.pad_w * 2 - self.kernel_w) // self.stride + 1
         self.Y = np.zeros((N, self.dim_out, self.NH, self.NW))
         # Convolution Core
         if self.W is None:
@@ -36,14 +36,16 @@ class Conv(Layer):
             self.PH = H + self.pad_h * 2
             self.PW = W + self.pad_w * 2
             # X_col index
+            w = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride)
+            print (w.shape, self.NH, self.NW) 
             self.I = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride).flatten()
 
         B = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride).flatten()
         bb = (B != -1)
-        self.Bb = np.repeat(bb, N*C) # boolean
-        #[0, HW, 2HW, 3HW...] * (HW)
+        self.Bb = np.tile(bb, N*C) # boolean
         tb = B[bb]
-        self.Bi = np.repeat(np.arange(N * C) * (H*W), len(tb)) + np.repeat(tb, N * C) 
+        #[0, HW, 2HW, 3HW...] * len(tb)
+        self.Bi = np.repeat(np.arange(N * C) * (H*W), len(tb)) + np.tile(tb, N * C) 
 
     def get_col(self, X):
         pad = np.pad(X, ((0,0),(0,0),(self.pad_h,self.pad_h),(self.pad_w,self.pad_w)), "constant")
