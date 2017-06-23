@@ -37,7 +37,6 @@ class Conv(Layer):
             self.PW = W + self.pad_w * 2
             # X_col index
             w = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride)
-            print (w.shape, self.NH, self.NW) 
             self.I = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride).flatten()
 
         B = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride).flatten()

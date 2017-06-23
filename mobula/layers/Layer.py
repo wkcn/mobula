@@ -15,8 +15,6 @@ class Layer(object):
         self.Y = np.zeros((0,0,0,0))
     def reshape(self):
         pass
-    def reshape2(self):
-        pass
     def forward(self):
         pass
     def backward(self):

@@ -10,8 +10,6 @@ class MSE(LossLayer):
     def forward(self):
         self.d = (self.X - self.label)
         self.Y = np.mean(np.multiply(self.d,self.d))
-    def reshape2(self):
-        self.dX = np.zeros(self.X.shape) 
     def backward(self):
         self.dX = 2 * self.d
     @property

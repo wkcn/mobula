@@ -49,12 +49,11 @@ class Net:
             l.backward_time = 0.0
             self.forward_times = 0
             self.backward_times = 0
+
+        self.reshape()
     def reshape(self):
         for l in self.topo:
             l.reshape()
-    def reshape2(self):
-        for l in self.topo:
-            l.reshape2()
     def forward(self):
         self.forward_times += 1
         for l in self.topo:

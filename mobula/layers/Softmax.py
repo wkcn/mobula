@@ -7,8 +7,6 @@ class Softmax(Layer):
         return "It is a Softmax Layer"
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
-    def reshape2(self):
-        self.dX = np.zeros(self.X.shape)
     def forward(self):
         self.e = np.exp(self.X)
         s = np.sum(self.e)

@@ -7,8 +7,6 @@ class ReLU(Layer):
         return "It is a ReLU Layer"
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
-    def reshape2(self):
-        self.dX = np.zeros(self.X.shape)
     def forward(self):
         self.Y = self.X.copy()
         self.Y[self.X < 0] = 0.0

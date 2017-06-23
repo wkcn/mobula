@@ -9,8 +9,6 @@ class CrossEntropy(LossLayer):
         self.Y = 0.0
     def forward(self):
         pass
-    def reshape2(self):
-        self.dX = np.zeros(self.X.shape) 
     def backward(self):
         self.dX = -self.label / self.X + (1.0 - self.label) / (1.0 - self.X)
     @property

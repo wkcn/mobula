@@ -9,8 +9,6 @@ class SigmoidCrossEntropy(LossLayer):
         self.Y = 0.0
     def forward(self):
         pass
-    def reshape2(self):
-        self.dX = np.zeros(self.X.shape) 
     def backward(self):
         self.dX = np.clip(1.0 / (1.0 + np.exp(-self.X)), 1e-16, 1.0 - 1e-16) - self.label
     @property
