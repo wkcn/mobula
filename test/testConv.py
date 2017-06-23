@@ -3,6 +3,7 @@ import mobula.layers as L
 from mobula import Net
 
 X = np.zeros((2,2,5,5))
+X = np.arange(X.size).reshape(X.shape)
 X[0,0,2,2] = 1.0
 X[0,1,2,2] = 1.0
 X[1,0,2,2] = 2.0
@@ -29,16 +30,16 @@ print (conv.W)
 print (conv.Y.shape)
 
 data = L.Data(X, "data", label = Y) 
-conv = L.Conv(data, "Conv", pad = 0, kernel = 3, dim_out = 1)
+convp = L.Conv(data, "Conv", pad = 1, kernel = 3, dim_out = 3)
+conv = L.Conv(convp, "Conv", pad = 1, kernel = 5, dim_out = 1)
 loss = L.MSE(conv, "Loss", label_data = data) 
 net = Net()
 net.setLoss(loss)
 
 
-net.reshape()
-net.reshape2()
-net.lr = 0.01
-for i in range(500000):
+net.lr = 0.000001
+# 50iter - 33.94
+for i in range(50000):
     net.forward()
     net.backward()
     print (loss.loss)

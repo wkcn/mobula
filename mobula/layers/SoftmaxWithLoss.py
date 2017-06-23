@@ -15,7 +15,7 @@ class SoftmaxWithLoss(LossLayer):
         self.Y = np.asarray(e / np.asmatrix(self.s).T)
     def backward(self):
         self.dX = self.Y.copy()
-        self.dX[self.a, self.label.flatten()] -= 1.0
+        self.dX[self.a, self.label.ravel()] -= 1.0
     @property
     def loss(self):
-        return np.mean(np.log(self.s)) - np.mean(self.X[self.a, self.label.flatten()]) 
+        return np.mean(np.log(self.s)) - np.mean(self.X[self.a, self.label.ravel()]) 

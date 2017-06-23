@@ -37,9 +37,9 @@ class Conv(Layer):
             self.PW = W + self.pad_w * 2
             # X_col index
             w = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride)
-            self.I = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride).flatten()
+            self.I = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride).ravel()
 
-        B = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride).flatten()
+        B = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride).ravel()
         bb = (B != -1)
         self.Bb = np.tile(bb, N*C) # boolean
         tb = B[bb]
@@ -60,13 +60,14 @@ class Conv(Layer):
         # dY: (N,D,W')
         # X_col: (N,C,H',W')
         # dW: (N,D,C,H')
+        # W: (D, C, H')
         self.dW = np.tensordot(self.dY, self.X_col, axes = ([0, 2],[0, 3])) / N
         # Update db
         self.db =  np.mean(self.dY, 0) 
         # Update dX
-        dX_col = np.tensordot(self.dY, self.W, axes = ([1],[0]))
+        dX_col = np.tensordot(self.dY, self.W, axes = ([1],[0])).swapaxes(1, 3).swapaxes(1, 2) # (N, C, H', W')
         self.dX = np.zeros(self.X.shape)
-        np.add.at(self.dX.flatten(), self.Bi, dX_col.flatten()[self.Bb])
+        np.add.at(self.dX.ravel(), self.Bi, dX_col.ravel()[self.Bb])
     def update(self, lr):
         self.W -= lr * self.dW
         self.b -= lr * self.db
