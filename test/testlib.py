@@ -1,6 +1,10 @@
 import sys
 sys.path.append("..")
 import numpy as np
+import random
+
+random.seed(1019)
+np.random.seed(1019)
 
 
 def test_layer_y(layer, X):
