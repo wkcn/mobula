@@ -5,6 +5,9 @@ from .Data import *
 from .FC import *
 from .Conv import *
 
+# Layers without learning
+from .Pool import *
+
 # Activate Layer
 from .Sigmoid import *
 from .ReLU import *

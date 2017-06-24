@@ -1,4 +1,4 @@
-from testlib import *
+from test_layers import *
 import mobula.layers as L
 from mobula import Net
 

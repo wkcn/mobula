@@ -22,16 +22,16 @@ def im2col(A, fshape, stride = 1):
     i = np.tile(np.arange(0, rows, stride), nh) + np.repeat(np.arange(nh) * (rows * stride), nw)
     return view.reshape(fh * fw, -1)[:, i]
 
-def get_idx_from_arg(a, idx, axis):
-    shp = a.shape
-    dim_idx = list(np.ix_(*[np.arange(shp[i]) for i in range(len(shp)) if i != axis]))
-    dim_idx.append(idx)
-    return dim_idx
 
-def get_val_from_arg(a, idx, axis):
-    '''
-        idx = np.argmax(a, 1)
-        get_val_from_arg(a, idx, axis = 1) is equal to np.max(a, 1) 
-    '''
-    dim_idx = get_idx_from_arg(a, idx, axis)
-    return a.swapaxes(axis, -1)[dim_idx]
+def get_idx_from_arg(a, arg, axis):
+    shp = a.shape
+    cp = np.cumprod(shp[::-1])[::-1]
+    if axis == len(shp) - 1:
+        m = 1
+    else:
+        m = cp[axis + 1]
+    n = cp[0] // cp[axis]
+    return np.repeat(np.arange(n) * cp[axis], m) + np.tile(np.arange(m), n) + arg.ravel() * m 
+
+def get_val_from_idx(a, idx):
+    return a.ravel()[idx]
