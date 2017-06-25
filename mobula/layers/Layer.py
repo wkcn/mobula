@@ -19,6 +19,11 @@ class Layer(object):
         pass
     def backward(self):
         pass
+    def update(self, lr):
+        params = self.params
+        grads = self.grads
+        for i in range(len(params)):
+            params[i] -= grads[i] * (lr * self.lr)
     @property
     def params(self):
         return []
