@@ -7,6 +7,7 @@ from .Conv import *
 
 # Layers without learning
 from .Pool import *
+from .Dropout import *
 
 # Activate Layer
 from .Sigmoid import *

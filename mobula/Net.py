@@ -6,6 +6,8 @@ try:
 except:
     import Queue as queue
 class Net:
+    TRAIN, TEST = range(2)
+    PHASE = TRAIN
     def __init__(self):
         self.loss = [] 
         self.topo = []
