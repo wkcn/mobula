@@ -4,6 +4,7 @@ from mobula import Net
 import mobula.layers as L
 import matplotlib.pyplot as plt
 import scipy.io as sio
+import os
 
 filename = "./ex4data1.mat"
 load_data = sio.loadmat(filename)
@@ -31,7 +32,8 @@ data = L.Data(X, "Data", batch_size = 128, label = Y)
 
 fc1 = L.FC(data, "fc1", dim_out = 15)
 sig1 = L.Sigmoid(fc1, "sig1")
-#sig1 = L.ReLU(fc1, "sig1")
+#sig1 = L.Tanh(fc1, "sig1")
+#sig1 = L.PReLU(fc1, "sig1")
 fc2 = L.FC(sig1, "fc2", dim_out = 10)
 #sig2 = L.Sigmoid(fc2, "sig2")
 #loss = L.CrossEntropy(sig2, "Loss", label_data = data)
@@ -40,10 +42,11 @@ loss = L.SigmoidCrossEntropy(fc2, "Loss", label_data = data)
 net = Net()
 net.setLoss(loss)
 
-net.reshape()
-net.reshape2()
-
 net.lr = 0.2
+filename = "./mnist.net"
+if os.path.exists(filename): 
+    print ("Finetuning...")
+    net.load(filename)
 for i in range(50000):
     net.forward()
     net.backward()
@@ -64,13 +67,10 @@ for i in range(50000):
         print (pre[0:5000:50])
         print ("Accuracy: %f" % (acc))
         if b == len(pre):
-            np.save("mnist_net4.npy", [fc1.W, fc1.b, fc2.W, fc2.b])
-            print ("Save OK")
+            net.save(filename)
             import sys
             sys.exit()
         data.batch_size = old_batch_size
         net.reshape()
 
-
-np.save("mnist_net_over4.npy", [fc1.W, fc1.b, fc2.W, fc2.b])
-print ("Save Over OK")
+net.save(filename)
