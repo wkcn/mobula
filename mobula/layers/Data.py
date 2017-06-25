@@ -47,8 +47,14 @@ class Data(Layer):
         if self.batch_size is None:
             return self._Y
         return self._Y[self.index]
+    @Y.setter
+    def Y(self, value):
+        self.set_data(value)
     @property
     def label(self):
         if self.batch_size is None:
             return self._label
         return self._label[self.index]
+    @label.setter
+    def label(self, value):
+        self.set_label(value)

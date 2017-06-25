@@ -1,5 +1,6 @@
 from test_layers import *
-from mobula.layers import Layer, Data, FC
+from mobula.layers import Layer, Data, FC, MSE
+from mobula import Net
 
 X = np.zeros((4,2,1,1))
 X[0,:,0,0] = [0,0]
@@ -9,25 +10,22 @@ X[3,:,0,0] = [1,1]
 
 Y = np.matrix("8;10;12;14")
 
-data = Data(X)
-data.reshape()
-data.forward()
+data = Data(X, "Data", label = Y)
 
 fc1 = FC(data, "fc1", dim_out = 1)
-fc1.reshape()
+mse = MSE(fc1, "MSE", label_data = data)
+net = Net()
+net.setLoss(mse)
 
 fc1.W = np.matrix("1.,3.")
 fc1.b = np.matrix("0.")
 
-lr = 1.0
+net.lr = 0.5
 for i in range(30):
-    fc1.forward()
+    net.forward()
     print ("Y = ", fc1.Y)
-    dY = fc1.Y - Y
-    fc1.dY = dY
-    print ("Iter: %d, Cost: %f" % (i, np.sum(np.multiply(dY,dY))))
-    fc1.backward()
-    fc1.update(lr)
+    net.backward()
+    print ("Iter: %d, Cost: %f" % (i, mse.Y))
 
 print (fc1)
 print (fc1.W, fc1.b)
