@@ -68,6 +68,9 @@ class Conv(Layer):
         dX_col = np.tensordot(self.dY, self.W, axes = ([1],[0])).swapaxes(1, 3).swapaxes(1, 2) # (N, C, H', W')
         self.dX = np.zeros(self.X.shape)
         np.add.at(self.dX.ravel(), self.Bi, dX_col.ravel()[self.Bb])
-    def update(self, lr):
-        self.W -= lr * self.dW
-        self.b -= lr * self.db
+    @property
+    def params(self):
+        return [self.W, self.b]
+    @property
+    def grads(self):
+        return [self.dW, self.db]

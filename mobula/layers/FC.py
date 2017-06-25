@@ -26,6 +26,9 @@ class FC(Layer):
         self.dX = np.dot(self.dY, self.W)
         self.dW = np.dot(self.dY.T, self.X.reshape((self.XN, self.C))) / self.XN
         self.db = np.mean(self.dY, 0).reshape(self.b.shape)
-    def update(self, lr):
-        self.W -= lr * self.dW
-        self.b -= lr * self.db
+    @property
+    def params(self):
+        return [self.W, self.b]
+    @property
+    def grads(self):
+        return [self.dW, self.db]

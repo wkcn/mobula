@@ -19,8 +19,12 @@ class Layer(object):
         pass
     def backward(self):
         pass
-    def update(self, lr):
-        pass
+    @property
+    def params(self):
+        return []
+    @property
+    def grads(self):
+        return []
     @property
     def shape(self):
         return self.Y.shape

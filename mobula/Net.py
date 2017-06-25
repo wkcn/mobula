@@ -73,8 +73,13 @@ class Net:
                     for e in l.next_layers:
                         l.dY += e.dX
             l.backward()
-            l.update(self.lr * l.lr)
+            self.update_layer(l)
             l.backward_time += time.time() - t 
+    def update_layer(self, l):
+        params = l.params
+        grads = l.grads
+        for i in range(len(params)):
+            params[i] -= grads[i] * (self.lr * l.lr)
     def time(self):
         print ("name\t|forward_time\t|backward_time\t|forward_mean\t|backward_mean\t|forward_times: %d, backward_times: %d" % (self.forward_times, self.backward_times))
         for l in self.topo:
