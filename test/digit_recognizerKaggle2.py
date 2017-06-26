@@ -29,7 +29,11 @@ for row in reader:
     #plt.show()
     #print x
 print ("Read OK", k)
-X = np.array(X) / 255.0
+X = np.array(X)
+Xmean = np.mean(X, 0)
+np.save("xmean.npy", Xmean)
+X = (X - Xmean) / 255.0
+
 X.shape = (k,1,28,28)
 Y = np.matrix(Y).reshape((k,10)).astype(np.double)
 labels = np.array(labels).reshape((len(labels), 1))
@@ -49,8 +53,12 @@ loss = L.SoftmaxWithLoss(pred, "loss", label_data = data)
 net = Net()
 net.setLoss(loss)
 
-net.lr = 0.1
-for i in range(100000):
+net.lr = 0.2
+start_iter = 0 
+filename = "kaggle_mean/kaggle%d.net"
+if start_iter > 0:
+    net.load(filename % start_iter)
+for i in range(start_iter, 100000):
     net.forward()
     net.backward()
 
@@ -71,5 +79,7 @@ for i in range(100000):
             vs.append(b)
         acc = np.mean(vs)
         print ("Accuracy: %f" % (acc))
+        if i % 200 == 0 and acc > 0.95:
+            net.save(filename % i)
 
-print ("Save Over OK")
+print ("Over")

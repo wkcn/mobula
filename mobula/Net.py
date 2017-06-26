@@ -104,7 +104,7 @@ class Net:
                 data.append((l.layer_name, [p.tostring() for p in params]))
                 print (" - %s" % l.layer_name)
         fout = open(filename, "wb")
-        pickle.dump(data, fout)
+        pickle.dump(data, fout, protocol = 2)
         fout.close()
         print ("Saving Finished :-)")
     def load(self, filename):
