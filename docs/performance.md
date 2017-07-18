@@ -13,12 +13,12 @@ forward_times|2601
 backward_times|2001
 CPU			|i7-4790 CPU @ 3.60GHz
 
-
-###Python3 in Anaconda
+### Python3 in Anaconda
 
 Accuracy: 0.991667
 
 Iter: 2000, Cost: 0.007383
+
 name	|forward_time	|backward_time	|forward_mean	|backward_mean	
 --------|---------------|---------------|---------------|---------------
 Data	|0.073538	|0.024317	|0.000028	|0.000012
@@ -31,7 +31,7 @@ relu3	|1.383795	|1.082115	|0.000532	|0.000541
 pred	|5.047948	|6.669519	|0.001941	|0.003333
 loss	|0.458279	|0.177457	|0.000176	|0.000089
 
-###Native Python3
+### Native Python3
 
 Accuracy: 0.991667
 
@@ -49,7 +49,7 @@ relu3	|0.765435	|0.561773	|0.000294	|0.000281
 pred	|1.098624	|1.267450	|0.000422	|0.000633
 loss	|0.276948	|0.102970	|0.000106	|0.000051
 
-###Native Python2
+### Native Python2
 
 Accuracy: 0.991667
 
