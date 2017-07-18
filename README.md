@@ -1,13 +1,15 @@
 # Mobula
 
 ## What is it?
-*Mobula* is a light deep learning framework on python. It is aimed to learn **how a neural network runs**, and it's **an efficent Python-DNN Implementation used numpy mainly** :-)
+*Mobula* is a light deep learning framework on python.
+
+It's **an efficent Python-DNN Implementation used numpy mainly**, and it's aimed to learn **how a neural network runs** :-)
 
 ## What can I do with it?
 1. Digital Recognition
 
 ## Layers
-Mobula has implemented these layers using numpy. It's efficient relatively on Python Implementation.
+*Mobula* has implemented these layers using numpy. It's efficient relatively on Python Implementation.
 #### Layers with Learning
 - FC
 - Convolution
@@ -29,19 +31,19 @@ Mobula has implemented these layers using numpy. It's efficient relatively on Py
 ## Benefit
 
 - Easy to Configure
-	Mobula needs less dependence. It is implemented by numpy mainly, so you can setup it easily.
+
+    Mobula needs less dependence. It is implemented by numpy mainly, so you can setup it easily.
 
 ## Quick Start
 
 ##### Notice: Recommend using Python in Anaconda, because of **Calculating Optimization numpy-mkl** in Anaconda.
 
-The detail is: 
-[Performance Analysis](docs/performance.md)
+The detail is in [Performance Analysis](docs/performance.md).
 
 #### Digital Recognition
-Let's construct a Convolution Nerual Network on Mobula! 
+Let's construct a **Convolution Nerual Network** on *Mobula*! 
 
-We use LeNet-5 to solve *Digital Recognition* problem on Kaggle.
+We use **LeNet-5** to solve *Digital Recognition* problem on Kaggle.
 
 The score is above 0.99 in training for several minutes.
 
