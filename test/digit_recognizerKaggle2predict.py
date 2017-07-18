@@ -4,6 +4,9 @@ from mobula import Net
 import mobula.layers as L
 import matplotlib.pyplot as plt
 import scipy.io as sio
+import os
+
+RESULT_PATH = "./kaggle_mean"
 
 reader = csv.reader(open("./test.csv"))
 first = True
@@ -42,7 +45,7 @@ pred  = L.FC(relu3, "pred", dim_out = 10)
 net = Net()
 net.setLoss(pred)
 iter_num = 10000
-net.load("./kaggle_mean/kaggle%d.net" % iter_num)
+net.load(RESULT_PATH + "/kaggle%d.net" % iter_num)
 
 net.lr = 0.1
 ok = 0

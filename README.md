@@ -1,7 +1,7 @@
 # Mobula
 
 ## What is it?
-Mobula is a light deep learning framework on python. It is aimed to learn **how a neural network runs**, and implement ideas quickly. 
+*Mobula* is a light deep learning framework on python. It is aimed to learn **how a neural network runs**, and it's **an efficent Python-DNN Implementation used numpy mainly** :-)
 
 ## What can I do with it?
 1. Digital Recognition
@@ -32,6 +32,12 @@ Mobula has implemented these layers using numpy. It's efficient relatively on Py
 	Mobula needs less dependence. It is implemented by numpy mainly, so you can setup it easily.
 
 ## Quick Start
+
+##### Notice: Recommend using Python in Anaconda, because of **Calculating Optimization numpy-mkl** in Anaconda.
+
+The detail is: 
+[Performance Analysis](docs/performance.md)
+
 #### Digital Recognition
 Let's construct a Convolution Nerual Network on Mobula! 
 
@@ -39,7 +45,7 @@ We use LeNet-5 to solve *Digital Recognition* problem on Kaggle.
 
 The score is above 0.99 in training for several minutes.
 
-Firstly, you need to download the dataset train.csv and test.csv. 
+Firstly, you need to download the dataset train.csv and test.csv into ##test/## folder. 
 Secondly, constructing the LeNet-5.
 The core code is that:
 
@@ -64,6 +70,20 @@ net.setLoss(loss)
 net.lr = 0.2
 ```
 
-The training and predicting codes are in `test/` folders, namely `digit_recognizerKaggle2.py` and `digit_recognizerKaggle2pred`.
+The training and predicting codes are in **test/** folders, namely **digit_recognizerKaggle2.py** and **digit_recognizerKaggle2predict.py**.
+
+For training the network, 
+```bash
+python digit_recognizerKaggle2.py
+```
+
+When the number of iterations is 2000, the accuracy on training set is 0.99.
+
+For predicting test.csv,  
+```bash
+python digit_recognizerKaggle2predict.py
+```
+
+At Line 50 in *digit_recognizerKaggle2predict.py*, `iter_num` is the iterations of the model which is used to predict test set. 
 
 Enjoy it! :-)
