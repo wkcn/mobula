@@ -46,7 +46,9 @@ We use LeNet-5 to solve *Digital Recognition* problem on Kaggle.
 The score is above 0.99 in training for several minutes.
 
 Firstly, you need to download the dataset train.csv and test.csv into **test/** folder. 
-Secondly, constructing the LeNet-5.
+
+Secondly, constructing the **LeNet-5**.
+
 The core code is that:
 
 ```python
