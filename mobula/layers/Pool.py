@@ -56,11 +56,10 @@ class Pool(Layer):
             self.Y = get_val_from_idx(self.X_col, self.idx).reshape(self.Y.shape)
     def backward(self):
         N,C,H,W = self.X.shape
-        self.dX = np.zeros(self.X.shape)
         if self.pool_id == Pool.AVG:
             # AVG
             dX_col = np.tile(self.dY.reshape((N, C, 1, self.NHW)), (1, 1, self.KHW, 1)) / self.KHW 
-            np.add.at(self.dX.ravel(), self.Bi, dX_col.ravel())
+            self.dX = npg.aggregate(self.Bi, dX_col.ravel(), size = self.X.size).reshape(self.X.shape) 
         else:
             # MAX
-            np.add.at(self.dX.ravel(), self.Bi.ravel()[self.idx], self.dY.ravel())
+            self.dX = npg.aggregate(self.Bi.ravel()[self.idx], self.dY.ravel(), size = self.X.size).reshape(self.X.shape)

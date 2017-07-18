@@ -1,3 +1,9 @@
+import sys
+import os
+
+PATH = os.path.dirname(__file__)
+sys.path.append(PATH + "/../../thirdparty")
+
 # Data Layer
 from .Data import *
 

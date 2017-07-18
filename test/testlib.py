@@ -1,5 +1,9 @@
 import sys
-sys.path.append("..")
+import os
+
+PATH = os.path.dirname(__file__)
+sys.path.append(PATH + "/..")
+
 import numpy as np
 import random
 

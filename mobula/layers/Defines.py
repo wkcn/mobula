@@ -1,5 +1,6 @@
 #coding=utf-8
 import numpy as np
+import numpy_groupies as npg
 
 def Xavier(shape):
     # shape: (dim_out, dim_in)
