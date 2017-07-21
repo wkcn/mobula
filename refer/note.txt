@@ -35,3 +35,6 @@ http://blog.csdn.net/sunshine_in_moon/article/details/50110279
 
 numpy-ufunc.at perfomance >10x too slow #5922
 https://github.com/numpy/numpy/issues/5922
+
+SELU:
+https://arxiv.org/pdf/1706.02515.pdf

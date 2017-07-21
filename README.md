@@ -20,6 +20,7 @@ It's **an efficent Python-DNN Implementation used numpy mainly**, and it's aimed
 - Sigmoid
 - ReLU
 - PReLU
+- SELU
 - Tanh
 - Softmax
 #### Cost Layer

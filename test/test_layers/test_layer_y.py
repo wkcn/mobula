@@ -2,10 +2,15 @@ from test_layers import *
 import mobula.layers as L
 import matplotlib.pyplot as plt
 
-X = np.matrix(np.arange(-10,10,0.1)).T
-Y, dX = test_layer_y(L.Softmax, X)
-print (Y)
+X = np.arange(-10,10,0.1)
+X.resize((X.size, 1, 1, 1))
+Y, dX = test_layer_y(L.SELU, X)
 
+X.resize(X.size)
+Y.resize(Y.size)
+dX.resize(dX.size)
+
+print (dX)
 plt.subplot(121)
 plt.plot(X, Y, 'b')
 plt.subplot(122)
