@@ -1,5 +1,7 @@
 from .Defines import * 
 from .MultiInput import *
+from .MultiOutput import *
+
 class Layer(object):
     def __init__(self, model, layer_name = "", *args, **kwargs):
         # NCHW
@@ -56,3 +58,12 @@ class Layer(object):
     def X(self, value):
         #raise RuntimeError("Don't Change Layer.X")
         self.model.Y = value
+    def set_output(self, num):
+        self.YLayers = [YLayer(self, i) for i in range(num)]
+        self.Y = [None] * num
+        self.dY = MultiDY(self) 
+    def __call__(self, value = None):
+        # For MultiOutput
+        if value is None:
+            return self.YLayers
+        return self.YLayers[value]

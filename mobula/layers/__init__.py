@@ -2,6 +2,7 @@ import sys
 import os
 
 PATH = os.path.dirname(__file__)
+sys.path.append(PATH)
 sys.path.append(PATH + "/../../thirdparty")
 
 # Data Layer
@@ -31,3 +32,4 @@ from .SoftmaxWithLoss import *
 
 # Test Layer
 from .MergeTest import *
+from .SplitTest import *

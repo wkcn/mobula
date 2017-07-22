@@ -4,6 +4,7 @@ import time
 import pickle
 import numpy as np
 from .layers.MultiInput import *
+from .layers.MultiOutput import *
 
 try:
     import queue
@@ -22,6 +23,12 @@ class Net:
         if type(lossLayers) != list:
             lossLayers = [lossLayers]
         self.loss = copy.copy(lossLayers)
+
+        def R(mdr):
+            if isinstance(mdr, YLayer):
+                return mdr.model
+            return mdr
+
         # Count
         q = queue.Queue()
         for l in lossLayers: 
@@ -30,7 +37,6 @@ class Net:
         cs = dict() # in degree
         while not q.empty():
             l = q.get()
-            print (l)
             if l in vis:
                 continue
             vis.add(l)
@@ -38,12 +44,14 @@ class Net:
             # Data.model is None
             if l.model is not None:
                 if isinstance(l.model, MultiInput):
-                    for md in l.model:
+                    for mdr in l.model:
+                        md = R(mdr)
                         cs[md] = cs.get(md, 0) + 1
                         q.put(md)
                 else:
-                    cs[l.model] = cs.get(l.model, 0) + 1
-                    q.put(l.model)
+                    md = R(l.model)
+                    cs[md] = cs.get(md, 0) + 1
+                    q.put(md)
         # Find
         q = queue.Queue()
         for l in lossLayers: 
@@ -54,14 +62,16 @@ class Net:
             st.append(l)
             if l.model is not None:
                 if isinstance(l.model, MultiInput):
-                    for md in l.model:
+                    for mdr in l.model:
+                        md = R(mdr)
                         cs[md] -= 1
                         if cs[md] == 0:
                             q.put(md)
                 else:
-                    cs[l.model] -= 1
-                    if cs[l.model] == 0:
-                        q.put(l.model)
+                    md = R(l.model)
+                    cs[md] -= 1
+                    if cs[md] == 0:
+                        q.put(md)
         self.topo = st[::-1]
         t = time.time()
         for l in self.topo:

@@ -1,6 +1,6 @@
 from .Layer import *
 
-# It's a test layer for multi output
+# It's a test layer for multi input
 # MergeTest([x0, x1])
 
 class MergeTest(Layer):

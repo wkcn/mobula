@@ -1,5 +1,5 @@
 from .Layer import *
-from .. import Net
+from ..Net import * 
 
 class Dropout(Layer):
     def __init__(self, model, *args, **kwargs):
