@@ -1,13 +1,26 @@
 from .Defines import * 
+from .MultiInput import *
 class Layer(object):
     def __init__(self, model, layer_name = "", *args, **kwargs):
         # NCHW
         # (batch_size, dim_in, H, W)
         # V
         # (batch_size, dim_out, H, W)
-        self.model = model
+
+        # bidirectiop
         self.next_layers = []
-        self.model.next_layers.append(self)
+        if isinstance(model, Layer):
+            self.model = model
+            self.model.next_layers.append(self)
+        elif isinstance(model, list):
+            # It's a Multi Output Layer
+            self.model = MultiInput(model)
+            for i in range(len(model)):
+                model[i].next_layers.append(XLayer(self, i))
+            self.dX = [None] * len(model)
+        else:
+            raise TypeError("model must be a Layer or a List") 
+
         self.layer_name = layer_name
         self.args = args
         self.kwargs = kwargs

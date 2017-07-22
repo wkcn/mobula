@@ -28,3 +28,6 @@ from .MSE import *
 from .CrossEntropy import *
 from .SigmoidCrossEntropy import *
 from .SoftmaxWithLoss import *
+
+# Test Layer
+from .MergeTest import *
