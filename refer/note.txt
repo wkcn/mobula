@@ -42,3 +42,9 @@ https://www.leiphone.com/news/201703/Y5vnDSV9uIJIQzQm.html
 https://www.leiphone.com/news/201701/yZvIqK8VbxoYejLl.html?viewType=weixin
 https://www.leiphone.com/news/201706/XImHOGS3pKkSeDtm.html
 https://sanwen.net/a/hzyfmqo.html
+
+numpy-ufunc.at perfomance >10x too slow
+https://github.com/numpy/numpy/issues/5922
+
+SELU:
+https://arxiv.org/pdf/1706.02515.pdf

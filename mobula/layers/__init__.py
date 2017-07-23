@@ -1,3 +1,10 @@
+import sys
+import os
+
+PATH = os.path.dirname(__file__)
+sys.path.append(PATH)
+sys.path.append(PATH + "/../../thirdparty")
+
 # Data Layer
 from .Data import *
 
@@ -13,6 +20,7 @@ from .Dropout import *
 from .Sigmoid import *
 from .ReLU import *
 from .PReLU import *
+from .SELU import *
 from .Tanh import *
 from .Softmax import *
 
@@ -21,3 +29,7 @@ from .MSE import *
 from .CrossEntropy import *
 from .SigmoidCrossEntropy import *
 from .SoftmaxWithLoss import *
+
+# Test Layer
+from .MergeTest import *
+from .SplitTest import *

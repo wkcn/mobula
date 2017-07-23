@@ -1,5 +1,9 @@
 import sys
-sys.path.append("..")
+import os
+
+PATH = os.path.dirname(__file__)
+sys.path.append(PATH + "/..")
+
 import numpy as np
 import random
 
@@ -11,8 +15,9 @@ def test_layer_y(layer, X):
     from mobula.layers import Data
     data = Data(X, "data") 
     data.reshape()
-    data.forward()
     l = layer(data, "testLayer")
+    l.reshape()
+    data.forward()
     l.forward()
     l.dY = np.ones(l.Y.shape)
     l.backward()

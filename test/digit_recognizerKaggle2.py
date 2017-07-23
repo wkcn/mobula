@@ -4,6 +4,12 @@ from mobula import Net
 import mobula.layers as L
 import matplotlib.pyplot as plt
 import scipy.io as sio
+import os
+
+RESULT_PATH = "./kaggle_mean"
+
+if not os.path.exists(RESULT_PATH):
+    os.mkdir(RESULT_PATH)
 
 reader = csv.reader(open("./train.csv"))
 first = True
@@ -55,7 +61,7 @@ net.setLoss(loss)
 
 net.lr = 0.2
 start_iter = 0 
-filename = "kaggle_mean/kaggle%d.net"
+filename = RESULT_PATH + "/kaggle%d.net"
 if start_iter > 0:
     net.load(filename % start_iter)
 for i in range(start_iter, 100000):
