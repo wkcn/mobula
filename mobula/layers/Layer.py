@@ -63,7 +63,10 @@ class Layer(object):
         self.Y = [None] * num
         self.dY = MultiDY(self) 
     def __call__(self, value = None):
-        # For MultiOutput
-        if value is None:
-            return self.YLayers
-        return self.YLayers[value]
+        if type(self.Y) == list:
+            # For MultiOutput
+            if value is None:
+                return self.YLayers
+            return self.YLayers[value]
+        # For Single Output
+        return self 
