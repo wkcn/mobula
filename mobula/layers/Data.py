@@ -28,7 +28,7 @@ class Data(Layer):
             self._label = None
             return
         if len(label.shape) == 1:
-            self._label = label.reshape((self._label.size, 1))
+            self._label = label.reshape((label.size, 1))
         else:
             self._label = label
     def reshape(self):

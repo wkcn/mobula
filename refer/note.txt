@@ -16,7 +16,8 @@ http://python.jobbole.com/81310/
 tensordot
 http://m.blog.csdn.net/article/details?id=52526056
 
-L2正则化？
+L2正则化
+http://blog.csdn.net/u012162613/article/details/44261657
 
 激活函数：
 http://blog.csdn.net/memray/article/details/51442059
@@ -32,3 +33,12 @@ CNN卷积前后向推导
 http://blog.csdn.net/chenhoujiangsir/article/details/51077468
 col2im:
 http://blog.csdn.net/sunshine_in_moon/article/details/50110279
+
+RNN:
+http://blog.csdn.net/prom1201/article/details/52221822
+
+GAN:
+https://www.leiphone.com/news/201703/Y5vnDSV9uIJIQzQm.html
+https://www.leiphone.com/news/201701/yZvIqK8VbxoYejLl.html?viewType=weixin
+https://www.leiphone.com/news/201706/XImHOGS3pKkSeDtm.html
+https://sanwen.net/a/hzyfmqo.html
