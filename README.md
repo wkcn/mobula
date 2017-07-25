@@ -10,6 +10,9 @@ It's **an efficent Python-DNN Implementation used numpy mainly**, and it's aimed
 
 ## Layers
 *Mobula* has implemented these layers using numpy. It's efficient relatively on Python Implementation.
+
+The Layers supports multi-input and multi-output.
+
 #### Layers with Learning
 - FC
 - Convolution
@@ -28,6 +31,13 @@ It's **an efficent Python-DNN Implementation used numpy mainly**, and it's aimed
 - CrossEntropy
 - SigmoidCrossEntropy
 - SoftmaxWithLoss 
+
+## Solvers
+
+*Mobula* supports various solvers.
+
+- SGD
+- Momentum
 
 ## Benefit
 
