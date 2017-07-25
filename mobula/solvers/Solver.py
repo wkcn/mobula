@@ -6,3 +6,6 @@ class Solver(object):
         pass
     def update(self, l):
         pass
+    def init(self, l):
+        # init each layer l
+        pass

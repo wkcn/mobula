@@ -48,3 +48,6 @@ https://github.com/numpy/numpy/issues/5922
 
 SELU:
 https://arxiv.org/pdf/1706.02515.pdf
+
+各种优化方法总结比较（sgd/momentum/Nesterov/adagrad/adadelta）:
+http://blog.csdn.net/luo123n/article/details/48239963

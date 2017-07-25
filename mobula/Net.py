@@ -17,10 +17,10 @@ class Net(object):
     def __init__(self):
         self.loss = [] 
         self.topo = []
-        self.solver = solvers.SGD()
+        self.set_solver(solvers.SGD)
     def __str__(self):
         return "It is a network"
-    def setLoss(self, lossLayers):
+    def set_loss(self, lossLayers):
         if type(lossLayers) != list:
             lossLayers = [lossLayers]
         self.loss = copy.copy(lossLayers)
@@ -82,9 +82,18 @@ class Net(object):
             self.backward_times = 0
 
         self.reshape()
+        self.init_solver()
+
+    def set_solver(self, solver):
+        self.solver = solver()
+        self.init_solver()
     def reshape(self):
         for l in self.topo:
             l.reshape()
+    def init_solver(self):
+        if self.solver is not None:
+            for l in self.topo:
+                self.solver.init(l)
     def forward(self):
         self.forward_times += 1
         for l in self.topo:
@@ -154,3 +163,6 @@ class Net(object):
     @lr.setter
     def lr(self, value):
         self.solver.lr = value
+
+# For compatibility
+Net.setLoss = Net.set_loss
