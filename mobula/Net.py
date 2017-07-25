@@ -5,18 +5,19 @@ import pickle
 import numpy as np
 from .layers.MultiInput import *
 from .layers.MultiOutput import *
+from . import solvers
 
 try:
     import queue
 except:
     import Queue as queue
-class Net:
+class Net(object):
     TRAIN, TEST = range(2)
     PHASE = TRAIN
     def __init__(self):
         self.loss = [] 
         self.topo = []
-        self.lr = 1.0
+        self.solver = solvers.SGD()
     def __str__(self):
         return "It is a network"
     def setLoss(self, lossLayers):
@@ -103,14 +104,10 @@ class Net:
                     for e in l.next_layers:
                         l.dY += e.dX
             l.backward()
-            self.update_layer(l)
+
+            self.solver.update(l)
+
             l.backward_time += time.time() - t 
-    def update_layer(self, l):
-        params = l.params
-        grads = l.grads
-        mlr = self.lr * l.lr
-        for i in range(len(params)):
-            params[i] -= grads[i] * mlr
     def time(self):
         if self.forward_times == 0 or self.backward_times == 0:
             return
@@ -151,3 +148,9 @@ class Net:
                     l.params[j][...] = np.fromstring(lp[j], dtype = p.dtype).reshape(p.shape) 
                 print (" - %s" % l.layer_name)
         print ("Loading Finished :-)")
+    @property
+    def lr(self):
+        return self.solver.lr
+    @lr.setter
+    def lr(self, value):
+        self.solver.lr = value
