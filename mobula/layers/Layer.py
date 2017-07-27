@@ -1,6 +1,7 @@
 from .Defines import * 
 from .MultiInput import *
 from .MultiOutput import *
+from .VModel import *
 
 class Layer(object):
     def __init__(self, model, layer_name = "", *args, **kwargs):
@@ -11,17 +12,21 @@ class Layer(object):
 
         # bidirectiop
         self.next_layers = []
-        if isinstance(model, Layer):
-            self.model = model
-            self.model.next_layers.append(self)
-        elif isinstance(model, list):
-            # It's a Multi Output Layer
-            self.model = MultiInput(model)
-            for i in range(len(model)):
-                model[i].next_layers.append(XLayer(self, i))
-            self.dX = [None] * len(model)
+        if model is not None:
+            if isinstance(model, Layer):
+                self.model = model
+                self.model.next_layers.append(self)
+            elif isinstance(model, list):
+                # It's a Multi Output Layer
+                self.model = MultiInput(model)
+                for i in range(len(model)):
+                    model[i].next_layers.append(XLayer(self, i))
+                self.dX = [None] * len(model)
+            else:
+                raise TypeError("model must be a Layer or a List") 
         else:
-            raise TypeError("model must be a Layer or a List") 
+            # for test
+            self.model = VModel() 
 
         self.layer_name = layer_name
         self.args = args
