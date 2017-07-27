@@ -20,8 +20,6 @@ class Conv(Layer):
 
         self.W = None
         self.b = None
-    def __str__(self):
-        return "It is a Convolution Layer"
     def reshape(self):
         # (NCHW)
         N,C,H,W = self.X.shape

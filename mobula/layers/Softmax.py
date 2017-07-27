@@ -3,8 +3,6 @@ from .Layer import *
 class Softmax(Layer):
     def __init__(self, model, *args, **kwargs):
         Layer.__init__(self, model, *args, **kwargs)
-    def __str__(self):
-        return "It is a Softmax Layer"
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
     def forward(self):

@@ -18,8 +18,6 @@ class Net(object):
         self.loss = [] 
         self.topo = []
         self.set_solver(solvers.SGD)
-    def __str__(self):
-        return "It is a network"
     def set_loss(self, lossLayers):
         if type(lossLayers) != list:
             lossLayers = [lossLayers]

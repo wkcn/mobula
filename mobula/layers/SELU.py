@@ -5,8 +5,6 @@ class SELU(Layer):
         Layer.__init__(self, model, *args, **kwargs)
         self.scale = kwargs.get("scale", 1.0507009873554804934193349852946)
         self.alpha = kwargs.get("alpha", 1.6732632423543772848170429916717)
-    def __str__(self):
-        return "It is a SELU Layer"
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
     def forward(self):

@@ -13,8 +13,6 @@ class Data(Layer):
         self.batch_i = 0
 
         self.set_label(kwargs.get("label"))
-    def __str__(self):
-        return "It is a Data Layer"
     def reset_index(self):
         self.batch_i = 0
     def set_data(self, Y):

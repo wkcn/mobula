@@ -6,8 +6,6 @@ class Dropout(Layer):
         Layer.__init__(self, model, *args, **kwargs)
         self.ratio = kwargs["ratio"]
         self.scale = 1.0 / (1.0 - self.ratio)
-    def __str__(self):
-        return "It is a Dropout Layer"
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
     def forward(self):

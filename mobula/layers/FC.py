@@ -8,8 +8,6 @@ class FC(Layer):
         self.XN = 0
         self.C = 0
         self.dim_out = kwargs["dim_out"]
-    def __str__(self):
-        return "It is a Full Conneted Layer"
     def reshape(self):
         # NCHW
         self.XN = self.X.shape[0]

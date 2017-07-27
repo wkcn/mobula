@@ -29,8 +29,6 @@ class Pool(Layer):
             self.pool_id = pool 
         else:
             raise RuntimeError("Pool key Error: ", self.pool)
-    def __str__(self):
-        return "It is a Pooling Layer"
     def reshape(self):
         # (NCHW)
         N,C,H,W = self.X.shape

@@ -3,8 +3,6 @@ from .LossLayer import *
 class SoftmaxWithLoss(LossLayer):
     def __init__(self, model, *args, **kwargs):
         LossLayer.__init__(self, model, *args, **kwargs)
-    def __str__(self):
-        return "It is a SoftmaxWithLoss Layer"
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
         n = self.Y.shape[0]
