@@ -3,7 +3,9 @@ from .Layer import *
 class Concat(Layer):
     def __init__(self, models, *args, **kwargs):
         Layer.__init__(self, models, *args, **kwargs)
-        self.axis = kwargs.get("axis", 0)
+        self.axis = kwargs.get("axis", 1)
+        if self.axis < 0:
+            self.axis = 4 + self.axis
         assert 0 <= self.axis  < 4
     def reshape(self):
         sz = list(self.X[0].shape)
