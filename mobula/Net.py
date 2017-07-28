@@ -1,19 +1,16 @@
 #coding=utf-8
-import copy
-import time
-import pickle
-import numpy as np
+from .Defines import *
 from .layers.MultiInput import *
 from .layers.MultiOutput import *
 from . import solvers
+from .layers.Layer import * 
 
 try:
     import queue
 except:
     import Queue as queue
+
 class Net(object):
-    TRAIN, TEST = range(2)
-    PHASE = TRAIN
     def __init__(self):
         self.loss = [] 
         self.topo = []
@@ -164,6 +161,13 @@ class Net(object):
     @lr.setter
     def lr(self, value):
         self.solver.base_lr = value
+    @property
+    def phase(self):
+        return self.topo[0].phase 
+    @phase.setter
+    def phase(self, value):
+        for l in self.topo:
+            l.phase = value
 
 # For compatibility
 Net.setLoss = Net.set_loss

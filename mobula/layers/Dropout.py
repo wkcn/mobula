@@ -1,5 +1,4 @@
 from .Layer import *
-from ..Net import * 
 
 class Dropout(Layer):
     def __init__(self, model, *args, **kwargs):
@@ -9,13 +8,13 @@ class Dropout(Layer):
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
     def forward(self):
-        if Net.PHASE == Net.TRAIN:
+        if self.is_training():
             self.mask = (np.random.random(self.X.shape) > self.ratio)
             self.Y = np.multiply(self.X, self.mask) * self.scale
         else:
             self.Y = self.X
     def backward(self):
-        if Net.PHASE == Net.TRAIN:
+        if self.is_training():
             self.dX = np.multiply(self.dY, self.mask) * self.scale
         else:
             self.dX = self.dY

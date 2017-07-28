@@ -33,6 +33,7 @@ class Layer(object):
         self.kwargs = kwargs
         self.lr = kwargs.get("lr", 1.0)
         self.Y = np.zeros((0,0,0,0))
+        self.phase = TRAIN
     def reshape(self):
         pass
     def forward(self):
@@ -75,3 +76,5 @@ class Layer(object):
             return self.YLayers[value]
         # For Single Output
         return self 
+    def is_training(self):
+        return self.phase == TRAIN
