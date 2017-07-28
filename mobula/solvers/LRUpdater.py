@@ -17,8 +17,8 @@ class LRUpdater:
         self.power = kwargs.get("power", None) 
         self.max_iter = kwargs.get("max_iter", None) 
         self.method = None
-        self.lr_policy = LR_POLICY.FIXED
-        self.set_policy(LR_POLICY.FIXED)
+        self.lr_policy = kwargs.get("lr_policy", LR_POLICY.FIXED)
+        self.set_policy(self.lr_policy)
     def set_policy(self, p):
         self.lr_policy = p
         self.method = LRUpdater.METHODS[p]
