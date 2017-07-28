@@ -26,6 +26,7 @@ from .Softmax import *
 
 # Multi IO Layer
 from .Concat import *
+from .Slice import *
 
 # Cost Layer
 from .MSE import *

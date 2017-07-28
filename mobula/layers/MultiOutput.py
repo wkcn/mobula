@@ -17,3 +17,8 @@ class MultiDY:
         return self.model.YLayers[i].dY
     def __setitem__(self, i, value):
         self.model.YLayers[i].dY = value
+    def __iter__(self): 
+        for dy in self.model.YLayers:
+            yield dy
+    def __len__(self):
+        return len(self.model.YLayers)

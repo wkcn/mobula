@@ -28,6 +28,7 @@ The Layers supports multi-input and multi-output.
 - Softmax
 #### Multi I/O Layer
 - Concat
+- Slice
 #### Cost Layer
 - Mean Square Error
 - CrossEntropy
