@@ -4,6 +4,7 @@ import os
 PATH = os.path.dirname(__file__)
 sys.path.append(PATH + "/..")
 
+from mobula.Defines import *
 import numpy as np
 import random
 
@@ -22,3 +23,6 @@ def test_layer_y(layer, X):
     l.dY = np.ones(l.Y.shape)
     l.backward()
     return l.Y, l.dX
+
+class FakeNet:
+    phase = TRAIN

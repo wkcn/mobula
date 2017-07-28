@@ -15,6 +15,7 @@ class Net(object):
         self.loss = [] 
         self.topo = []
         self.set_solver(solvers.SGD())
+        self.phase = TRAIN
     def set_loss(self, lossLayers):
         if type(lossLayers) != list:
             lossLayers = [lossLayers]
@@ -75,6 +76,7 @@ class Net(object):
             l.backward_time = 0.0
             self.forward_times = 0
             self.backward_times = 0
+            l.net = self
 
         self.reshape()
         self.init_solver()
@@ -161,13 +163,6 @@ class Net(object):
     @lr.setter
     def lr(self, value):
         self.solver.base_lr = value
-    @property
-    def phase(self):
-        return self.topo[0].phase 
-    @phase.setter
-    def phase(self, value):
-        for l in self.topo:
-            l.phase = value
 
 # For compatibility
 Net.setLoss = Net.set_loss
