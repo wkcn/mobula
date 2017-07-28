@@ -17,7 +17,7 @@ class Net(object):
     def __init__(self):
         self.loss = [] 
         self.topo = []
-        self.set_solver(solvers.SGD)
+        self.set_solver(solvers.SGD())
     def set_loss(self, lossLayers):
         if type(lossLayers) != list:
             lossLayers = [lossLayers]
@@ -83,7 +83,7 @@ class Net(object):
         self.init_solver()
 
     def set_solver(self, solver):
-        self.solver = solver()
+        self.solver = solver
         self.init_solver()
     def reshape(self):
         for l in self.topo:

@@ -6,7 +6,7 @@ class Solver(object):
     def __init__(self, *args, **kwargs):
         self.iter_num = 0
         self.lr = 1.0
-        self.lr_updater = LRUpdater(args, kwargs)
+        self.lr_updater = LRUpdater(*args, **kwargs)
     def update(self, l):
         pass
     def init(self, l):
