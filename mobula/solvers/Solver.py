@@ -18,9 +18,8 @@ class Solver(object):
     @base_lr.setter
     def base_lr(self, value):
         self.lr_updater.base_lr = value
-    def update_lr(self):
-        self.iter_num += 1
-        self.lr = self.lr_updater.get_lr(self.iter_num)
+    def update_lr(self, iter_num):
+        self.lr = self.lr_updater.get_lr(iter_num)
     @property
     def lr_policy(self):
         return self.lr_updater.lr_policy

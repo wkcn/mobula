@@ -101,7 +101,7 @@ class Net(object):
     def backward(self):
         self.backward_times += 1
 
-        self.solver.update_lr()
+        self.solver.update_lr(self.backward_times)
 
         for l in self.topo[::-1]:
             t = time.time()
