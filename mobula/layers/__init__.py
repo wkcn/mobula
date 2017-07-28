@@ -24,6 +24,9 @@ from .SELU import *
 from .Tanh import *
 from .Softmax import *
 
+# Multi IO Layer
+from .Concat import *
+
 # Cost Layer
 from .MSE import *
 from .CrossEntropy import *

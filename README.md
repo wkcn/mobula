@@ -26,6 +26,8 @@ The Layers supports multi-input and multi-output.
 - SELU
 - Tanh
 - Softmax
+#### Multi I/O Layer
+- Concat
 #### Cost Layer
 - Mean Square Error
 - CrossEntropy

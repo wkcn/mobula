@@ -8,6 +8,8 @@ class MultiInputItem:
     def __iter__(self):
         for md in self.models:
             yield md.Y
+    def __len__(self):
+        return len(self.models)
 
 class MultiInput:
     def __init__(self, model):
