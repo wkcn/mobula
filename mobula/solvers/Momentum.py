@@ -2,7 +2,6 @@ from .Solver import *
 
 class Momentum(Solver):
     def __init__(self, *args, **kwargs):
-        self.lr = kwargs.get("lr", 1.0)
         self.momentum = kwargs.get("momentum", 0.5)
         Solver.__init__(self, *args, **kwargs)
     def update(self, l):

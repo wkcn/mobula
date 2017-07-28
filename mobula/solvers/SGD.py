@@ -2,7 +2,6 @@ from .Solver import *
 
 class SGD(Solver):
     def __init__(self, *args, **kwargs):
-        self.lr = kwargs.get("lr", 1.0)
         Solver.__init__(self, *args, **kwargs)
     def update(self, l):
         params = l.params

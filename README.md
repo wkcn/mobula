@@ -31,6 +31,7 @@ The Layers supports multi-input and multi-output.
 - CrossEntropy
 - SigmoidCrossEntropy
 - SoftmaxWithLoss 
+- SmoothL1Loss
 
 ## Solvers
 

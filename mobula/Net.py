@@ -100,6 +100,9 @@ class Net(object):
             l.forward_time += time.time() - t 
     def backward(self):
         self.backward_times += 1
+
+        self.solver.update_lr()
+
         for l in self.topo[::-1]:
             t = time.time()
             num_next_layers = len(l.next_layers)
@@ -160,7 +163,7 @@ class Net(object):
         return self.solver.lr
     @lr.setter
     def lr(self, value):
-        self.solver.lr = value
+        self.solver.base_lr = value
 
 # For compatibility
 Net.setLoss = Net.set_loss
