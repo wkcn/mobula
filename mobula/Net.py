@@ -3,7 +3,6 @@ from .Defines import *
 from .layers.MultiInput import *
 from .layers.MultiOutput import *
 from . import solvers
-from .layers.Layer import * 
 
 try:
     import queue
