@@ -2,6 +2,7 @@ from .Defines import *
 from .MultiInput import *
 from .MultiOutput import *
 from .VModel import *
+from .NullNet import *
 
 class Layer(object):
     def __init__(self, model, layer_name = "", *args, **kwargs):
@@ -33,7 +34,7 @@ class Layer(object):
         self.kwargs = kwargs
         self.lr = kwargs.get("lr", 1.0)
         self.Y = np.zeros((0,0,0,0))
-        self.net = None
+        self.net = NullNet 
     def reshape(self):
         pass
     def forward(self):
