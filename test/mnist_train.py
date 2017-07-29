@@ -3,6 +3,7 @@ import mobula
 import mobula.layers as L
 import mobula.solvers as S
 import os
+from LeNet5 import *
 
 INPUT_FILE = "./train.csv"
 RESULT_PATH = "./mnist_kaggle"
@@ -39,22 +40,9 @@ X = (X - Xmean) / 255.0
 # N, C, H, W = n, 1, 28, 28
 X.resize((n, 1, 28, 28))
 
-# LeNet-5
-data, label = L.Data([X, labels], "data", batch_size = 100)()
-conv1 = L.Conv(data, "conv1", dim_out = 20, kernel = 5)
-pool1 = L.Pool(conv1, "pool1", pool = L.Pool.MAX, kernel = 2, stride = 2)
-conv2 = L.Conv(pool1, "conv2", dim_out = 50, kernel = 5)
-pool2 = L.Pool(conv2, "pool2", pool = L.Pool.MAX, kernel = 2, stride = 2)
-fc3   = L.FC(pool2, "fc3", dim_out = 500)
-relu3 = L.ReLU(fc3, "relu3")
-pred  = L.FC(relu3, "pred", dim_out = 10)
-loss = L.SoftmaxWithLoss(pred, "loss", label = label)
-
-# Net Instance
-net = mobula.Net()
-
-# Set Loss Layer
-net.set_loss(loss)
+# Get LeNet5
+nn = LeNet5(X, labels)
+net = nn.net
 
 # Set Solver
 net.set_solver(S.Momentum())
@@ -79,15 +67,15 @@ for i in range(start_iter, max_iter):
     net.backward()
 
     if i % 100 == 0:
-        print ("Iter: %d, Cost: %f" % (i, loss.loss))
+        print ("Iter: %d, Cost: %f" % (i, nn.loss))
         net.time()
 
         # test 30 iteration
         vs = []
         for u in range(30):
             net.forward()
-            pre = np.argmax(pred.Y,1).ravel()
-            ra = label.Y.ravel()
+            pre = np.argmax(nn.Y,1).ravel()
+            ra = nn.label.ravel()
             if u % 10 == 0: 
                 print ((pre, ra))
             bs = (pre == ra) 

@@ -3,6 +3,8 @@ from .Defines import *
 from .layers.utils.MultiInput import *
 from .layers.utils.MultiOutput import *
 from . import solvers
+import functools
+import signal
 
 try:
     import queue
@@ -13,8 +15,10 @@ class Net(object):
     def __init__(self):
         self.loss = [] 
         self.topo = []
+        self.layers = dict()
         self.set_solver(solvers.SGD())
         self.phase = TRAIN
+        # signal.signal(signal.SIGINT, self.signal_handler) 
     def set_loss(self, lossLayers):
         if type(lossLayers) != list:
             lossLayers = [lossLayers]
@@ -69,8 +73,10 @@ class Net(object):
                     if cs[md] == 0:
                         q.put(md)
         self.topo = st[::-1]
-        t = time.time()
+
+        self.layers = dict()
         for l in self.topo:
+            self.layers[l.name] = l
             l.forward_time = 0.0
             l.backward_time = 0.0
             self.forward_times = 0
@@ -156,12 +162,18 @@ class Net(object):
                     l.params[j][...] = np.fromstring(lp[j], dtype = p.dtype).reshape(p.shape) 
                 print (" - %s" % l.name)
         print ("Loading Finished :-)")
+    def __getitem__(self, name):
+        return self.layers.get(name)
     @property
     def lr(self):
         return self.solver.lr
     @lr.setter
     def lr(self, value):
         self.solver.base_lr = value
+    def signal_handler(self, signal, frame):
+        # TODO: Exit to Save
+        print ("Exit")
+        pass
 
 # For compatibility
 Net.setLoss = Net.set_loss
