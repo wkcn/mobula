@@ -1,7 +1,7 @@
 #coding=utf-8
 from .Defines import *
-from .layers.MultiInput import *
-from .layers.MultiOutput import *
+from .layers.utils.MultiInput import *
+from .layers.utils.MultiOutput import *
 from . import solvers
 
 try:

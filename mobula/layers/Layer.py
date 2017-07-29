@@ -1,8 +1,8 @@
-from .Defines import * 
-from .MultiInput import *
-from .MultiOutput import *
-from .VModel import *
-from .NullNet import *
+from .utils.Defines import * 
+from .utils.MultiInput import *
+from .utils.MultiOutput import *
+from .utils.VModel import *
+from .utils.NullNet import *
 
 class Layer(object):
     def __init__(self, model, layer_name = "", *args, **kwargs):

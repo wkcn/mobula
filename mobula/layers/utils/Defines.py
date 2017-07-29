@@ -1,5 +1,5 @@
 #coding=utf-8
-from ..Defines import *
+from ...Defines import *
 import numpy as np
 import numpy_groupies as npg
 
