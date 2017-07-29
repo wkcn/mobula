@@ -5,7 +5,7 @@ from .utils.VModel import *
 from .utils.NullNet import *
 
 class Layer(object):
-    def __init__(self, model, layer_name = "", *args, **kwargs):
+    def __init__(self, model, name = "", *args, **kwargs):
         # NCHW
         # (batch_size, dim_in, H, W)
         # V
@@ -14,7 +14,7 @@ class Layer(object):
         # bidirectiop
         self.next_layers = []
         if model is not None:
-            if isinstance(model, Layer):
+            if isinstance(model, Layer) or isinstance(model, YLayer):
                 self.model = model
                 self.model.next_layers.append(self)
             elif isinstance(model, list):
@@ -29,7 +29,7 @@ class Layer(object):
             # for test
             self.model = VModel() 
 
-        self.layer_name = layer_name
+        self.name = name
         self.args = args
         self.kwargs = kwargs
         self.lr = kwargs.get("lr", 1.0)

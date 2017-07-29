@@ -3,6 +3,7 @@ class YLayer:
         self.model = model
         self.i = i
         self.dY = None
+        self.next_layers = []
     @property
     def Y(self):
         return self.model.Y[self.i]

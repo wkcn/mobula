@@ -40,7 +40,8 @@ X = (X - Xmean) / 255.0
 X.resize((n, 1, 28, 28))
 
 # LeNet-5
-data = L.Data(X, "Data", batch_size = 100, label = labels)
+data, label = L.Data([X, labels], "Data", batch_size = 100)()
+print (type(data))
 conv1 = L.Conv(data, "Conv1", dim_out = 20, kernel = 5)
 pool1 = L.Pool(conv1, "pool1", pool = L.Pool.MAX, kernel = 2, stride = 2)
 conv2 = L.Conv(pool1, "Conv2", dim_out = 50, kernel = 5)
@@ -48,7 +49,7 @@ pool2 = L.Pool(conv2, "pool2", pool = L.Pool.MAX, kernel = 2, stride = 2)
 fc3   = L.FC(pool2, "fc3", dim_out = 500)
 relu3 = L.ReLU(fc3, "relu3")
 pred  = L.FC(relu3, "pred", dim_out = 10)
-loss = L.SoftmaxWithLoss(pred, "loss", label_data = data)
+loss = L.SoftmaxWithLoss(pred, "loss", label = label)
 
 # Net Instance
 net = mobula.Net()
@@ -87,7 +88,7 @@ for i in range(start_iter, max_iter):
         for u in range(30):
             net.forward()
             pre = np.argmax(pred.Y,1).ravel()
-            ra = data.label.ravel()
+            ra = label.Y.ravel()
             if u % 10 == 0: 
                 print ((pre, ra))
             bs = (pre == ra) 
