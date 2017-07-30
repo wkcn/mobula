@@ -13,6 +13,7 @@ data2 = L.Data(X2, 'data2')
 
 # Multi Input
 # MergeTest merges two input to one output
+print (type(data1), type(data2))
 merge = L.MergeTest([data1, data2], "merge")
 
 # SplitTest splits one input to two output
@@ -36,8 +37,8 @@ y1.dY = 5 * np.arange(divide.Y[0].size).reshape(divide.Y[0].shape)
 divide.dY[1] = -5 * np.arange(divide.Y[1].size).reshape(divide.Y[1].shape)
 net.backward()
 print ("merge.dY: ", merge.dY.ravel())
-print ("data1.dY", data1.dY.ravel())
-print ("data2.dY", data2.dY.ravel())
+# print ("data1.dY", data1.dY.ravel())
+# print ("data2.dY", data2.dY.ravel())
 
 print ("+++++++++++++++++++++++++")
 print ("y1.Y", y1.Y.ravel())

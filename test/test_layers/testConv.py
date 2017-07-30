@@ -16,7 +16,7 @@ Y[1,0,2,2] = 23.0
 Y[1,0,1,1] = 33.0
 Y[1,0,1,2] = 13.0
 
-data = L.Data(X, "data", label = Y) 
+data, label = L.Data([X, Y], "data")()
 conv = L.Conv(data, "Conv", pad = 0, kernel = 3, dim_out = 1)
 conv.X = X
 conv.reshape()
@@ -29,10 +29,10 @@ print (X)
 print (conv.W)
 print (conv.Y.shape)
 
-data = L.Data(X, "data", label = Y) 
+data, label = L.Data([X, Y], "data")() 
 convp = L.Conv(data, "Conv", pad = 1, kernel = 3, dim_out = 3)
 conv = L.Conv(convp, "Conv", pad = 1, kernel = 5, dim_out = 1)
-loss = L.MSE(conv, "Loss", label_data = data) 
+loss = L.MSE(conv, "Loss", label = label) 
 net = Net()
 net.setLoss(loss)
 

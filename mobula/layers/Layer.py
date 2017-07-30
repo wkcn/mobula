@@ -15,10 +15,20 @@ class Layer(object):
         self.next_layers = []
         if model is not None:
             if isinstance(model, Layer) or isinstance(model, YLayer):
-                self.model = model
+                if type(model.Y) == list and len(model.YLayers) == 1:
+                    # For a output in MultiOutput Layer
+                    self.model = model.YLayers[0]
+                else:
+                    self.model = model
                 self.model.next_layers.append(self)
             elif isinstance(model, list):
-                # It's a Multi Output Layer
+                # It's a Multi Input Layer
+
+                for i in range(len(model)):
+                    if type(model[i].Y) == list and len(model[i].YLayers) == 1:
+                        # For a output in MultiOutput Layer
+                        model[i] = model[i].YLayers[0]
+
                 self.model = MultiInput(model)
                 for i in range(len(model)):
                     model[i].next_layers.append(XLayer(self, i))
@@ -73,6 +83,8 @@ class Layer(object):
         if type(self.Y) == list:
             # For MultiOutput
             if value is None:
+                if len(self.Y) == 1:
+                    return self.YLayers[0]
                 return self.YLayers
             return self.YLayers[value]
         # For Single Output

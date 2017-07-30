@@ -23,12 +23,12 @@ class Data(Layer):
         # Type Check
         if isinstance(datas, list):
             for d in datas:
-                if not isinstance(datas, list):
-                    raise TypeError(INPUT_TYPE_ERROR)
+                if not isinstance(d, np.ndarray):
+                    raise TypeError(Data.INPUT_TYPE_ERROR)
         elif isinstance(datas, np.ndarray):
             datas = [datas]
         else:
-            raise TypeError(INPUT_TYPE_ERROR)
+            raise TypeError(Data.INPUT_TYPE_ERROR)
         self.datas = datas
 
         self.next_layers = []
@@ -68,5 +68,5 @@ class Data(Layer):
     def datas(self, value):
         self.__datas = value
         self.__batch_i = 0
-        self.set_output(len(self.__datas))
         self.n = len(self.__datas[0])
+        self.set_output(len(self.__datas))
