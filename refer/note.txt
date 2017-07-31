@@ -57,3 +57,6 @@ http://www.cnblogs.com/neopenx/p/4768388.html
 
 lr_policy:
 http://www.cnblogs.com/denny402/p/5074049.html
+
+batch_normalization
+http://blog.csdn.net/shuzfan/article/details/50723877

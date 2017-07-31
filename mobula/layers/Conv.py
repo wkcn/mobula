@@ -30,7 +30,7 @@ class Conv(Layer):
         if self.W is None:
             self.NHW = self.NH * self.NW
             self.W = Xavier((self.dim_out, C, self.kernel_w * self.kernel_h))
-            self.b = Xavier((self.dim_out, self.NHW))
+            self.b = np.zeros((self.dim_out, self.NHW))
             self.PH = H + self.pad_h * 2
             self.PW = W + self.pad_w * 2
             # X_col index

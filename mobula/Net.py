@@ -117,9 +117,11 @@ class Net(object):
                     l.dY = np.zeros(l.dY.shape) 
                     for e in l.next_layers:
                         l.dY += e.dX
+            # compute the gradient dX of layer l
             l.backward()
-
-            self.solver.update(l)
+            # use the solver to update weights of layer l
+            if l.lr > 0:
+                self.solver.update(l)
 
             l.backward_time += time.time() - t 
     def time(self):

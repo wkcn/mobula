@@ -15,7 +15,7 @@ class FC(Layer):
         self.Y = np.zeros((self.XN, self.dim_out))
         if self.W is None:
             self.W = Xavier((self.dim_out ,self.C))
-            self.b = Xavier((self.dim_out, 1))
+            self.b = np.zeros((self.dim_out, 1))
 
     def forward(self):
         # Y = W * X + b
