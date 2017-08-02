@@ -29,6 +29,7 @@ The Layers supports multi-input and multi-output.
 #### Multi I/O Layer
 - Concat
 - Slice
+- Eltwise
 #### Cost Layer
 - Mean Square Error
 - CrossEntropy
@@ -69,40 +70,49 @@ Secondly, constructing the **LeNet-5**.
 The core code is that:
 
 ```python
-from mobula import Net
+
+import mobula
 import mobula.layers as L
+import mobula.solvers as S
 
-data = L.Data(X, "Data", batch_size = 100, label = labels)
-
-conv1 = L.Conv(data, "Conv1", dim_out = 20, kernel = 5)
+data, label = L.Data([X, labels], "data", batch_size = 100)()
+conv1 = L.Conv(data, "conv1", dim_out = 20, kernel = 5)
 pool1 = L.Pool(conv1, "pool1", pool = L.Pool.MAX, kernel = 2, stride = 2)
-conv2 = L.Conv(pool1, "Conv2", dim_out = 50, kernel = 5)
+conv2 = L.Conv(pool1, "conv2", dim_out = 50, kernel = 5)
 pool2 = L.Pool(conv2, "pool2", pool = L.Pool.MAX, kernel = 2, stride = 2)
 fc3   = L.FC(pool2, "fc3", dim_out = 500)
 relu3 = L.ReLU(fc3, "relu3")
 pred  = L.FC(relu3, "pred", dim_out = 10)
-loss = L.SoftmaxWithLoss(pred, "loss", label_data = data)
+loss = L.SoftmaxWithLoss(pred, "loss", label = label)
 
-net = Net()
-net.setLoss(loss)
+# Net Instance
+net = mobula.Net()
 
+# Set Loss Layer
+net.set_loss(loss)
+
+# Set Solver
+net.set_solver(S.Momentum())
+
+# Learning Rate
 net.lr = 0.2
+
 ```
 
-The training and predicting codes are in **test/** folders, namely **digit_recognizerKaggle2.py** and **digit_recognizerKaggle2predict.py**.
+The training and predicting codes are in **test/** folders, namely **mnist_train.py** and **mnist_test.py**.
 
 For training the network, 
 ```bash
-python digit_recognizerKaggle2.py
+python mnist_train.py
 ```
 
-When the number of iterations is 2000, the accuracy on training set is 0.99.
+When the number of iterations is 2000, the accuracy on training set is above 0.99.
 
 For predicting test.csv,  
 ```bash
-python digit_recognizerKaggle2predict.py
+python mnist_test.py
 ```
 
-At Line 50 in *digit_recognizerKaggle2predict.py*, `iter_num` is the iterations of the model which is used to predict test set. 
+At Line 53 in *mnist_test.py*, `iter_num` is the iterations of the model which is used to predict test set. 
 
 Enjoy it! :-)
