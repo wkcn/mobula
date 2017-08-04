@@ -36,6 +36,9 @@ from .SigmoidCrossEntropy import *
 from .SoftmaxWithLoss import *
 from .SmoothL1Loss import *
 
+# Evaluation Layer (No Backward)
+from .Accuracy import *
+
 # Test Layer
 from .MergeTest import *
 from .SplitTest import *
