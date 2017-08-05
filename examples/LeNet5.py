@@ -1,3 +1,4 @@
+from defines import *
 import numpy as np
 import mobula
 import mobula.layers as L

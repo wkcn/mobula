@@ -1,5 +1,7 @@
 # Mobula
 
+![](https://api.travis-ci.org/wkcn/mobula.svg?branch=master)
+
 ## What is it?
 *Mobula* is a light deep learning framework on python.
 
@@ -101,7 +103,7 @@ net.lr = 0.2
 
 ```
 
-The training and predicting codes are in **test/** folders, namely **mnist_train.py** and **mnist_test.py**.
+The training and predicting codes are in **examples/** folders, namely **mnist_train.py** and **mnist_test.py**.
 
 For training the network, 
 ```bash

@@ -1,4 +1,4 @@
-from testlib import *
+from defines import *
 import mobula
 import mobula.layers as L
 import mobula.solvers as S

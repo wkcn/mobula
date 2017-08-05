@@ -1,8 +1,52 @@
-from testlib import *
+from defines import *
 import mobula
 import mobula.layers as L
 import mobula.solvers as S
 import os
+import sys
+
+def print_info():
+    print ('''
+* mnist_kaggle.py
+Please download the dataset on Kaggle: https://www.kaggle.com/c/digit-recognizer
+Then put train.csv and test.csv in the directory which mnist_kaggle.py is in. 
+Usage:
+    Recommend using Anaconda for better performance.
+    Train:
+        python mnist_kaggle.py train [MODEL] 
+    Test:
+        python mnist_kaggle.py test  MODEL
+
+    MODEL:  the file saving the weights of the network
+    '''
+    )
+
+
+traning = True
+model_file = None
+
+'''
+if len(sys.argv) == 1:
+    print_info()
+    sys.exit()
+else:
+    phase = sys.argv[1].lower() 
+    if phase == "train":
+        traing = True
+        if len(sys.argv) >= 3:
+            model_file = sys.argv[2]
+    elif phase == "test":
+        traing = False
+        if len(sys.argv) >= 3:
+            model_file = sys.argv[2]
+        else:
+            print_info()
+            sys.exit()
+    else:
+        print_info()
+        sys.exit()
+'''
+
 
 INPUT_FILE = "./train.csv"
 RESULT_PATH = "./mnist_kaggle"
