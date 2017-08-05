@@ -35,6 +35,7 @@ from .CrossEntropy import *
 from .SigmoidCrossEntropy import *
 from .SoftmaxWithLoss import *
 from .SmoothL1Loss import *
+from .ContrastiveLoss import *
 
 # Evaluation Layer (No Backward)
 from .Accuracy import *

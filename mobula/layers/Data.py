@@ -29,6 +29,9 @@ class Data(Layer):
             datas = [datas]
         else:
             raise TypeError(Data.INPUT_TYPE_ERROR)
+
+        self.__batch_size = None
+
         self.datas = datas
 
         self.next_layers = []
@@ -61,6 +64,7 @@ class Data(Layer):
         self.__batch_i = 0
         if value is None:
             self.Y = self.__datas
+        self.reshape()
     @property
     def datas(self):
         return self.__datas
@@ -70,3 +74,4 @@ class Data(Layer):
         self.__batch_i = 0
         self.n = len(self.__datas[0])
         self.set_output(len(self.__datas))
+        self.reshape()
