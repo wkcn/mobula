@@ -15,8 +15,10 @@ def test_fc():
     fc1 = L.FC(data, "fc1", dim_out = 1)
     loss = L.MSE(fc1, "MSE", label = label)
 
-    fc1.W = np.array([1.0, 3.0]).reshape((1, 2))
-    fc1.b = np.array([0.0])
+    fc1.reshape()
+
+    fc1.W = np.array([1.0, 3.0]).reshape(fc1.W.shape)
+    fc1.b = np.array([0.0]).reshape(fc1.b.shape)
 
 
     net = mobula.Net()
@@ -33,6 +35,3 @@ def test_fc():
     target = np.dot(X.reshape((4, 2)), fc1.W.T) + fc1.b
     print (target, fc1.Y)
     assert np.allclose(fc1.Y, target)
-
-if __name__ == "__main__":
-    test_fc()

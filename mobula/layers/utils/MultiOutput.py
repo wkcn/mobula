@@ -10,6 +10,12 @@ class YLayer:
     @Y.setter
     def Y(self, value):
         self.model.Y[self.i] = value
+    def forward(self):
+        self.model.forward()
+    def backward(self):
+        self.model.backward()
+    def reshape(self):
+        self.model.reshape()
 
 class MultiDY:
     def __init__(self, model):
