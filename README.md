@@ -1,6 +1,6 @@
 # Mobula
 
-![](https://api.travis-ci.org/wkcn/mobula.svg?branch=master)
+[![](https://api.travis-ci.org/wkcn/mobula.svg?branch=master)](https://travis-ci.org/wkcn/mobula)
 
 ## What is it?
 *Mobula* is a light deep learning framework on python.
