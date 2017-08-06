@@ -19,10 +19,10 @@ The Layers supports multi-input and multi-output.
 #### Layers with Learning
 - FC
 - Convolution
+- BatchNorm
 #### Layers without Learning
 - Pooling
 - Dropout
-- BatchNorm
 #### Activation Layer
 - Sigmoid
 - ReLU
