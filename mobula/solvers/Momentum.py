@@ -8,7 +8,7 @@ class Momentum(Solver):
         params = l.params
         grads = l.grads
         mlr = self.lr * l.lr
-        for i in range(len(params)):
+        for i in range(len(grads)):
             dx = self.momentum * l.mt[i] - mlr * grads[i]
             params[i] += dx 
             l.mt[i] = dx

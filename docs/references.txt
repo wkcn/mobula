@@ -60,6 +60,9 @@ http://www.cnblogs.com/denny402/p/5074049.html
 
 batch_normalization
 http://blog.csdn.net/shuzfan/article/details/50723877
+https://zhuanlan.zhihu.com/p/26662328?refer=carefree0910-pyml
+http://blog.csdn.net/lanran2/article/details/56278072
+http://blog.csdn.net/happynear/article/details/44238541
 
 Adam:
 http://www.sohu.com/a/156495506_465975

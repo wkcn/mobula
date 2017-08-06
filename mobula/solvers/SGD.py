@@ -7,5 +7,5 @@ class SGD(Solver):
         params = l.params
         grads = l.grads
         mlr = self.lr * l.lr
-        for i in range(len(params)):
+        for i in range(len(grads)):
             params[i] -= grads[i] * mlr
