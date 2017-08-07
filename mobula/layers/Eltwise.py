@@ -26,7 +26,7 @@ class Eltwise(Layer):
             for i in range(len(self.X)):
                 x = self.X[i]
                 x[x == 0] = 1e-100
-            self.Y = np.prod(self.X, 0)
+            self.Y = np.prod(self.X, 0) * np.prod(self.coeffs)
         else:
             # self.op == Eltwise.MAX
             cy =  [self.X[i] * self.coeffs[i] for i in range(len(self.X))]
