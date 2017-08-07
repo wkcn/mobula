@@ -7,6 +7,8 @@ data.reshape()
 
 def test_sigmoid():
     l = L.Sigmoid(data, "sigmoid")
+    l.reshape()
+    assert l.Y.shape == X.shape
     l.forward()
     l.dY = np.random.random(l.Y.shape) * 10
     l.backward()
@@ -17,6 +19,8 @@ def test_sigmoid():
 
 def test_relu():
     l = L.ReLU(data, "ReLU")
+    l.reshape()
+    assert l.Y.shape == X.shape
     l.forward()
     l.dY = np.random.random(l.Y.shape) * 10
     l.backward()
