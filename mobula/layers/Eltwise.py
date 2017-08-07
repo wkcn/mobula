@@ -9,7 +9,7 @@ class Eltwise(Layer):
         if "coeffs" in kwargs:
             self.coeffs = np.array(kwargs["coeffs"])
             if self.coeffs.size != len(self.X):
-                raise ParameterError("The number of coeffs must be the number of inputs :-(")
+                raise ValueError("The number of coeffs must be the number of inputs :-(")
         else:
             self.coeffs = np.ones(len(self.X))
         self.op = kwargs.get("op", Eltwise.SUM)

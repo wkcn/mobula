@@ -16,6 +16,7 @@ from .BatchNorm import *
 # Layers without learning
 from .Pool import *
 from .Dropout import *
+from .Reshape import *
 
 # Activate Layer
 from .Sigmoid import *

@@ -23,6 +23,7 @@ The Layers supports multi-input and multi-output.
 #### Layers without Learning
 - Pooling
 - Dropout
+- Reshape
 #### Activation Layer
 - Sigmoid
 - ReLU
