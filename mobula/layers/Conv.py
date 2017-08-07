@@ -53,17 +53,17 @@ class Conv(Layer):
         self.Y = (np.tensordot(self.X_col, self.W, axes = ([1,2],[1,2])).swapaxes(1,2) + self.b).reshape(self.Y.shape)
     def backward(self):
         N,C,H,W = self.X.shape
-        self.dY.resize((N,self.dim_out,self.NHW))
+        dY = self.dY.reshape((N,self.dim_out,self.NHW))
         # Update dW
         # dY: (N,D,W')
         # X_col: (N,C,H',W')
         # dW: (N,D,C,H')
         # W: (D, C, H')
-        self.dW = np.tensordot(self.dY, self.X_col, axes = ([0, 2],[0, 3])) / N
+        self.dW = np.tensordot(dY, self.X_col, axes = ([0, 2],[0, 3])) / N
         # Update db
-        self.db =  np.mean(self.dY, 0) 
+        self.db =  np.mean(dY, 0) 
         # Update dX
-        dX_col = np.tensordot(self.dY, self.W, axes = ([1],[0])).swapaxes(1, 3).swapaxes(1, 2) # (N, C, H', W')
+        dX_col = np.tensordot(dY, self.W, axes = ([1],[0])).swapaxes(1, 3).swapaxes(1, 2) # (N, C, H', W')
         self.dX = npg.aggregate(self.Bi, dX_col.ravel()[self.Bb], size = self.X.size).reshape(self.X.shape)
     @property
     def params(self):
