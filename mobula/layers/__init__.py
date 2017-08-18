@@ -17,6 +17,7 @@ from .BatchNorm import *
 from .Pool import *
 from .Dropout import *
 from .Reshape import *
+from .Crop import *
 
 # Activate Layer
 from .Sigmoid import *

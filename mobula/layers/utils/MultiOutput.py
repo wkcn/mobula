@@ -10,6 +10,9 @@ class YLayer:
     @Y.setter
     def Y(self, value):
         self.model.Y[self.i] = value
+    @property
+    def shape(self):
+        return self.model.Y[self.i].shape
     def forward(self):
         self.model.forward()
     def backward(self):

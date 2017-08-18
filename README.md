@@ -24,6 +24,7 @@ The Layers supports multi-input and multi-output.
 - Pooling
 - Dropout
 - Reshape
+- Crop
 #### Activation Layer
 - Sigmoid
 - ReLU
