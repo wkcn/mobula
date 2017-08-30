@@ -43,7 +43,12 @@ class Data(Layer):
     def reshape(self):
         if self.__batch_size is None:
             self.Y = self.__datas
-        self.Y = [data[:self.__batch_size] for data in self.__datas]
+
+        if len(self.__datas) == 1:
+            self.Y = self.__datas[0][:self.__batch_size] 
+        else:
+            self.Y = [data[:self.__batch_size] for data in self.__datas]
+
     def forward(self):
         if self.__batch_size is None:
             return
@@ -52,7 +57,11 @@ class Data(Layer):
             self.__batch_i = self.n - self.__batch_i
             e = self.__batch_i + self.__batch_size
 
-        self.Y = [data[self.__batch_i:e] for data in self.__datas]
+        if len(self.__datas) == 1:
+            self.Y = self.__datas[0][self.__batch_i:e]
+        else:
+            self.Y = [data[self.__batch_i:e] for data in self.__datas]
+
         self.__batch_i = e
 
     @property

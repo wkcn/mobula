@@ -76,9 +76,14 @@ class Layer(object):
         #raise RuntimeError("Don't Change Layer.X")
         self.model.Y = value
     def set_output(self, num):
-        self.YLayers = [YLayer(self, i) for i in range(num)]
-        self.Y = [None] * num
-        self.dY = MultiDY(self) 
+        if num > 1:
+            self.YLayers = [YLayer(self, i) for i in range(num)]
+            self.Y = [None] * num
+            self.dY = MultiDY(self) 
+        else:
+            self.YLayers = None
+            self.Y = None
+            self.dY = None
     def __call__(self, value = None):
         if type(self.Y) == list:
             # For MultiOutput

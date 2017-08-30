@@ -1,4 +1,4 @@
-class YLayer:
+class YLayer(object):
     def __init__(self, model, i):
         self.model = model
         self.i = i
@@ -20,7 +20,7 @@ class YLayer:
     def reshape(self):
         self.model.reshape()
 
-class MultiDY:
+class MultiDY(object):
     def __init__(self, model):
         self.model = model
     def __getitem__(self, i):

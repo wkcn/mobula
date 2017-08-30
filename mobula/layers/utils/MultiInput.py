@@ -1,4 +1,4 @@
-class MultiInputItem:
+class MultiInputItem(object):
     def __init__(self, models):
         self.models = models
     def __getitem__(self, i):
@@ -11,7 +11,7 @@ class MultiInputItem:
     def __len__(self):
         return len(self.models)
 
-class MultiInput:
+class MultiInput(object):
     def __init__(self, model):
         self.model = model
         self.items = MultiInputItem(model)
@@ -26,7 +26,7 @@ class MultiInput:
         for md in self.model:
             yield md
 
-class XLayer:
+class XLayer(object):
     def __init__(self, model, i):
         self.model = model
         self.i = i
