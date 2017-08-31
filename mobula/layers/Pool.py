@@ -4,12 +4,6 @@ class Pool(Layer):
     MAX, AVG = range(2)
     def __init__(self, model, *args, **kwargs):
         Layer.__init__(self, model, *args, **kwargs)
-        if "pad" in kwargs:
-            self.pad_w = kwargs["pad"]
-            self.pad_h = kwargs["pad"]
-        else:
-            self.pad_w = kwargs.get("pad_w", 0)
-            self.pad_h = kwargs.get("pad_h", 0)
         if "kernel" in kwargs:
             self.kernel_w = kwargs["kernel"]
             self.kernel_h = kwargs["kernel"]
@@ -32,17 +26,17 @@ class Pool(Layer):
     def reshape(self):
         # (NCHW)
         N,C,H,W = self.X.shape
-        self.NH = (H + self.pad_h * 2 - self.kernel_h) // self.stride + 1
-        self.NW = (W + self.pad_w * 2 - self.kernel_w) // self.stride + 1
+        self.NH = (H - self.kernel_h) // self.stride + 1
+        self.NW = (W - self.kernel_w) // self.stride + 1
         self.Y = np.zeros((N, C, self.NH, self.NW))
         self.NHW = self.NH * self.NW
         self.I = im2col(np.arange(H * W).reshape((H, W)), (self.kernel_h, self.kernel_w), self.stride).ravel()
         self.KHW = self.kernel_h * self.kernel_w
-        B = im2col(np.pad(np.arange(H * W).reshape((H, W)), ((self.pad_h, self.pad_h), (self.pad_w, self.pad_w)), "constant", constant_values = -1), (self.kernel_h, self.kernel_w), self.stride).ravel()
+        B = im2col(np.arange(H * W).reshape((H, W)), (self.kernel_h, self.kernel_w), self.stride).ravel()
         self.Bi = np.repeat(np.arange(N * C) * (H*W), len(B)) + np.tile(B, N * C) 
     def get_col(self, X):
         N,C,H,W = self.X.shape
-        return X.reshape(N,C,H*W)[:,:,self.I].reshape((N,C,self.kernel_h * self.kernel_w,self.NHW))
+        return X.reshape(N,C,H * W)[:,:,self.I].reshape((N,C,self.kernel_h * self.kernel_w,self.NHW))
     def forward(self):
         self.X_col = self.get_col(self.X) # (N, C, kernel_h * kernel_w, NH * NW) 
         # self.X_col -> (N, C, 1, NH * NW)

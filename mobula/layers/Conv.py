@@ -45,9 +45,11 @@ class Conv(Layer):
         self.Bi = np.repeat(np.arange(N * C) * (H*W), len(tb)) + np.tile(tb, N * C) 
 
     def get_col(self, X):
-        pad = np.pad(X, ((0,0),(0,0),(self.pad_h,self.pad_h),(self.pad_w,self.pad_w)), "constant")
         N,C,H,W = self.X.shape
-        return pad.reshape((N,C,self.PH * self.PW))[:,:,self.I].reshape((N,C,self.kernel_h * self.kernel_w,self.NHW))
+        if self.pad_h != 0 or self.pad_w != 0:
+            pad = np.pad(X, ((0,0),(0,0),(self.pad_h,self.pad_h),(self.pad_w,self.pad_w)), "constant")
+            return pad.reshape((N,C,self.PH * self.PW))[:,:,self.I].reshape((N,C,self.kernel_h * self.kernel_w,self.NHW))
+        return X.reshape((N,C,self.PH * self.PW))[:,:,self.I].reshape((N,C,self.kernel_h * self.kernel_w,self.NHW))
     def forward(self):
         self.X_col = self.get_col(self.X) # (N, C, kernel_h * kernel_w, NH * NW) 
         self.Y = (np.tensordot(self.X_col, self.W, axes = ([1,2],[1,2])).swapaxes(1,2) + self.b).reshape(self.Y.shape)

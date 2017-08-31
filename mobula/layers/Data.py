@@ -26,7 +26,7 @@ class Data(Layer):
                 if not isinstance(d, np.ndarray):
                     raise TypeError(Data.INPUT_TYPE_ERROR)
         elif isinstance(datas, np.ndarray):
-            datas = [datas]
+            pass
         else:
             raise TypeError(Data.INPUT_TYPE_ERROR)
 
@@ -44,8 +44,8 @@ class Data(Layer):
         if self.__batch_size is None:
             self.Y = self.__datas
 
-        if len(self.__datas) == 1:
-            self.Y = self.__datas[0][:self.__batch_size] 
+        if type(self.__datas) != list:
+            self.Y = self.__datas[:self.__batch_size] 
         else:
             self.Y = [data[:self.__batch_size] for data in self.__datas]
 
@@ -57,8 +57,8 @@ class Data(Layer):
             self.__batch_i = self.n - self.__batch_i
             e = self.__batch_i + self.__batch_size
 
-        if len(self.__datas) == 1:
-            self.Y = self.__datas[0][self.__batch_i:e]
+        if type(self.__datas) != list:
+            self.Y = self.__datas[self.__batch_i:e]
         else:
             self.Y = [data[self.__batch_i:e] for data in self.__datas]
 
@@ -81,6 +81,10 @@ class Data(Layer):
     def datas(self, value):
         self.__datas = value
         self.__batch_i = 0
-        self.n = len(self.__datas[0])
-        self.set_output(len(self.__datas))
+        if type(self.__datas) == list:
+            self.n = len(self.__datas[0])
+            self.set_output(len(self.__datas))
+        else:
+            self.n = len(self.__datas)
+            self.set_output(1)
         self.reshape()
