@@ -6,8 +6,8 @@ def go_conv(stride, pad):
     N, C, H, W = X.shape
     K = 3
     D = 2
-    FW = np.random.random((N, C, K * K)) * 10
-    F = FW.reshape((N, C, K, K))
+    FW = np.random.random((D, C, K * K)) * 10
+    F = FW.reshape((D, C, K, K))
 
     data = L.Data(X, "data")
     conv = L.Conv(data, "Conv", kernel = K, pad = pad, stride = stride, dim_out = D)
@@ -30,7 +30,7 @@ def go_conv(stride, pad):
     ty = np.zeros((N, D, NH, NW))
     for i in range(N):
         x = X[i]
-        x = np.pad(x, ((0,0),(pad,pad),(pad,pad)), "constant")
+        x = np.pad(x, ((0,0),(pad_h,pad_h),(pad_w,pad_w)), "constant")
         for d in range(D):
             f = F[d] # 4, 3, 3
             for h in range(NH):
@@ -56,7 +56,7 @@ def go_conv(stride, pad):
     # sample
     for i in range(N):
         x = X[i]
-        x = np.pad(x, ((0,0),(pad,pad),(pad,pad)), "constant")
+        x = np.pad(x, ((0,0),(pad_h,pad_h),(pad_w,pad_w)), "constant")
         # output
         for d in range(D):
             # channels
@@ -70,8 +70,8 @@ def go_conv(stride, pad):
                                 ph = h * stride + fh
                                 pw = w * stride + fw
                                 dF[d, c, fh, fw] += conv.dY[i, d, h, w] * x[c, ph, pw]
-                                oh = ph - pad
-                                ow = pw - pad
+                                oh = ph - pad_h
+                                ow = pw - pad_w
                                 if oh >= 0 and ow >= 0 and oh < H and ow < W:
                                     dX[i, c, oh, ow] += conv.dY[i, d, h, w] * F[d, c, fh, fw]
 

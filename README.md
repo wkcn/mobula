@@ -18,7 +18,8 @@ The Layers supports multi-input and multi-output.
 
 #### Layers with Learning
 - FC
-- Convolution
+- Conv - Convolution
+- ConvT - Transposed Convolution
 - BatchNorm
 #### Layers without Learning
 - Pooling

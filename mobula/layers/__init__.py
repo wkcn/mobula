@@ -11,6 +11,7 @@ from .Data import *
 # Layers
 from .FC import *
 from .Conv import *
+from .ConvT import *
 from .BatchNorm import *
 
 # Layers without learning
