@@ -21,7 +21,7 @@ def im2col(A, fshape, stride = 1):
     shp = fh, fw, rows, cols
     strd = s0, s1, s0, s1
     view = np.lib.stride_tricks.as_strided(A, shape = shp, strides = strd)
-    i = np.tile(np.arange(0, rows, stride), nh) + np.repeat(np.arange(nh) * (rows * stride), nw)
+    i = np.tile(np.arange(0, cols, stride), nh) + np.repeat(np.arange(nh) * (stride * cols), nw)
     return view.reshape(fh * fw, -1)[:, i]
 
 
@@ -49,8 +49,3 @@ def get_blocks(a, block_size):
 
 def get_ndarray_addr(a):
     return a.__array_interface__['data'][0]
-
-def get_dim_idx_from_shp(shp, idx):
-    dim_idx = list(np.ix_(*[np.arange(i) for i in shp[:-1]]))
-    dim_idx.append(idx)
-    return dim_idx
