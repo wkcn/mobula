@@ -55,7 +55,6 @@ def go_pool(stride, kernel, kind):
                         tw = w * stride
                         a = dX[i, d, th:th+kernel, tw:tw+kernel]
                         a[int(mi) // kernel, int(mi) % kernel] += pool.dY[i, d, h, w] 
-                        #dX.reshape(N, C, H * W)[i, d, int(mi)] = pool.dY[i, d, h, w]
     else:
         for i in range(N):
             for d in range(C):

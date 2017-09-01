@@ -37,3 +37,20 @@ def get_idx_from_arg(a, arg, axis):
 
 def get_val_from_idx(a, idx):
     return a.ravel()[idx]
+
+def get_blocks(a, block_size):
+    # block_size: 2 dims
+    N, C, H, W = a.shape
+    bh, bw = block_size
+    H_cnt = H // bh 
+    W_cnt = W // bw
+    b = a[:, :, :H_cnt * bh, :W_cnt * bw].reshape((N, C, H_cnt, bh, -1)) 
+    return np.transpose(b, (0, 1, 2, 4, 3)).reshape((N, C, H_cnt, W_cnt, bh, bw))
+
+def get_ndarray_addr(a):
+    return a.__array_interface__['data'][0]
+
+def get_dim_idx_from_shp(shp, idx):
+    dim_idx = list(np.ix_(*[np.arange(i) for i in shp[:-1]]))
+    dim_idx.append(idx)
+    return dim_idx
