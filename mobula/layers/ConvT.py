@@ -40,8 +40,6 @@ class ConvT(Layer):
         tb = B[bb]
         #[0, HW, 2HW, 3HW...] * len(tb)
         self.Bi = np.repeat(np.arange(N * self.dim_out) * (self.OH*self.OW), len(tb)) + np.tile(tb, N * self.dim_out) 
-        print ("B", B.size, bb.size, self.Bb.size, tb.size, self.Bi.size, self.X.size)
-        print ("shp", self.X.shape, self.W.shape, self.Y.shape)
 
     def get_col(self, X):
         N,D,NH,NW = self.X.shape
@@ -62,7 +60,6 @@ class ConvT(Layer):
         '''
         N,D,NH,NW = self.X.shape
         Y_col = np.tensordot(self.X.reshape((N, D, self.NHW)), self.W, axes = ([1], [0])).swapaxes(1, 3).swapaxes(1, 2)
-        print (Y_col.shape, self.W.shape, self.Bb.size)
         self.Y = npg.aggregate(self.Bi, Y_col.ravel()[self.Bb], size = self.Y.size).reshape(self.Y.shape) + self.b 
     def backward(self):
         N,D,NH,NW = self.X.shape
