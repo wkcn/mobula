@@ -17,12 +17,12 @@ It's **an efficent Python-DNN Implementation used numpy mainly**, and it's aimed
 The Layers supports multi-input and multi-output.
 
 #### Layers with Learning
-- FC
+- FC - Fully Connected Layer
 - Conv - Convolution
 - ConvT - Transposed Convolution
 - BatchNorm
 #### Layers without Learning
-- Pooling
+- Pool - Pooling
 - Dropout
 - Reshape
 - Crop
@@ -38,7 +38,7 @@ The Layers supports multi-input and multi-output.
 - Slice
 - Eltwise
 #### Cost Layer
-- Mean Square Error
+- MSE - Mean Square Error
 - CrossEntropy
 - SigmoidCrossEntropy
 - SoftmaxWithLoss 
