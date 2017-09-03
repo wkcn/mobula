@@ -19,6 +19,8 @@ class YLayer(object):
         self.model.backward()
     def reshape(self):
         self.model.reshape()
+    def input_models(self):
+        yield self.model
 
 class MultiDY(object):
     def __init__(self, model):
@@ -32,3 +34,8 @@ class MultiDY(object):
             yield dy
     def __len__(self):
         return len(self.model.YLayers)
+
+def get_layer_parent(md):
+    if isinstance(md, YLayer):
+        return md.model
+    return md

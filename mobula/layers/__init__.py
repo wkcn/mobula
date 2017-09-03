@@ -44,6 +44,20 @@ from .ContrastiveLoss import *
 # Evaluation Layer (No Backward)
 from .Accuracy import *
 
+# Operators
+from .Add import *
+
 # Test Layer
 from .MergeTest import *
 from .SplitTest import *
+
+# Add Methods
+def get_func(op):
+    def get_layer(lhs, rhs):
+        l = op([lhs, rhs], "op")
+        l.reshape()
+        return l
+    return lambda lhs, rhs : get_layer(lhs, rhs) 
+
+Layer.__add__ = get_func(Add) 
+YLayer.__add__ = get_func(Add) 

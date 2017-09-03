@@ -1,3 +1,5 @@
+from .MultiOutput import *
+
 class MultiInputItem(object):
     def __init__(self, models):
         self.models = models
@@ -25,6 +27,9 @@ class MultiInput(object):
     def __iter__(self):
         for md in self.model:
             yield md
+    def input_models(self):
+        for md in self.model:
+            yield get_layer_parent(md)
 
 class XLayer(object):
     def __init__(self, model, i):

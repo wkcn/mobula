@@ -46,6 +46,8 @@ The Layers supports multi-input and multi-output.
 - ContrastiveLoss
 #### Evaluation Layer (No Backward)
 - Accuracy (top_k)
+#### Operators
+- Add
 
 ## Solvers
 

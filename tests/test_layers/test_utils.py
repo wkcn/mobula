@@ -51,3 +51,9 @@ def test_blocks():
     blocks = get_blocks(X, (K,K))
     assert np.allclose(np.max(blocks, (4,5)), Y)
 
+def test_ndarray_addr():
+    a = np.arange(3)
+    b = a
+    c = a.copy()
+    assert get_ndarray_addr(a) == get_ndarray_addr(b)
+    assert get_ndarray_addr(a) != get_ndarray_addr(c)

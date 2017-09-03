@@ -24,17 +24,13 @@ class Net(object):
             lossLayers = [lossLayers]
         self.loss = copy.copy(lossLayers)
 
-        def R(mdr):
-            if isinstance(mdr, YLayer):
-                return mdr.model
-            return mdr
-
         # Count
         q = queue.Queue()
         for l in lossLayers: 
             q.put(l)
         vis = set()
         cs = dict() # in degree
+
         while not q.empty():
             l = q.get()
             if l in vis:
@@ -42,14 +38,9 @@ class Net(object):
             vis.add(l)
             # if layer l has input
             # Data.model is None
+            # l.model may be Layer or MultiInput
             if l.model is not None:
-                if isinstance(l.model, MultiInput):
-                    for mdr in l.model:
-                        md = R(mdr)
-                        cs[md] = cs.get(md, 0) + 1
-                        q.put(md)
-                else:
-                    md = R(l.model)
+                for md in l.model.input_models():
                     cs[md] = cs.get(md, 0) + 1
                     q.put(md)
         # Find
@@ -61,14 +52,7 @@ class Net(object):
             l = q.get()
             st.append(l)
             if l.model is not None:
-                if isinstance(l.model, MultiInput):
-                    for mdr in l.model:
-                        md = R(mdr)
-                        cs[md] -= 1
-                        if cs[md] == 0:
-                            q.put(md)
-                else:
-                    md = R(l.model)
+                for md in l.model.input_models():
                     cs[md] -= 1
                     if cs[md] == 0:
                         q.put(md)
