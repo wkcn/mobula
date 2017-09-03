@@ -113,4 +113,15 @@ class Layer(object):
     def input_models(self):
         yield get_layer_parent(self)
     def forward_all(self):
-        pass
+        if self.model is not None:
+            for md in self.model.input_models():
+                md.forward_all()
+        self.forward()
+    def reshape_all(self):
+        if self.model is not None:
+            for md in self.model.input_models():
+                md.reshape_all()
+        self.reshape()
+    def eval(self):
+        self.forward_all()
+        return self.Y

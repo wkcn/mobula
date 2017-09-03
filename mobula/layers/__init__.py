@@ -51,13 +51,28 @@ from .Add import *
 from .MergeTest import *
 from .SplitTest import *
 
-# Add Methods
+# [TODO...]Add Methods
+# Notice: It will merge the same operator.
+# Example:
+# l = L.Add([a,b], "add")
+# w = l + c, namely: L.Add([a,b,c], "op") rather than L.Add([l, c], "op")
+# l is discarded.
+
 def get_func(op):
     def get_layer(lhs, rhs):
-        l = op([lhs, rhs], "op")
+        def layer_expand(hs):
+            if type(hs) == op:
+                return hs.model.model
+            return [hs]
+
+        args = layer_expand(lhs) + layer_expand(rhs)
+        l = op(args, "op")
         l.reshape()
         return l
-    return lambda lhs, rhs : get_layer(lhs, rhs) 
+    return get_layer
 
-Layer.__add__ = get_func(Add) 
-YLayer.__add__ = get_func(Add) 
+for op in [Add]:
+    for l in [Layer, YLayer]:
+        f = get_func(op)
+        l.__add__ = f 
+        l.__radd__ = f 

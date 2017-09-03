@@ -39,7 +39,7 @@ def test_add3():
     l.forward()
     assert np.allclose(a + b, l.Y)
 
-def todo_add4():
+def test_add4():
     N, C, H, W = 2,3,4,5
     a = np.random.random((N, C, H, W))
     b = np.random.random((N, C, H, W))
@@ -47,7 +47,4 @@ def todo_add4():
     data = L.Data([a,b,c], "data")
     [la,lb,lc] = data()
     l = la + lb + lc
-    l.reshape()
-    l.forward()
-    print (a+b+c, "==", l.Y)
-    assert np.allclose(a + b + c, l.Y)
+    assert np.allclose(a + b + c, l.eval())
