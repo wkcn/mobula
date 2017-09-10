@@ -17,7 +17,7 @@ If len(data) is not batch_size times, the batches are:
 
 class Data(Layer):
     INPUT_TYPE_ERROR = "Data.datas must be a List with ndarrays or an ndarray"
-    def __init__(self, datas, name = "", *args, **kwargs):
+    def __init__(self, datas, name = None, *args, **kwargs):
         # the type of datas is list with ndarrays or ndarray 
 
         # Type Check
@@ -38,7 +38,11 @@ class Data(Layer):
         self.lr = 0.0
         self.model = None
         self.batch_size = kwargs.get("batch_size")
-        self.name = name 
+
+        if name is None:
+            name = self.__class__.__name__
+
+        self.name = LayerManager.new_layer(name, self, auto_rename = True)
 
     def reshape(self):
         if self.__batch_size is None:

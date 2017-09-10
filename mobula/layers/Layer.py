@@ -3,10 +3,10 @@ from .utils.MultiInput import *
 from .utils.MultiOutput import *
 from .utils.VModel import *
 from .utils.NullNet import *
-
+from .utils.LayerManager import *
 
 class Layer(object):
-    def __init__(self, model, name = "", *args, **kwargs):
+    def __init__(self, model, name = None, *args, **kwargs):
         # NCHW
         # (batch_size, dim_in, H, W)
         # V
@@ -53,7 +53,11 @@ class Layer(object):
             # for test
             self.model = VModel() 
 
-        self.name = name
+        if name is None:
+            name = self.__class__.__name__
+
+        self.name = LayerManager.new_layer(name, self, auto_rename = True)
+
         self.args = args
         self.kwargs = kwargs
         self.lr = kwargs.get("lr", 1.0)

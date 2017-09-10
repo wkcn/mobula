@@ -87,4 +87,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
-.swp
+
+*.swp
+*.swo
