@@ -45,3 +45,24 @@ def test_layer_manager():
         assert relu4.name == s + "wkcn/mobula/ReLU"
         assert relu5.name == s + "wkcn/ReLU_2"
         assert relu6.name == s + "ReLU_2"
+
+def test_layer_manager_in_function():
+    s = "test_layer_manager/"
+    pre = s + "/"
+    with M.name_scope(s):
+        X = np.arange(16).reshape((8, 2))
+        data0 = L.Data(X)
+
+        def hello():
+            data1 = L.Data(X)
+            with M.name_scope("mobula"):
+                data2 = L.Data(X)
+            print ("in", data1.name)
+            assert data1.name == pre + "Data_1"
+            assert data2.name == pre + "mobula/Data"
+
+        hello()
+        data3 = L.Data(X)
+
+        assert data0.name == pre + "Data"
+        assert data3.name == pre + "Data_1"

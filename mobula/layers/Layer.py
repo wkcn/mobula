@@ -129,3 +129,5 @@ class Layer(object):
     def eval(self):
         self.forward_all()
         return self.Y
+    def __del__(self):
+        LayerManager.del_layer(self.name)

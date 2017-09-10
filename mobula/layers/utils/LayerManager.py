@@ -1,3 +1,5 @@
+import weakref
+
 class LayerManager(object):
     LAYERS = dict()
     NAME_SCOPE = ""
@@ -15,5 +17,8 @@ class LayerManager(object):
                 name = new_name
             else:
                 raise NameError("Duplicate Layer Name")
-        LayerManager.LAYERS[name] = obj
+        LayerManager.LAYERS[name] = weakref.proxy(obj)
         return name
+    @staticmethod
+    def del_layer(name):
+        del LayerManager.LAYERS[name]
