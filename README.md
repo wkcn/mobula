@@ -42,6 +42,7 @@ The Layers supports multi-input and multi-output.
 - CrossEntropy
 - SigmoidCrossEntropy
 - SoftmaxWithLoss 
+- L1Loss
 - SmoothL1Loss
 - ContrastiveLoss
 #### Evaluation Layer (No Backward)

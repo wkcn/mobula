@@ -68,6 +68,8 @@ class Net(object):
             l.net = self
 
         self.reshape()
+        for l in lossLayers: 
+            l.dY = np.ones(l.Y.shape)
         self.init_solver()
 
     def set_solver(self, solver):

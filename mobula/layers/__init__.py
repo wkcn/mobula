@@ -38,6 +38,7 @@ from .MSE import *
 from .CrossEntropy import *
 from .SigmoidCrossEntropy import *
 from .SoftmaxWithLoss import *
+from .L1Loss import *
 from .SmoothL1Loss import *
 from .ContrastiveLoss import *
 

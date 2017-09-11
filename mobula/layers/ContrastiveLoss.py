@@ -19,7 +19,4 @@ class ContrastiveLoss(LossLayer):
         dX = np.zeros(self.X[0].shape)
         dX[self.sim] = self.diff[self.sim] / n
         dX[self.bdf] = (1.0 / n - self.margin / n / self.dist[self.bdf]) * self.diff[self.bdf]
-        self.dX[0] = self.dX[1] = dX
-    @property
-    def loss(self):
-        return self.Y
+        self.dX[0] = self.dX[1] = dX * self.dY

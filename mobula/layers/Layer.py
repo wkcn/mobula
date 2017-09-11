@@ -100,8 +100,6 @@ class Layer(object):
         if type(self.Y) == list:
             # For MultiOutput
             if value is None:
-                if len(self.Y) == 1:
-                    return self.YLayers[0]
                 return self.YLayers
             return self.YLayers[value]
         # For Single Output
