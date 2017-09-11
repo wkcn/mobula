@@ -20,27 +20,26 @@ class Layer(object):
                     return False
             return True
 
-        # bidirectiop
+        if name is None:
+            name = self.__class__.__name__
+        self.name = LayerManager.new_layer(name, self, auto_rename = True)
         self.next_layers = []
+        self.lr = kwargs.get("lr", 1.0)
+        self.args = args
+        self.kwargs = kwargs
+
+        # bidirection
         if model is not None:
             if is_layer(model):
-                if type(model.Y) == list and len(model.YLayers) == 1:
-                    # For a output in MultiOutput Layer
-                    self.model = model.YLayers[0]
-                else:
-                    self.model = model
+                # Single Input 
+                self.model = model
                 self.model.next_layers.append(self)
             elif isinstance(model, list):
                 if is_layer_lst(model):
                     # It's a Multi Input Layer
-                    for i in range(len(model)):
-                        if type(model[i].Y) == list and len(model[i].YLayers) == 1:
-                            # For a output in MultiOutput Layer
-                            model[i] = model[i].YLayers[0]
-
                     self.model = MultiInput(model)
-                    for i in range(len(model)):
-                        model[i].next_layers.append(XLayer(self, i))
+                    for i, mdi in enumerate(model):
+                        mdi.next_layers.append(XLayer(self, i))
                     self.dX = [None] * len(model)
                 else:
                     # for test
@@ -56,14 +55,6 @@ class Layer(object):
             # for test
             self.model = VModel() 
 
-        if name is None:
-            name = self.__class__.__name__
-
-        self.name = LayerManager.new_layer(name, self, auto_rename = True)
-
-        self.args = args
-        self.kwargs = kwargs
-        self.lr = kwargs.get("lr", 1.0)
         self.Y = np.zeros((0,0,0,0))
         self.net = NullNet 
     def reshape(self):

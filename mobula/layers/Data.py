@@ -30,20 +30,16 @@ class Data(Layer):
         else:
             raise TypeError(Data.INPUT_TYPE_ERROR)
 
-        self.__batch_size = None
-
-        self.datas = datas
-
-        self.next_layers = []
-        self.lr = 0.0
-        self.model = None
-        self.batch_size = kwargs.get("batch_size")
-
         if name is None:
             name = self.__class__.__name__
-
         self.name = LayerManager.new_layer(name, self, auto_rename = True)
+        self.next_layers = []
+        self.lr = 0.0
 
+        self.model = None
+        self.__batch_size = None
+        self.datas = datas
+        self.batch_size = kwargs.get("batch_size")
     def reshape(self):
         if self.__batch_size is None:
             self.Y = self.__datas
