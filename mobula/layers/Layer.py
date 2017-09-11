@@ -46,7 +46,10 @@ class Layer(object):
                     # for test
                     self.model = VModel() 
                     self.model.Y = model
-
+            elif isinstance(model, np.ndarray):
+                # For test
+                self.model = VModel()
+                self.model.Y = model
             else:
                 raise TypeError("model must be a Layer or a List") 
         else:
