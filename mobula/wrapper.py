@@ -7,3 +7,6 @@ class name_scope(object):
         LayerManager.NAME_SCOPE += "%s/" % self.name
     def __exit__(self, *dummy):
         LayerManager.NAME_SCOPE = LayerManager.NAME_SCOPE[:-len(self.name)-1]
+
+def get_layer(name):
+    return LayerManager.get_layer(name)

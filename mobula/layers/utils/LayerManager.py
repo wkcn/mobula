@@ -17,8 +17,11 @@ class LayerManager(object):
                 name = new_name
             else:
                 raise NameError("Duplicate Layer Name")
-        LayerManager.LAYERS[name] = weakref.proxy(obj)
+        LayerManager.LAYERS[name] = weakref.ref(obj)
         return name
     @staticmethod
     def del_layer(name):
         del LayerManager.LAYERS[name]
+    @staticmethod
+    def get_layer(name):
+        return LayerManager.LAYERS[name]() # get the instance

@@ -66,3 +66,9 @@ def test_layer_manager_in_function():
 
         assert data0.name == pre + "Data"
         assert data3.name == pre + "Data_1"
+
+def test_get_layer():
+    X = np.arange(16).reshape((8, 2))
+    data0 = L.Data(X)
+    data0_ref = M.get_layer(data0.name)
+    return data0_ref is data0

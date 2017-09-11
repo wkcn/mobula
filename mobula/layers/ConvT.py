@@ -59,7 +59,7 @@ class ConvT(Layer):
         Y_col: (N, self.dim_out, kh * kw, NH * NW)
         '''
         N,D,NH,NW = self.X.shape
-        Y_col = np.tensordot(self.X.reshape((N, D, self.NHW)), self.W, axes = ([1], [0])).swapaxes(1, 3).swapaxes(1, 2)
+        Y_col = np.tensordot(self.X.reshape((N, D, self.NHW)), self.W, axes = ([1], [0])).transpose((0,2,3,1))
         self.Y = npg.aggregate(self.Bi, Y_col.ravel()[self.Bb], size = self.Y.size).reshape(self.Y.shape) + self.b 
     def backward(self):
         N,D,NH,NW = self.X.shape

@@ -64,7 +64,7 @@ class Conv(Layer):
         # Update db
         self.db =  np.mean(dY, 0) 
         # Update dX
-        dX_col = np.tensordot(dY, self.W, axes = ([1],[0])).swapaxes(1, 3).swapaxes(1, 2) # (N, C, H', W')
+        dX_col = np.tensordot(dY, self.W, axes = ([1],[0])).transpose((0, 2, 3, 1)) # (N, C, H', W')
         self.dX = npg.aggregate(self.Bi, dX_col.ravel()[self.Bb], size = self.X.size).reshape(self.X.shape)
     @property
     def params(self):
