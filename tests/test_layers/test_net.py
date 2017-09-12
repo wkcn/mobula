@@ -18,7 +18,7 @@ def test_net():
     net = mobula.Net()
     net.set_loss(loss1 + loss2)
 
-    net.lr = 0.5
+    net.lr = 0.01
     for i in range(10):
         net.forward()
         net.backward()
