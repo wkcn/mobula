@@ -18,6 +18,8 @@ def test_data():
     go_data(data)
     data = L.Data(X, "data", batch_size = 3)()
     go_data(data)
+    [data] = L.Data(X, "data", batch_size = 3)
+    go_data(data)
     data = L.Data(X, "data", batch_size = 3)(0)
     go_data(data)
     data = L.Data([X, X.copy()], "data", batch_size = 3)(1)

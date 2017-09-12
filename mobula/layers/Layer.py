@@ -104,6 +104,12 @@ class Layer(object):
             return self.YLayers[value]
         # For Single Output
         return self 
+    def __iter__(self):
+        if type(self.Y) == list:
+            for y in self.YLayers:
+                yield y
+        else:
+            yield self
     def is_training(self):
         return self.net.phase == TRAIN
     def input_models(self):

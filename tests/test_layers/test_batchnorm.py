@@ -5,7 +5,7 @@ def test_batchnorm_mean_var():
     X = np.random.random((12, 10)) * 100
     var = np.var(X, 0)
     mean = np.mean(X, 0)
-    data = L.Data(X, "data", batch_size = 4)()
+    data = L.Data(X, "data", batch_size = 4)
     bn = L.BatchNorm(data, "BN")
 
     data.reshape()

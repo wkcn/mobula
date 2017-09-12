@@ -4,7 +4,7 @@ import numpy as np
 def test_crop():
     X1 = np.arange(3 * 4 * 5 * 5).reshape((3,4,5,5))
     X2 = np.zeros((3,4,3,3))
-    [x1, x2] = L.Data([X1, X2], "data")()
+    [x1, x2] = L.Data([X1, X2], "data")
     l = L.Crop([x1, x2], "crop", offset = 1, axis = 2)
     l.reshape()
     l.forward()

@@ -7,7 +7,7 @@ def test_net():
     Y1 = np.random.random((4,5))
     Y2 = np.random.random((4,5))
 
-    [x,y1,y2] = L.Data([X,Y1,Y2])()
+    [x,y1,y2] = L.Data([X,Y1,Y2])
     fc0 = L.FC(x, dim_out = 10)
     fc1 = L.FC(fc0, dim_out = 5)
     fc2 = L.FC(fc0, dim_out = 5)

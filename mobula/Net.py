@@ -100,7 +100,7 @@ class Net(object):
                 if num_next_layers == 1:
                     l.dY = l.next_layers[0].dX
                 else:
-                    l.dY = np.zeros(l.next_layers[0].dX.shape) 
+                    l.dY = np.zeros(l.Y.shape) 
                     for e in l.next_layers:
                         l.dY += e.dX
             # compute the gradient dX of layer l
