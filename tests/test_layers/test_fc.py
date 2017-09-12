@@ -57,8 +57,6 @@ def test_fc2():
         net.forward()
         net.backward()
         print ("Iter: %d, Cost: %f" % (i, loss.Y))
-    # check backward 
-    # [TODO]
     # check forward
     t1 = np.dot(X.reshape((4,2)), fc1.W.T) + fc1.b.T
     t2 = np.dot(X.reshape((4,2)), fc2.W.T) + fc2.b.T
@@ -66,3 +64,19 @@ def test_fc2():
     net.forward()
     assert np.allclose(fc1.Y, t1)
     assert np.allclose(fc2.Y, t2)
+
+def test_fc3():
+    X = np.random.random((2,3,4,5))
+    fc = L.FC(X, dim_out = 10)
+    fc.reshape()
+    fc.forward()
+    fc.dY = np.random.random(fc.Y.shape)
+    fc.backward()
+    Y = np.dot(X.reshape((2,-1)), fc.W.T) + fc.b.T
+    dX = np.dot(fc.dY, fc.W)
+    db = np.mean(fc.dY, 0).reshape(fc.b.shape)
+    dW = np.dot(fc.dY.T, X.reshape((2,-1))).reshape(fc.W.shape) / len(X)
+    assert np.allclose(fc.Y, Y)
+    assert np.allclose(fc.dX, dX)
+    assert np.allclose(fc.db, db)
+    assert np.allclose(fc.dW, dW)
