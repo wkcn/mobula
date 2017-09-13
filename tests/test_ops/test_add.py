@@ -37,6 +37,7 @@ def test_add3():
     l = la + lb
     data.reshape()
     l.reshape()
+    assert l.shape == a.shape
     data.forward()
     l.forward()
     assert np.allclose(a + b, l.Y)

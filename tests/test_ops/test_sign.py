@@ -6,6 +6,9 @@ def test_sign_pos():
     a = np.random.random((N, C, H, W))
     b = np.random.random((N, C, H, W))
     [la, lb] = L.Data([a,b])
+    w = (+la)
+    w.reshape()
+    assert w.Y.shape == a.shape
     assert (+la) is la
 
 def test_sign_neg():
@@ -14,6 +17,8 @@ def test_sign_neg():
     b = np.random.random((N, C, H, W))
     [la, lb] = L.Data([a,b])
     w = -la
+    w.reshape()
+    assert w.Y.shape == a.shape
     w.forward()
     w.dY = np.random.random(w.Y.shape)
     w.backward()

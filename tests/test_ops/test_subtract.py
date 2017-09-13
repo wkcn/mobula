@@ -7,6 +7,8 @@ def test_subtract():
     b = np.random.random((N, C, H, W))
     [la, lb] = L.Data([a,b])
     w = la - lb
+    w.reshape()
+    assert w.Y.shape == a.shape
     w.forward()
     w.dY = np.random.random(w.Y.shape)
     w.backward()
