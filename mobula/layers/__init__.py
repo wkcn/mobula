@@ -47,33 +47,29 @@ from .Accuracy import *
 
 # Operators
 from .Add import *
+from .Subtract import *
+from .Multiply import *
+from .Negative import *
 
 # Test Layer
 from .MergeTest import *
 from .SplitTest import *
 
-# [TODO...]Add Methods
-# Notice: It will merge the same operator.
-# Example:
-# l = L.Add([a,b], "add")
-# w = l + c, namely: L.Add([a,b,c], "op") rather than L.Add([l, c], "op")
-# l is discarded.
-
-def get_func(op):
+def get_op2(op):
     def get_layer(lhs, rhs):
-        def layer_expand(hs):
-            if type(hs) == op:
-                return hs.model.model
-            return [hs]
-
-        args = layer_expand(lhs) + layer_expand(rhs)
+        args = [lhs, rhs] # array
         l = op(args, "op")
-        l.reshape()
         return l
     return get_layer
 
-for op in [Add]:
-    for l in [Layer, YLayer]:
-        f = get_func(op)
-        l.__add__ = f 
-        l.__radd__ = f 
+add = get_op2(Add)
+subtract = get_op2(Subtract)
+multiply = get_op2(Multiply)
+for l in [Layer, YLayer]:
+    l.__add__ = add 
+    l.__radd__ = add 
+    l.__mul__ = multiply
+    l.__rmul__ = multiply
+    l.__pos__ = lambda x : x
+    l.__neg__ = lambda x : Negative(x)
+    l.__sub__ = subtract 

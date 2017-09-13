@@ -1,11 +1,12 @@
 from .Layer import *
 
-class Add(Layer):
+class Subtract(Layer):
     def __init__(self, models, *args, **kwargs):
+        assert len(models) == 2, "the number of inputs of Subtract must be 2"
         Layer.__init__(self, models, *args, **kwargs)
     def reshape(self):
         self.Y = np.zeros(self.X[0].shape)
     def forward(self):
-        self.Y = np.sum(self.X, 0) 
+        self.Y = self.X[0] - self.X[1] 
     def backward(self):
-        self.dX = [self.dY for _ in range(len(self.X))]
+        self.dX = [self.dY, -self.dY]

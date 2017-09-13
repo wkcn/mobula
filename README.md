@@ -49,6 +49,10 @@ The Layers supports multi-input and multi-output.
 - Accuracy (top_k)
 #### Operators
 - Add
+- Subtract
+- Multiply
+- Positive
+- Negative
 
 ## Solvers
 

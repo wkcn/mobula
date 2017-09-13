@@ -35,7 +35,9 @@ def test_add3():
     data = L.Data([a,b,c], "data")
     [la,lb,lc] = data()
     l = la + lb
+    data.reshape()
     l.reshape()
+    data.forward()
     l.forward()
     assert np.allclose(a + b, l.Y)
 
