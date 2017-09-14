@@ -17,18 +17,19 @@ If len(data) is not batch_size times, the batches are:
 
 class Data(Layer):
     INPUT_TYPE_ERROR = "Data.datas must be a List with ndarrays or an ndarray"
-    def __init__(self, datas, name = None, *args, **kwargs):
+    def __init__(self, datas = None, name = None, *args, **kwargs):
         # the type of datas is list with ndarrays or ndarray 
 
         # Type Check
-        if isinstance(datas, list):
-            for d in datas:
-                if not isinstance(d, np.ndarray):
-                    raise TypeError(Data.INPUT_TYPE_ERROR)
-        elif isinstance(datas, np.ndarray):
-            pass
-        else:
-            raise TypeError(Data.INPUT_TYPE_ERROR)
+        if datas is not None:
+            if isinstance(datas, list):
+                for d in datas:
+                    if not isinstance(d, np.ndarray):
+                        raise TypeError(Data.INPUT_TYPE_ERROR)
+            elif isinstance(datas, np.ndarray):
+                pass
+            else:
+                raise TypeError(Data.INPUT_TYPE_ERROR)
 
         if name is None:
             name = self.__class__.__name__
@@ -73,13 +74,16 @@ class Data(Layer):
         self.__batch_i = 0
         if value is None:
             self.Y = self.__datas
-        self.reshape()
+        if self.__datas is not None:
+            self.reshape()
     @property
     def datas(self):
         return self.__datas
     @datas.setter
     def datas(self, value):
         self.__datas = value
+        if value is None:
+            return
         self.__batch_i = 0
         if type(self.__datas) == list:
             self.n = len(self.__datas[0])
@@ -88,3 +92,9 @@ class Data(Layer):
             self.n = len(self.__datas)
             self.set_output(1)
         self.reshape()
+    @property
+    def X(self):
+        return self.datas
+    @X.setter
+    def X(self, value):
+        self.datas = value

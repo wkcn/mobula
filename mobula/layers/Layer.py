@@ -124,8 +124,28 @@ class Layer(object):
             for md in self.model.input_models():
                 md.reshape_all()
         self.reshape()
-    def eval(self):
+    def eval(self, datas = None):
+        if datas is not None:
+            need_to_reshape = self.whether_to_reshape(datas)
+            for data, value in datas.items():
+                data.X = value
+            if need_to_reshape:
+                self.reshape_all()
         self.forward_all()
         return self.Y
+    def whether_to_reshape(self, datas):
+        for data, value in datas.items():
+            if data.model is None:
+                return True
+            if type(data.X) != type(value):
+                return True
+            if type(data.X) != list:
+                if data.X.shape != value.shape:
+                    return True
+            else:
+                for a,b in zip(data.X, value):
+                    if a.shape != b.shape:
+                        return True
+        return False
     def __del__(self):
         LayerManager.del_layer(self.name)
