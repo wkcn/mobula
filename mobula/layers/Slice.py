@@ -7,55 +7,20 @@ class Slice(Layer):
         self.axis = kwargs.get("axis", 1)
         if self.axis < 0:
             self.axis = 4 + self.axis
-        assert 0 <= self.axis  < 4
+        assert 0 <= self.axis  < 4, "the axis of Slice Layer must be in [0,1,2,3]"
         if "slice_point" in kwargs:
             self.slice_points = [kwargs["slice_point"]]
         else:
             self.slice_points = kwargs.get("slice_points", [])
         self.set_output(len(self.slice_points) + 1)
     def reshape(self):
-        j = 0
-        sz = list(self.X.shape)
-        m = sz[self.axis]
-        n = len(self.slice_points)
-        for i in range(n):
-            #[j, p)
-            p = self.slice_points[i]
-            sz[self.axis] = p - j
-            self.Y[i] = np.zeros(sz)
-            j = p
-        sz[self.axis] = m - j
-        self.Y[n] = np.zeros(sz)
+        self.slices = [[slice(None)] * 4 for _ in range(len(self.slice_points) + 1)]
+        last = None
+        for i, k in enumerate(self.slice_points):
+            self.slices[i][self.axis] = slice(last, k)
+            last = k
+        self.slices[-1][self.axis] = slice(last, None)
     def forward(self):
-        j = 0
-        n = len(self.slice_points)
-        if self.axis == 0:
-            for i in range(n):
-                #[j, p)
-                p = self.slice_points[i]
-                self.Y[i] = self.X[j:p]
-                j = p
-            self.Y[n] = self.X[j:]
-        elif self.axis == 1:
-            for i in range(n):
-                #[j, p)
-                p = self.slice_points[i]
-                self.Y[i] = self.X[:, j:p]
-                j = p
-            self.Y[n] = self.X[:, j:]
-        elif self.axis == 2:
-            for i in range(n):
-                #[j, p)
-                p = self.slice_points[i]
-                self.Y[i] = self.X[:, :, j:p]
-                j = p
-            self.Y[n] = self.X[:, :, j:]
-        else: #if self.axis == 3:
-            for i in range(n):
-                #[j, p)
-                p = self.slice_points[i]
-                self.Y[i] = self.X[:, :, :, j:p]
-                j = p
-            self.Y[n] = self.X[:, :, :, j:]
+        self.Y = [self.X[s] for s in self.slices]
     def backward(self):
         self.dX = np.concatenate(self.dY, axis = self.axis)
