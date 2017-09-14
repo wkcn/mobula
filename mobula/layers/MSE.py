@@ -9,4 +9,4 @@ class MSE(LossLayer):
         self.d = (self.X - self.label)
         self.Y = np.mean(np.square(self.d))
     def backward(self):
-        self.dX = (2 * self.dY) * self.d
+        self.dX = (2 * self.d) * self.dY

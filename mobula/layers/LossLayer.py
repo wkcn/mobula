@@ -5,12 +5,7 @@ class LossLayer(Layer):
     def __init__(self, model, *args, **kwargs):
         Layer.__init__(self, model, *args, **kwargs)
         if "label" in kwargs:
-            label = kwargs["label"]
-            if isinstance(label, np.ndarray): 
-                self.__label = VModel()
-                self.__label.Y = label
-            else:
-                self.__label = label 
+            self.label = kwargs["label"]
         self.dY = np.array(1.0)
         self.Y = 0.0
     @property
@@ -19,6 +14,13 @@ class LossLayer(Layer):
     @property
     def label(self):
         return self.__label.Y
+    @label.setter
+    def label(self, value):
+        if isinstance(value, np.ndarray): 
+            self.__label = VModel()
+            self.__label.Y = value 
+        else:
+            self.__label = value
     @property
     def dY(self):
         return self.__dY.ravel()
