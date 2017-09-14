@@ -92,9 +92,6 @@ class Data(Layer):
             self.n = len(self.__datas)
             self.set_output(1)
         self.reshape()
-    @property
-    def X(self):
-        return self.datas
-    @X.setter
-    def X(self, value):
-        self.datas = value
+
+    # Alias
+    X = datas

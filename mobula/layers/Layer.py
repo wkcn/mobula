@@ -135,8 +135,6 @@ class Layer(object):
         return self.Y
     def whether_to_reshape(self, datas):
         for data, value in datas.items():
-            if data.model is None:
-                return True
             if type(data.X) != type(value):
                 return True
             if type(data.X) != list:
