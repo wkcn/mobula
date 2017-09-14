@@ -5,9 +5,6 @@ class Slice(Layer):
     def __init__(self, model, *args, **kwargs):
         Layer.__init__(self, model, *args, **kwargs)
         self.axis = kwargs.get("axis", 1)
-        if self.axis < 0:
-            self.axis = 4 + self.axis
-        assert 0 <= self.axis  < 4, "the axis of Slice Layer must be in [0,1,2,3]"
         if "slice_point" in kwargs:
             self.slice_points = [kwargs["slice_point"]]
         else:
@@ -17,9 +14,13 @@ class Slice(Layer):
         self.slices = [[slice(None)] * 4 for _ in range(len(self.slice_points) + 1)]
         last = None
         for i, k in enumerate(self.slice_points):
-            self.slices[i][self.axis] = slice(last, k)
+            s = slice(last, k)
+            self.slices[i][self.axis] = s
             last = k
-        self.slices[-1][self.axis] = slice(last, None)
+            self.Y[i] = self.X[s]
+        s = slice(last, None)
+        self.slices[-1][self.axis] = s
+        self.Y[-1] = self.X[s] 
     def forward(self):
         self.Y = [self.X[s] for s in self.slices]
     def backward(self):
