@@ -33,10 +33,15 @@ def get_idx_from_arg(a, arg, axis):
     else:
         m = cp[axis + 1]
     n = cp[0] // cp[axis]
+    if m == 1:
+        return np.arange(n) * cp[axis] + arg.ravel()
     return np.repeat(np.arange(n) * cp[axis], m) + np.tile(np.arange(m), n) + arg.ravel() * m 
 
 def get_val_from_idx(a, idx):
     return a.ravel()[idx]
+
+def get_val_from_arg(a, arg, axis):
+    return a.ravel()[get_idx_from_arg(a, arg, axis)]
 
 def get_blocks(a, block_size):
     # block_size: 2 dims

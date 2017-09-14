@@ -6,7 +6,7 @@ class Concat(Layer):
         self.axis = kwargs.get("axis", 1)
     def reshape(self):
         last = 0
-        self.slices = [[slice(None)] * 4 for _ in range(len(self.X))]
+        self.slices = [[slice(None)] * self.X[0].ndim for _ in range(len(self.X))]
         for i, x in enumerate(self.X):
             ss = x.shape[self.axis]
             self.slices[i][self.axis] = slice(last, last + ss)

@@ -6,11 +6,11 @@ class Softmax(Layer):
         self.axis = kwargs.get("axis", 1) # N,C,H,W
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
+        self.axes = [slice(None)] * self.X.ndim
+        self.axes[self.axis] = np.newaxis
     def forward(self):
-        self.e = np.exp(self.X)
-        s = np.sum(self.e, axis = self.axis)
-        axes = [slice(None)] * 4
-        axes[self.axis] = np.newaxis
-        self.Y = self.e / s[axes]
+        e = np.exp(self.X - np.max(self.X))
+        s = np.sum(e, axis = self.axis)
+        self.Y = e / s[self.axes]
     def backward(self):
         self.dX = np.multiply(self.dY, self.Y - np.square(self.Y))

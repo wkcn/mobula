@@ -2,8 +2,7 @@ Initial Value:
 Random, pre-train, RBM
 
 BP:
-http://speech.ee.ntu.edu.tw/~tlkagk/courses/MLDS_201
-5_2/Lecture/DNN%20backprop.ecm.mp4/index.html
+http://speech.ee.ntu.edu.tw/~tlkagk/courses/MLDS_2015_2/Lecture/DNN%20backprop.ecm.mp4/index.html
 
 Deep Residual Learning for Image Recognition
 https://arxiv.org/abs/1512.03385
@@ -13,10 +12,10 @@ Early Stopping
 numpy加速：
 http://python.jobbole.com/81310/
 
-tensordot
+tensordot:
 http://m.blog.csdn.net/article/details?id=52526056
 
-L2正则化
+L2正则化:
 http://blog.csdn.net/u012162613/article/details/44261657
 
 激活函数：
@@ -29,8 +28,9 @@ dropout:
 https://zhuanlan.zhihu.com/p/22060265
 http://m.blog.csdn.net/elaine_bao/article/details/50890473
 
-CNN卷积前后向推导
+CNN卷积前后向推导:
 http://blog.csdn.net/chenhoujiangsir/article/details/51077468
+
 col2im:
 http://blog.csdn.net/sunshine_in_moon/article/details/50110279
 
@@ -67,5 +67,5 @@ http://blog.csdn.net/happynear/article/details/44238541
 Adam:
 http://www.sohu.com/a/156495506_465975
 
-dlsys-course
+dlsys-course:
 https://github.com/dlsys-course

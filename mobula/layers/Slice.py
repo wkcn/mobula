@@ -11,7 +11,7 @@ class Slice(Layer):
             self.slice_points = kwargs.get("slice_points", [])
         self.set_output(len(self.slice_points) + 1)
     def reshape(self):
-        self.slices = [[slice(None)] * 4 for _ in range(len(self.slice_points) + 1)]
+        self.slices = [[slice(None)] * self.X.ndim for _ in range(len(self.slice_points) + 1)]
         last = None
         for i, k in enumerate(self.slice_points):
             s = slice(last, k)
