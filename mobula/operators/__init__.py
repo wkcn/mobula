@@ -4,6 +4,13 @@ from .Subtract import *
 from .Multiply import *
 from .Negative import *
 
+from .Power import *
+from .Exp import *
+from .Log import *
+from . ReduceMean import *
+from . ReduceMax import *
+from . ReduceMin import *
+
 def get_op2(op):
     def get_layer(lhs, rhs):
         args = [lhs, rhs] # array

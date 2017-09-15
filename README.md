@@ -48,11 +48,12 @@ The Layers supports multi-input and multi-output.
 #### Evaluation Layer (No Backward)
 - Accuracy (top_k)
 #### Operators
-- Add
-- Subtract
+- Add, Subtract
 - Multiply
-- Positive
-- Negative
+- Positive, Negative
+- Exp, Log
+- ReduceMean
+- ReduceMax, ReduceMin
 
 ## Solvers
 

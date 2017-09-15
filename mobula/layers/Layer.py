@@ -55,7 +55,6 @@ class Layer(object):
             # for test
             self.model = VModel() 
 
-        self.Y = np.zeros((0,0,0,0))
         self.net = NullNet 
     def reshape(self):
         pass
@@ -125,12 +124,15 @@ class Layer(object):
                 md.reshape_all()
         self.reshape()
     def eval(self, datas = None):
+        need_to_reshape = False
         if datas is not None:
             need_to_reshape = self.whether_to_reshape(datas)
             for data, value in datas.items():
                 data.X = value
-            if need_to_reshape:
-                self.reshape_all()
+
+        # check whether it has inited
+        if need_to_reshape or not self.inited():
+            self.reshape_all()
         self.forward_all()
         return self.Y
     def whether_to_reshape(self, datas):
@@ -145,5 +147,11 @@ class Layer(object):
                     if a.shape != b.shape:
                         return True
         return False
+    def inited(self):
+        try:
+            type(self.Y)
+        except:
+            return False
+        return True
     def __del__(self):
         LayerManager.del_layer(self.name)
