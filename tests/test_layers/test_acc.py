@@ -14,9 +14,9 @@ def test_acc():
 
     target = [np.array([False, False, True, True]), np.array([True, True, True, True])]
 
-    [data, label] = L.Data([X, Y], "data")
+    [data, label] = L.Data([X, Y])
     for i in range(2):
-        l = L.Accuracy(data, "acc", label = label, top_k = 1 + i)
+        l = L.Accuracy(data, label = label, top_k = 1 + i)
         l.reshape()
         l.forward()
         assert l.Y == np.mean(target[i])

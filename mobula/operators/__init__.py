@@ -14,7 +14,7 @@ from . ReduceMin import *
 def get_op2(op):
     def get_layer(lhs, rhs):
         args = [lhs, rhs] # array
-        l = op(args, "op")
+        l = op(args)
         return l
     return get_layer
 

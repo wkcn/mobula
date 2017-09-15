@@ -31,9 +31,13 @@ class Data(Layer):
             else:
                 raise TypeError(Data.INPUT_TYPE_ERROR)
 
+
+        auto_rename = False 
         if name is None:
             name = self.__class__.__name__
-        self.name = LayerManager.new_layer(name, self, auto_rename = True)
+            auto_rename = True
+        self.name = LayerManager.new_layer(name, self, auto_rename = auto_rename)
+
         self.next_layers = []
         self.lr = 0.0
 

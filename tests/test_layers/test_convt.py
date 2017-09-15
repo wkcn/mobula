@@ -10,8 +10,8 @@ def go_convt(stride, pad):
     FW = np.random.random((D, C, K * K)) * 10
     F = FW.reshape((D, C, K, K))
 
-    data = L.Data(X, "data")
-    convT = L.ConvT(data, "ConvT", kernel = K, pad = pad, stride = stride, dim_out = C)
+    data = L.Data(X)
+    convT = L.ConvT(data, kernel = K, pad = pad, stride = stride, dim_out = C)
 
     pad_h = pad_w = pad
     kernel_h = kernel_w = K

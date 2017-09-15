@@ -6,8 +6,8 @@ def go_pool(stride, kernel, kind):
     X = np.random.random((2, 3, 10, 10)) * 100
     N, C, H, W = X.shape
 
-    data = L.Data(X, "data")
-    pool = L.Pool(data, "Pool", kernel = kernel, stride = stride, pool = kind)
+    data = L.Data(X)
+    pool = L.Pool(data, kernel = kernel, stride = stride, pool = kind)
 
     kernel_h = kernel_w = kernel
 

@@ -5,8 +5,8 @@ def test_batchnorm_mean_var():
     X = np.random.random((12, 10)) * 100
     var = np.var(X, 0)
     mean = np.mean(X, 0)
-    data = L.Data(X, "data", batch_size = 4)
-    bn = L.BatchNorm(data, "BN")
+    data = L.Data(X, batch_size = 4)
+    bn = L.BatchNorm(data)
 
     data.reshape()
     bn.reshape()
@@ -28,7 +28,7 @@ def test_batchnorm_mean_var():
 
 def test_grads():
     X = np.arange(10).reshape((10, 1)).astype(np.float)
-    bn = L.BatchNorm(None, "bn")
+    bn = L.BatchNorm(None)
     bn.X = X
     bn.reshape()
     bn.dY = np.ones(bn.Y.shape)

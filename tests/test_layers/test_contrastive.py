@@ -19,7 +19,7 @@ def test_contrastive():
             data = L.Data([A,B,sim])
             [a,b,s] = data()
 
-            l = L.ContrastiveLoss([a,b,s], "ctr", margin = 6.0)
+            l = L.ContrastiveLoss([a,b,s], margin = 6.0)
 
             print ("sim", s.Y.ravel())
             l.forward()

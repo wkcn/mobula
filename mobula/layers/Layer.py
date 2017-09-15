@@ -20,9 +20,12 @@ class Layer(object):
                     return False
             return True
 
+        auto_rename = False 
         if name is None:
             name = self.__class__.__name__
-        self.name = LayerManager.new_layer(name, self, auto_rename = True)
+            auto_rename = True
+        self.name = LayerManager.new_layer(name, self, auto_rename = auto_rename)
+
         self.next_layers = []
         self.lr = kwargs.get("lr", 1.0)
         self.args = args

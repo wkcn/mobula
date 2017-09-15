@@ -9,8 +9,8 @@ def go_conv(stride, pad):
     FW = np.random.random((D, C, K * K)) * 10
     F = FW.reshape((D, C, K, K))
 
-    data = L.Data(X, "data")
-    conv = L.Conv(data, "Conv", kernel = K, pad = pad, stride = stride, dim_out = D)
+    data = L.Data(X)
+    conv = L.Conv(data, kernel = K, pad = pad, stride = stride, dim_out = D)
 
     pad_h = pad_w = pad
     kernel_h = kernel_w = K

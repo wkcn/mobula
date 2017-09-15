@@ -11,7 +11,7 @@ def test_fc():
 
     Y = np.array([8.,10.,12.,14.]).reshape((-1, 1))
 
-    data, label = L.Data([X, Y], "Data")
+    data, label = L.Data([X, Y])
     fc1 = L.FC(data, "fc1", dim_out = 1)
     loss = L.MSE(fc1, "MSE", label = label)
 

@@ -6,7 +6,7 @@ data = L.Data(X, "data")
 data.reshape()
 
 def test_sigmoid():
-    l = L.Sigmoid(data, "sigmoid")
+    l = L.Sigmoid(data)
     l.reshape()
     assert l.Y.shape == X.shape
     l.forward()
@@ -18,7 +18,7 @@ def test_sigmoid():
     assert np.allclose(l.dX.ravel(), (enx / np.square(1 + enx) * l.dY).ravel())
 
 def test_relu():
-    l = L.ReLU(data, "ReLU")
+    l = L.ReLU(data)
     l.reshape()
     assert l.Y.shape == X.shape
     l.forward()
