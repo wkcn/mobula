@@ -11,7 +11,7 @@ class PReLU(Layer):
         self.Y[self.X < 0] *= self.a
     def backward(self):
         self.dX = self.dY.copy()
-        self.dX[self.X < 0] *= self.a
+        self.dX[self.X <= 0] *= self.a
     @property
     def params(self):
         return [self.a]
