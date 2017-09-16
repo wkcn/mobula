@@ -72,3 +72,14 @@ def test_get_layer():
     data0 = L.Data(X)
     data0_ref = M.get_layer(data0.name)
     return data0_ref is data0
+
+def test_name():
+    L.Add([L.ReLU(None), L.ReLU(None)])
+    L.ReLU(L.ReLU(None))
+    print (L.Add(None).name, L.ReLU(None).name)
+    assert L.Add(None).name == "Add"
+    assert L.ReLU(None).name == "ReLU"
+    w = L.ReLU(L.ReLU(None)) # the first ReLU op is ReLU, and the second ReLU op is ReLU_1.
+    assert L.ReLU(None).name == "ReLU_2"
+    del w
+    assert L.ReLU(None).name == "ReLU"

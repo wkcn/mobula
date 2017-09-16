@@ -35,14 +35,16 @@ class Layer(object):
         if model is not None:
             if is_layer(model):
                 # Single Input 
+                # Avoid bidirection reference
                 self.model = model
-                self.model.next_layers.append(self)
+                self.model.next_layers.append(weakref.proxy(self))
             elif isinstance(model, list):
                 if is_layer_lst(model):
                     # It's a Multi Input Layer
                     self.model = MultiInput(model)
                     for i, mdi in enumerate(model):
-                        mdi.next_layers.append(XLayer(self, i))
+                        # Avoid bidirection reference
+                        mdi.next_layers.append(XLayer(weakref.proxy(self), i))
                     self.dX = [None] * len(model)
                 else:
                     # for test
