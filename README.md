@@ -8,8 +8,10 @@
 
 It's **an efficent Python-DNN Implementation used numpy mainly**, and it's aimed to learn **how a neural network runs** :-)
 
-## What can I do with it?
-1. Digital Recognition
+# How to install it?
+```
+pip install mobula
+```
 
 ## Layers
 *Mobula* has implemented these layers using numpy. It's efficient relatively on Python Implementation.
