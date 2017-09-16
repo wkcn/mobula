@@ -8,7 +8,21 @@
 
 It's **an efficent Python-DNN Implementation used numpy mainly**, and it's aimed to learn **how a neural network runs** :-)
 
-# How to install it?
+## What can I do with it?
+1. Deploy a Deep Neural Network, try to explore how it works when DNN is training or testing.
+2. Implement some interesting layers quickly and make a test.
+
+## Benefit
+
+- Easy to Configure
+
+    Mobula needs less dependence. It is implemented by numpy mainly, so you can setup it easily.
+
+- Easy to modify
+
+	Mobula is implemented by only Python. You can modify the code easily to implement what you want.
+
+## How to install it?
 ```
 pip install mobula
 ```
@@ -63,12 +77,6 @@ The Layers supports multi-input and multi-output.
 
 - SGD
 - Momentum
-
-## Benefit
-
-- Easy to Configure
-
-    Mobula needs less dependence. It is implemented by numpy mainly, so you can setup it easily.
 
 ## Quick Start
 
