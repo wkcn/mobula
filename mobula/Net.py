@@ -5,6 +5,7 @@ from .layers.utils.MultiOutput import *
 from . import solvers
 import functools
 import signal
+import weakref
 
 try:
     import queue
@@ -13,7 +14,6 @@ except:
 
 class Net(object):
     def __init__(self):
-        self.loss = [] 
         self.topo = []
         self.layers = dict()
         self.set_solver(solvers.SGD())
@@ -22,7 +22,6 @@ class Net(object):
     def set_loss(self, lossLayers):
         if type(lossLayers) != list:
             lossLayers = [lossLayers]
-        self.loss = copy.copy(lossLayers)
 
         # Count
         q = queue.Queue()
@@ -65,7 +64,8 @@ class Net(object):
             l.backward_time = 0.0
             self.forward_times = 0
             self.backward_times = 0
-            l.net = self
+            # Avoid bidirection reference
+            l.net = weakref.proxy(self)
 
         self.reshape()
         for l in lossLayers: 

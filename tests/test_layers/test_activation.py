@@ -1,11 +1,10 @@
 import mobula.layers as L
 import numpy as np
 
-X = ((np.arange(10000) - 5000) / 1000.0).reshape((-1, 1, 1, 1))
-data = L.Data(X, "data")
-data.reshape()
-
 def test_sigmoid():
+    X = ((np.arange(10000) - 5000) / 1000.0).reshape((-1, 1, 1, 1))
+    data = L.Data(X, "data")
+    data.reshape()
     l = L.Sigmoid(data)
     l.reshape()
     assert l.Y.shape == X.shape
@@ -18,6 +17,9 @@ def test_sigmoid():
     assert np.allclose(l.dX.ravel(), (enx / np.square(1 + enx) * l.dY).ravel())
 
 def test_relu():
+    X = ((np.arange(10000) - 5000) / 1000.0).reshape((-1, 1, 1, 1))
+    data = L.Data(X, "data")
+    data.reshape()
     l = L.ReLU(data)
     l.reshape()
     assert l.Y.shape == X.shape
@@ -37,6 +39,9 @@ def test_relu():
     assert np.allclose(l.dX.ravel(), dX.ravel())
 
 def test_selu():
+    X = ((np.arange(10000) - 5000) / 1000.0).reshape((-1, 1, 1, 1))
+    data = L.Data(X, "data")
+    data.reshape()
     l = L.SELU(data)
     y = l.eval()
     ty = np.zeros(X.shape) 
@@ -52,6 +57,9 @@ def test_selu():
     assert np.allclose(dX, l.dX)
 
 def test_PReLU():
+    X = ((np.arange(10000) - 5000) / 1000.0).reshape((-1, 1, 1, 1))
+    data = L.Data(X, "data")
+    data.reshape()
     l = L.PReLU(data)
     y = l.eval()
     ty = np.zeros(X.shape)
@@ -68,6 +76,9 @@ def test_PReLU():
     assert np.allclose(dX, l.dX)
 
 def test_tanh():
+    X = ((np.arange(10000) - 5000) / 1000.0).reshape((-1, 1, 1, 1))
+    data = L.Data(X, "data")
+    data.reshape()
     l = L.Tanh(data)
     y = l.eval()
     p = np.exp(X)

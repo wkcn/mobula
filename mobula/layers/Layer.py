@@ -35,16 +35,14 @@ class Layer(object):
         if model is not None:
             if is_layer(model):
                 # Single Input 
-                # Avoid bidirection reference
                 self.model = model
-                self.model.next_layers.append(weakref.proxy(self))
+                self.model.next_layers.append(WeakrefLayer(self))
             elif isinstance(model, list):
                 if is_layer_lst(model):
                     # It's a Multi Input Layer
                     self.model = MultiInput(model)
                     for i, mdi in enumerate(model):
-                        # Avoid bidirection reference
-                        mdi.next_layers.append(XLayer(weakref.proxy(self), i))
+                        mdi.next_layers.append(XLayer(self, i))
                     self.dX = [None] * len(model)
                 else:
                     # for test
@@ -93,7 +91,7 @@ class Layer(object):
         self.model.Y = value
     def set_output(self, num):
         if num > 1:
-            self.YLayers = [YLayer(self, i) for i in range(num)]
+            self.YLayers = [None] * num
             self.Y = [None] * num
             self.dY = MultiDY(self) 
         else:
@@ -104,16 +102,38 @@ class Layer(object):
         if type(self.Y) == list:
             # For MultiOutput
             if value is None:
-                return self.YLayers
-            return self.YLayers[value]
+                return self.get_YLayers()
+            return self.get_YLayers(value)
         # For Single Output
         return self 
     def __iter__(self):
         if type(self.Y) == list:
-            for y in self.YLayers:
+            for y in self.get_YLayers():
                 yield y
         else:
             yield self
+    def get_YLayers(self, i = None):
+        if i == None:
+            lst = []
+            for i in range(len(self.YLayers)):
+                try:
+                    assert self.YLayers[i] != None
+                    l = self.YLayers[i]
+                except:
+                    l = YLayer(self, i)
+                    self.YLayers[i] = weakref.proxy(l)
+                lst.append(l)
+            return lst
+
+
+        try:
+            assert self.YLayers[i] != None
+            l = self.YLayers[i]
+        except:
+            l = YLayer(self, i)
+            self.YLayers[i] = weakref.proxy(l)
+
+        return l
     def is_training(self):
         return self.net.phase == TRAIN
     def input_models(self):

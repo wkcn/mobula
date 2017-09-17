@@ -1,6 +1,5 @@
 from .Layer import *
 
-# TODO: Optimize Condition Branches
 class Slice(Layer):
     def __init__(self, model, *args, **kwargs):
         Layer.__init__(self, model, *args, **kwargs)

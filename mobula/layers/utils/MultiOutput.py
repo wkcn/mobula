@@ -1,3 +1,5 @@
+import weakref
+
 class YLayer(object):
     def __init__(self, model, i):
         self.model = model
@@ -24,13 +26,13 @@ class YLayer(object):
 
 class MultiDY(object):
     def __init__(self, model):
-        self.model = model
+        self.model = weakref.proxy(model)
     def __getitem__(self, i):
-        return self.model.YLayers[i].dY
+        return self.model.get_YLayers(i).dY
     def __setitem__(self, i, value):
-        self.model.YLayers[i].dY = value
+        self.model.get_YLayers(i).dY = value
     def __iter__(self): 
-        for dy in self.model.YLayers:
+        for dy in self.model.get_YLayers():
             yield dy
     def __len__(self):
         return len(self.model.YLayers)

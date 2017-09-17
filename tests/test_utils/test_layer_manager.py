@@ -83,3 +83,13 @@ def test_name():
     assert L.ReLU(None).name == "ReLU_2"
     del w
     assert L.ReLU(None).name == "ReLU"
+    net = M.Net()
+    X = np.arange(16).reshape((2,2,2,2))
+    print (L.Data().name)
+    d1 = L.Data(X)
+    d2 = L.Data(X)
+    net.set_loss(d1 + d2)
+    del d1, d2, net
+    print (L.Data().name, L.Add(None).name)
+    assert L.Data().name == "Data"
+    assert L.Add(None).name == "Add"

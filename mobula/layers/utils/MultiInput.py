@@ -1,4 +1,5 @@
 from .MultiOutput import *
+import weakref
 
 class MultiInputItem(object):
     def __init__(self, models):
@@ -33,8 +34,17 @@ class MultiInput(object):
 
 class XLayer(object):
     def __init__(self, model, i):
-        self.model = model
+        # Avoid bidirection reference
+        self.model = weakref.ref(model)
         self.i = i
     @property
     def dX(self):
-        return self.model.dX[self.i]
+        return self.model().dX[self.i]
+
+class WeakrefLayer(object):
+    def __init__(self, model):
+        # Avoid bidirection reference
+        self.model = weakref.ref(model)
+    @property
+    def dX(self):
+        return self.model().dX
