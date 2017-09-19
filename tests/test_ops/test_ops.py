@@ -18,5 +18,5 @@ def test_ops():
     R, N, K = 3,4,5
     a = np.random.random((R, N))
     b = np.random.random((N, K))
-    assert np.allclose(M.matmul(a, b).eval(), a @ b)
-    assert np.allclose(M.dot(a, b).eval(), a @ b)
+    assert np.allclose(M.matmul(a, b).eval(), np.dot(a, b))
+    assert np.allclose(M.dot(a, b).eval(), np.dot(a, b))
