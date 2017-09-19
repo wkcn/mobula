@@ -50,4 +50,23 @@ def test_add4():
     data = L.Data([a,b,c])
     [la,lb,lc] = data()
     l = la + lb + lc
+    assert type(l) == L.Add
     assert np.allclose(a + b + c, l.eval())
+
+def test_add_constant():
+    N, C, H, W = 2,3,4,5
+    a = np.random.random((N, C, H, W))
+    data = L.Data(a)
+    l = data + 39
+    assert type(l) == L.AddConstant
+    assert np.allclose(l.eval(), a + 39)
+    l.dY = np.random.random(l.Y.shape)
+    l.backward()
+    assert np.allclose(l.dX, l.dY) 
+
+    l = 10 + data
+    assert type(l) == L.AddConstant
+    assert np.allclose(l.eval(), a + 10)
+    l.dY = np.random.random(l.Y.shape)
+    l.backward()
+    assert np.allclose(l.dX, l.dY) 

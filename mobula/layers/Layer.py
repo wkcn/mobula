@@ -24,6 +24,8 @@ class Layer(object):
         if name is None:
             name = self.__class__.__name__
             auto_rename = True
+        else:
+            assert type(name) == str, "The type of Layer.name must be str. If you want multi inputs, please make the inputs in an array, ex: L.Add([a,b])"
         self.name = LayerManager.new_layer(name, self, auto_rename = auto_rename)
 
         self.next_layers = []
