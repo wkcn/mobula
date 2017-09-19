@@ -10,3 +10,16 @@ class name_scope(object):
 
 def get_layer(name):
     return LayerManager.get_layer(name)
+
+# operators
+from . import operators as O
+add = O.add
+subtract = O.subtract
+multiply = O.multiply 
+matmul = O.matmul 
+dot = O.dot
+positive = O.positive
+negative = O.negative
+reduce_mean = O.reduce_mean
+reduce_max = O.reduce_max
+reduce_min = O.reduce_min

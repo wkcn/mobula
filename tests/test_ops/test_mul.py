@@ -1,3 +1,4 @@
+import mobula as M
 import mobula.layers as L
 import numpy as np
 
@@ -33,3 +34,25 @@ def test_mul():
     l.backward()
     assert np.allclose(l.dX, 3 * l.dY)
 
+def test_matmul():
+    R, N, K = 3,4,5
+    a = np.random.random((R, N))
+    b = np.random.random((N, K))
+    [la, lb] = L.Data([a,b])
+    l = L.MatMul([la, lb])
+    assert np.allclose(l.eval(), np.dot(a, b))
+    l.dY = np.random.random(l.Y.shape)
+    l.backward()
+    assert np.allclose(l.dX[0], np.dot(l.dY, b.T)) 
+    assert np.allclose(l.dX[1], np.dot(a.T, l.dY)) 
+    # test constant
+    lac = M.dot(la, b)
+    lbc = M.dot(a, lb)
+    assert np.allclose(lac.eval(), np.dot(a, b))
+    assert np.allclose(lbc.eval(), np.dot(a, b))
+    lac.dY = np.random.random(lac.Y.shape)
+    lbc.dY = np.random.random(lbc.Y.shape)
+    lac.backward()
+    lbc.backward()
+    assert np.allclose(lac.dX, np.dot(lac.dY, b.T))
+    assert np.allclose(lbc.dX, np.dot(a.T, lbc.dY))
