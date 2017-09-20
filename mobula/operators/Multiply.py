@@ -2,7 +2,7 @@ from .Layer import *
 
 class Multiply(Layer):
     def __init__(self, models, *args, **kwargs):
-        assert len(models) == 2, "the number of inputs of Subtract must be 2"
+        self.check_inputs(models, 2)
         Layer.__init__(self, models, *args, **kwargs)
     def reshape(self):
         self.Y = np.zeros(self.X[0].shape)
@@ -13,6 +13,7 @@ class Multiply(Layer):
 
 class MultiplyConstant(Layer):
     def __init__(self, model, *args, **kwargs):
+        self.check_inputs(model, 1)
         Layer.__init__(self, model, *args, **kwargs)
         self.constant = kwargs["constant"]
     def reshape(self):

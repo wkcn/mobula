@@ -182,3 +182,7 @@ class Layer(object):
         return True
     def __del__(self):
         LayerManager.del_layer(self.name)
+    def check_inputs(self, models, num_inputs):
+        if type(models) != list:
+            return
+        assert len(models) == num_inputs, "the number of inputs of %s must be %d" % (self.__class__.__name__, num_inputs)

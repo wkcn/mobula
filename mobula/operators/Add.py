@@ -12,6 +12,7 @@ class Add(Layer):
 
 class AddConstant(Layer):
     def __init__(self, model, *args, **kwargs):
+        self.check_inputs(model, 1)
         Layer.__init__(self, model, *args, **kwargs)
         self.constant = kwargs["constant"]
     def reshape(self):
