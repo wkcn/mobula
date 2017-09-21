@@ -13,9 +13,10 @@ Dot = MatMul # alias of Mulmat
 from .Power import *
 from .Exp import *
 from .Log import *
-from . ReduceMean import *
-from . ReduceMax import *
-from . ReduceMin import *
+from .ReduceMean import *
+from .ReduceMax import *
+from .ReduceMin import *
+from .Compare import *
 
 def is_constant(x):
     return not isinstance(x, Layer) and not isinstance(x, YLayer)
@@ -48,6 +49,12 @@ negative = lambda x : Negative(x)
 reduce_mean = ReduceMean
 reduce_max = ReduceMax
 reduce_min = ReduceMin
+equal = get_op2(Equal)
+not_equal = get_op2(NotEqual)
+greater_equal = get_op2(GreaterEqual)
+greater = get_op2(Greater)
+less_equal = get_op2(LessEqual)
+less = get_op2(Less)
 
 for l in [Layer, YLayer]:
     l.__add__ = add 
@@ -58,3 +65,9 @@ for l in [Layer, YLayer]:
     l.__neg__ = negative 
     l.__sub__ = subtract 
     l.__rsub__ = subtract_r
+    l.__eq__ = equal
+    l.__ne__ = not_equal 
+    l.__ge__ = greater_equal
+    l.__gt__ = greater
+    l.__le__ = less_equal
+    l.__lt__ = less
