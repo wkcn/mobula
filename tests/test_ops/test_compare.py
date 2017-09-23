@@ -39,3 +39,20 @@ def test_compare_symbols():
     ops = [operator.eq, operator.ne, operator.ge, operator.gt, operator.le, operator.lt]
     for l, op in zip(lops, ops):
         assert l.op == op
+
+def test_compare_symbols_L():
+    N, C, H, W = 2,3,4,5
+    a = np.random.random((N, C, H, W))
+    b = np.random.random((N, C, H, W))
+    [la, lb] = L.Data([a,b])
+    eq = (la == b)
+    ne = (la != b)
+    ge = (la >= b)
+    gt = (la > b)
+    le = (la <= b)
+    lt = (la < b)
+    
+    lops = [eq,ne,ge,gt,le,lt]
+    ops = [operator.eq, operator.ne, operator.ge, operator.gt, operator.le, operator.lt]
+    for l, op in zip(lops, ops):
+        assert l.op == op
