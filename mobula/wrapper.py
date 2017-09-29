@@ -4,12 +4,15 @@ class name_scope(object):
     def __init__(self, name):
         self.name = name
     def __enter__(self):
-        LayerManager.NAME_SCOPE += "%s/" % self.name
+        LayerManager.enter_scope(self.name)
     def __exit__(self, *dummy):
-        LayerManager.NAME_SCOPE = LayerManager.NAME_SCOPE[:-len(self.name)-1]
+        LayerManager.exit_scope()
 
 def get_layer(name):
     return LayerManager.get_layer(name)
+
+def get_scope_name():
+    return LayerManager.get_scope_name()
 
 # operators
 from . import operators as O
@@ -29,3 +32,6 @@ greater_equal = O.greater_equal
 greater = O.greater
 less_equal = O.less_equal
 less = O.less
+
+exp = O.exp
+log = O.log

@@ -39,7 +39,7 @@ net.lr = 2e-6
 start_iter = 0 
 max_iter = 10000
 plt.ion()
-for i in range(start_iter, max_iter):
+for i in range(start_iter, max_iter + 1):
     net.forward()
     net.backward()
 

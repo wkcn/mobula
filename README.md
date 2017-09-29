@@ -64,12 +64,13 @@ The Layers supports multi-input and multi-output.
 #### Evaluation Layer (No Backward)
 - Accuracy (top_k)
 #### Operators
-- Add, Subtract
-- Multiply
-- Positive, Negative
-- Exp, Log
-- ReduceMean
-- ReduceMax, ReduceMin
+- add, subtract
+- multiply, matmul, dot
+- positive, negative
+- exp, log
+- reduce_mean, reduce_max, reduce_min
+- equal, not_equal
+- greater_equal, greater, less_equal, less
 
 ## Solvers
 
@@ -102,6 +103,8 @@ The core code is that:
 import mobula
 import mobula.layers as L
 import mobula.solvers as S
+
+[...]
 
 data, label = L.Data([X, labels], "data", batch_size = 100)
 conv1 = L.Conv(data, dim_out = 20, kernel = 5)

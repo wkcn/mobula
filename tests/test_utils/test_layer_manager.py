@@ -5,16 +5,13 @@ import numpy as np
 def test_layer_manager():
     X = np.arange(16).reshape((8, 2))
 
-    '''
-    Notice:
-        The time of importing LayerManager is only Once when nosetests 
-    '''
-    s = "test_layer_manager/"
-    with M.name_scope(s[:-1]):
+    # Notice: The time of importing LayerManager is only Once when nosetests 
+
+    s = "/test_layer_manager/"
+    with M.name_scope("test_layer_manager"):
         data0 = L.Data(X)
         data1 = L.Data(X)
         data2 = L.Data(X)
-        print (data0.name)
         assert data0.name == s + "Data"
         assert data1.name == s + "Data_1"
         assert data2.name == s + "Data_2"
@@ -47,9 +44,8 @@ def test_layer_manager():
         assert relu6.name == s + "ReLU_2"
 
 def test_layer_manager_in_function():
-    s = "test_layer_manager/"
-    pre = s + "/"
-    with M.name_scope(s):
+    s = "/test_layer_manager/"
+    with M.name_scope("test_layer_manager"):
         X = np.arange(16).reshape((8, 2))
         data0 = L.Data(X)
 
@@ -58,14 +54,14 @@ def test_layer_manager_in_function():
             with M.name_scope("mobula"):
                 data2 = L.Data(X)
             print ("in", data1.name)
-            assert data1.name == pre + "Data_1"
-            assert data2.name == pre + "mobula/Data"
+            assert data1.name == s + "Data_1"
+            assert data2.name == s + "mobula/Data"
 
         hello()
         data3 = L.Data(X)
 
-        assert data0.name == pre + "Data"
-        assert data3.name == pre + "Data_1"
+        assert data0.name == s + "Data"
+        assert data3.name == s + "Data_1"
 
 def test_get_layer():
     X = np.arange(16).reshape((8, 2))
@@ -77,12 +73,12 @@ def test_name():
     L.Add([L.ReLU(None), L.ReLU(None)])
     L.ReLU(L.ReLU(None))
     print (L.Add(None).name, L.ReLU(None).name)
-    assert L.Add(None).name == "Add"
-    assert L.ReLU(None).name == "ReLU"
+    assert L.Add(None).name == "/Add"
+    assert L.ReLU(None).name == "/ReLU"
     w = L.ReLU(L.ReLU(None)) # the first ReLU op is ReLU, and the second ReLU op is ReLU_1.
-    assert L.ReLU(None).name == "ReLU_2"
+    assert L.ReLU(None).name == "/ReLU_2"
     del w
-    assert L.ReLU(None).name == "ReLU"
+    assert L.ReLU(None).name == "/ReLU"
     net = M.Net()
     X = np.arange(16).reshape((2,2,2,2))
     print (L.Data().name)
@@ -91,5 +87,5 @@ def test_name():
     net.set_loss(d1 + d2)
     del d1, d2, net
     print (L.Data().name, L.Add(None).name)
-    assert L.Data().name == "Data"
-    assert L.Add(None).name == "Add"
+    assert L.Data().name == "/Data"
+    assert L.Add(None).name == "/Add"

@@ -55,6 +55,8 @@ greater_equal = get_op2(GreaterEqual)
 greater = get_op2(Greater)
 less_equal = get_op2(LessEqual)
 less = get_op2(Less)
+exp = lambda x : Exp(x)
+log = lambda x : Log(x)
 
 for l in [Layer, YLayer]:
     l.__add__ = add 

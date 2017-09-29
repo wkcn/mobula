@@ -1,3 +1,4 @@
+import mobula as M
 import mobula.operators as O
 import numpy as np
 
@@ -23,3 +24,13 @@ def test_log():
     assert np.allclose(y, np.log(a))
     assert np.allclose(l.dX, (1.0 / a) * l.dY)
 
+def test_exp_op():
+    N, C, H, W = 2,3,4,5
+    X = np.random.random((N, C, H, W))
+    assert np.allclose(M.exp(X).eval(), np.exp(X))
+
+def test_log_op():
+    N, C, H, W = 2,3,4,5
+    X = np.random.random((N, C, H, W))
+    X[X == 0] = 1.0
+    assert np.allclose(M.log(X).eval(), np.log(X))
