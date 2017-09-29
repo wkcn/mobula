@@ -89,3 +89,15 @@ def test_name():
     print (L.Data().name, L.Add(None).name)
     assert L.Data().name == "/Data"
     assert L.Add(None).name == "/Add"
+
+def test_scope_name():
+    assert M.get_scope_name() == "/"
+    with M.name_scope("a"): 
+        assert M.get_scope_name() == "/a/"
+        with M.name_scope("b"): 
+            assert M.get_scope_name() == "/a/b/"
+            with M.name_scope("c"): 
+                assert M.get_scope_name() == "/a/b/c/"
+            assert M.get_scope_name() == "/a/b/"
+        assert M.get_scope_name() == "/a/"
+    assert M.get_scope_name() == "/"
