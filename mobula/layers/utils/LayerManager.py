@@ -1,6 +1,5 @@
 import weakref
-import pickle
-import numpy as np
+from .Saver import *
 
 class Scope(dict):
     def __init__(self, name = "", parent = None):
@@ -113,6 +112,12 @@ class LayerManagerClass(object):
 
     def save(self, filename, scope_name):
         scope = self.get_scope(scope_name)
-        pass
+        save_layers(filename, scope.get_layers())
+        print ("Saving Scope %s to %s Finished :-)" % (scope_name, filename))
+
+    def load(self, filename, scope_name):
+        scope = self.get_scope(scope_name)
+        load_layers(filename, scope.get_layers())
+        print ("Loading Scope %s from %s Finished :-)" % (scope_name, filename))
 
 LayerManager = LayerManagerClass()

@@ -12,8 +12,8 @@ def test_net():
     fc1 = L.FC(fc0, dim_out = 5)
     fc2 = L.FC(fc0, dim_out = 5)
 
-    loss1 = L.MSE(fc1, label = Y1)
-    loss2 = L.MSE(fc2, label = Y2)
+    loss1 = L.MSE(fc1, label = y1)
+    loss2 = L.MSE(fc2, label = y2)
 
     net = mobula.Net()
     net.set_loss(loss1 + loss2)
@@ -22,6 +22,7 @@ def test_net():
     for i in range(10):
         net.forward()
         net.backward()
+        net.time()
         print ("Iter: %d, Cost: %f" % (i, loss1.Y + loss2.Y))
 
     assert np.allclose(fc0.dY, fc1.dX + fc2.dX)

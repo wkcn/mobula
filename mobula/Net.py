@@ -2,6 +2,7 @@
 from .Defines import *
 from .layers.utils.MultiInput import *
 from .layers.utils.MultiOutput import *
+from .layers.utils.Saver import *
 from . import solvers
 import functools
 import signal
@@ -116,40 +117,19 @@ class Net(object):
         print ("name\t|forward_time\t|backward_time\t|forward_mean\t|backward_mean\t|forward_times: %d, backward_times: %d" % (self.forward_times, self.backward_times))
         for l in self.topo:
             print ("%s\t|%f\t|%f\t|%f\t|%f" % (l.name, l.forward_time, l.backward_time, l.forward_time / self.forward_times, l.backward_time / self.backward_times))
+
     def save(self, filename):
-        '''
-        Save the learning parameters of network by name
-        '''
+        # Save the learning parameters of network by name
         print ("Saving the parameters of the network to %s:" % filename)
-        data = []
-        for l in self.topo: 
-            params = l.params
-            if len(params):
-                data.append((l.name, [p.tostring() for p in params]))
-                print (" - %s" % l.name)
-        fout = open(filename, "wb")
-        pickle.dump(data, fout, protocol = 2)
-        fout.close()
+        save_layers(filename, self.topo, info = True)
         print ("Saving Finished :-)")
+
     def load(self, filename):
-        '''
-        Load the learning parameters of network by name
-        '''
+        # Load the learning parameters of network by name
         print ("Loading the parameters of the network from %s:" % filename)
-        fin = open(filename, "rb")
-        data = pickle.load(fin)
-        fin.close()
-        mapping = {}
-        for i in range(len(data)):
-            mapping[data[i][0]] = i
-        for l in self.topo:
-            if l.name in mapping:
-                lp = data[mapping[l.name]][1]
-                for j in range(len(l.params)):
-                    p = l.params[j]
-                    l.params[j][...] = np.fromstring(lp[j], dtype = p.dtype).reshape(p.shape) 
-                print (" - %s" % l.name)
+        load_layers(filename, self.topo, info = True)
         print ("Loading Finished :-)")
+
     def __getitem__(self, name):
         return self.layers.get(name)
     @property

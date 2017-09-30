@@ -19,6 +19,10 @@ def get_scope(name = get_scope_name()):
         name += '/'
     return LayerManager.get_scope(name)
 
+def get_layers(name = get_scope_name()):
+    scope = get_scope(name)
+    return scope.get_layers()
+
 # operators
 from . import operators as O
 add = O.add
