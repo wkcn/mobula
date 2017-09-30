@@ -45,3 +45,14 @@ def test_net_saver():
         for i in range(len(l.params)):
             assert np.allclose(rec[h], l.params[i])
             h += 1
+
+def test_saver():
+    filename = "tmp.net"
+
+    X = np.random.random((4,2,1,1))
+    Y = np.random.random((4, 10))
+    x, y = L.Data([X, Y])
+    x = L.FC(x, dim_out = 10) 
+    with M.name_scope("mobula"): 
+        x = L.PReLU(x)
+

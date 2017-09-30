@@ -8,20 +8,16 @@ class name_scope(object):
     def __exit__(self, *dummy):
         LayerManager.exit_scope()
 
-def get_layer(name):
-    return LayerManager.get_layer(name)
-
-def get_scope_name():
-    return LayerManager.get_scope_name()
-
-def get_scope(name = get_scope_name()):
-    if name[-1] != '/':
-        name += '/'
-    return LayerManager.get_scope(name)
+get_scope_name = LayerManager.get_scope_name
+get_scope = LayerManager.get_scope
+get_layer = LayerManager.get_layer
+save_scope = LayerManager.save_scope 
+load_scope = LayerManager.load_scope
 
 def get_layers(name = get_scope_name()):
     scope = get_scope(name)
     return scope.get_layers()
+
 
 # operators
 from . import operators as O

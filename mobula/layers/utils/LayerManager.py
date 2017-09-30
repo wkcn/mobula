@@ -24,14 +24,14 @@ class LayerManagerClass(object):
         self.stack_scope = []
 
     def new_layer(self, name, obj, auto_rename = False):
-        scope = self.get_scope(name)
+        scope = self.get_scope(self.split_scope_name(name))
         local_name = self.get_local_name(name, scope, auto_rename) 
         global_name = scope.global_name + local_name
         scope[local_name] = weakref.ref(obj)
         return global_name
 
     def del_layer(self, name):
-        scope = self.get_scope(name)
+        scope = self.get_scope(self.split_scope_name(name))
         local_name = name.split('/')[-1]
         del scope[local_name]
         if len(scope) == 0:
@@ -39,11 +39,18 @@ class LayerManagerClass(object):
                 self.del_scope(name)
 
     def get_layer(self, name):
-        scope = self.get_scope(name)
+        scope = self.get_scope(self.split_scope_name(name))
         local_name = name.split('/')[-1]
         return scope[local_name]()
 
-    def get_scope(self, name):
+    def split_scope_name(self, name):
+        return name[:name.rfind('/') + 1]
+
+    def get_scope(self, name = ""):
+        if len(name) == 0:
+            return self.cur_scope
+        if name[-1] != '/':
+            name += '/'
         is_root = (name[0] == '/')
         if is_root:
             scope = self.root
@@ -96,8 +103,6 @@ class LayerManagerClass(object):
         return name
 
     def enter_scope(self, name):
-        if name[-1] != '/':
-            name += '/'
         # add global_name
         name = self.cur_scope.global_name + name
 
@@ -110,12 +115,16 @@ class LayerManagerClass(object):
     def get_scope_name(self):
         return self.cur_scope.global_name
 
-    def save(self, filename, scope_name):
+    def save_scope(self, filename, scope_name = None):
+        if scope_name is None:
+            scope_name = self.get_scope_name()
         scope = self.get_scope(scope_name)
         save_layers(filename, scope.get_layers())
         print ("Saving Scope %s to %s Finished :-)" % (scope_name, filename))
 
-    def load(self, filename, scope_name):
+    def load_scope(self, filename, scope_name = None):
+        if scope_name is None:
+            scope_name = self.get_scope_name()
         scope = self.get_scope(scope_name)
         load_layers(filename, scope.get_layers())
         print ("Loading Scope %s from %s Finished :-)" % (scope_name, filename))
