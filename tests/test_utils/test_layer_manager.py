@@ -101,3 +101,21 @@ def test_scope_name():
             assert M.get_scope_name() == "/a/b/"
         assert M.get_scope_name() == "/a/"
     assert M.get_scope_name() == "/"
+
+def test_get_layers():
+    x = np.ones((1,2,1,2))
+    data0 = L.Data(x)
+    relu0 = L.ReLU(x)
+    with M.name_scope("mobula"):
+        data1 = L.Data(x)
+    scope = M.get_scope()
+    root_layers = scope.get_layers()
+    assert data0 in root_layers
+    assert relu0 in root_layers
+    assert data1 in root_layers
+    assert len(root_layers) == 3
+    mobula_layers = M.get_scope("mobula").get_layers()
+    assert data0 not in mobula_layers
+    assert relu0 not in mobula_layers
+    assert data1 in mobula_layers
+    assert len(mobula_layers) == 1

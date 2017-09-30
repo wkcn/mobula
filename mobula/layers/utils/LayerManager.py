@@ -1,9 +1,22 @@
 import weakref
+import pickle
+import numpy as np
 
 class Scope(dict):
     def __init__(self, name = "", parent = None):
         dict.__init__(self)
         self.global_name = ("" if parent is None else parent.global_name) + "%s/" % name 
+
+    def get_layers(self):
+        layers = []
+        for name, scope in self.items():
+            if name[-1] != '/':
+                # layer
+                layers.append(scope())
+            else:
+                # scope
+                layers.extend(scope.get_layers())
+        return layers 
 
 class LayerManagerClass(object):
     def __init__(self):
@@ -97,5 +110,9 @@ class LayerManagerClass(object):
 
     def get_scope_name(self):
         return self.cur_scope.global_name
+
+    def save(self, filename, scope_name):
+        scope = self.get_scope(scope_name)
+        pass
 
 LayerManager = LayerManagerClass()

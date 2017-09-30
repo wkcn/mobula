@@ -10,7 +10,7 @@ def test_compare():
     a_copy = a.copy()
     [la, lb, lac] = L.Data([a,b,a_copy]) 
 
-    ops = [operator.eq, operator.ne, operator.ge, operator.gt, operator.le, operator.lt]
+    ops = [operator.ge, operator.gt, operator.le, operator.lt]
     for op in ops:
         l = op(la, lb)
         l2 = op(la, lac)
@@ -28,8 +28,8 @@ def test_compare_symbols():
     a = np.random.random((N, C, H, W))
     b = np.random.random((N, C, H, W))
     [la, lb] = L.Data([a,b])
-    eq = (la == lb)
-    ne = (la != lb)
+    eq = M.equal(la, lb)
+    ne = M.not_equal(la, lb)
     ge = (la >= lb)
     gt = (la > lb)
     le = (la <= lb)
@@ -45,8 +45,8 @@ def test_compare_symbols_L():
     a = np.random.random((N, C, H, W))
     b = np.random.random((N, C, H, W))
     [la, lb] = L.Data([a,b])
-    eq = (la == b)
-    ne = (la != b)
+    eq = M.equal(la, lb)
+    ne = M.not_equal(la, lb)
     ge = (la >= b)
     gt = (la > b)
     le = (la <= b)

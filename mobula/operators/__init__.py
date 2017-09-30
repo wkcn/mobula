@@ -67,8 +67,6 @@ for l in [Layer, YLayer]:
     l.__neg__ = negative 
     l.__sub__ = subtract 
     l.__rsub__ = subtract_r
-    l.__eq__ = equal
-    l.__ne__ = not_equal 
     l.__ge__ = greater_equal
     l.__gt__ = greater
     l.__le__ = less_equal
