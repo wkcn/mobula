@@ -140,6 +140,8 @@ class Layer(object):
         return self.net.phase == TRAIN
     def input_models(self):
         yield get_layer_parent(self)
+    def input_models_with_index(self):
+        yield (get_layer_parent(self), 0)
     def forward_all(self):
         if self.model is not None:
             for md in self.model.input_models():
@@ -186,7 +188,7 @@ class Layer(object):
         else:
             num_output = len(self.Y)
 
-        input_names = [l.name for l in self.model.input_models()] if self.model is not None else []
+        input_names = ["%s:%d" % (l.name, i) for l,i in self.model.input_models_with_index()] if self.model is not None else []
         if len(input_names) > 1:
             input_info = 'input: [' + ','.join(input_names) + ']'
         elif len(input_names) == 1:

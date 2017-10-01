@@ -31,6 +31,12 @@ class MultiInput(object):
     def input_models(self):
         for md in self.model:
             yield get_layer_parent(md)
+    def input_models_with_index(self):
+        for md in self.model:
+            if type(md) == YLayer:
+                yield (get_layer_parent(md), md.i)
+            else:
+                yield (get_layer_parent(md), 0)
 
 class XLayer(object):
     def __init__(self, model, i):

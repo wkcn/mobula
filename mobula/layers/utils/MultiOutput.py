@@ -23,6 +23,8 @@ class YLayer(object):
         self.model.reshape()
     def input_models(self):
         yield self.model
+    def input_models_with_index(self):
+        yield (self.model, self.i)
 
 class MultiDY(object):
     def __init__(self, model):
