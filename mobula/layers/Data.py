@@ -19,8 +19,7 @@ class Data(Layer):
     INPUT_TYPE_ERROR = "Data.datas must be a List with ndarrays or an ndarray"
     def __init__(self, datas = None, name = None, *args, **kwargs):
         # the type of datas is list with ndarrays or ndarray 
-
-        # Type Check
+# Type Check
         if datas is not None:
             if isinstance(datas, list):
                 for d in datas:

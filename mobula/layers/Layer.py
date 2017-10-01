@@ -175,11 +175,39 @@ class Layer(object):
                         return True
         return False
     def inited(self):
-        try:
-            type(self.Y)
-        except:
-            return False
-        return True
+        return hasattr(self, "Y")
+    def __str__(self):
+        if not hasattr(self, "Y"):
+            num_output = 1 # For not Data Layer
+        elif self.Y is None:
+            num_output = 0 # For Data Layer
+        elif type(self.Y) != list:
+            num_output = 1
+        else:
+            num_output = len(self.Y)
+
+        input_names = [l.name for l in self.model.input_models()] if self.model is not None else []
+        if len(input_names) > 1:
+            input_info = 'input: [' + ','.join(input_names) + ']'
+        elif len(input_names) == 1:
+            input_info = "input: %s" % input_names[0]
+        else:
+            input_datas = None
+            if type(self.model) == VModel:
+                input_datas = self.model.Y # For VModel
+            elif hasattr(self, "datas"):
+                input_datas = self.datas # For Data Layer
+
+            if input_datas is not None:
+                # For Data Layer
+                if type(input_datas) == list:
+                    input_info = "input: %s" % str([d.shape for d in input_datas])
+                else:
+                    input_info = "input: %s" % str(input_datas.shape)
+            else:
+                input_info = "input: None"
+        return "<%s '%s' %s num_output: (%d)>" % (self.__class__.__name__, self.name, input_info, num_output)
+    __repr__ = __str__
     def __del__(self):
         LayerManager.del_layer(self.name)
     def check_inputs(self, models, num_inputs):
