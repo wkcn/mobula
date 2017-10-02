@@ -6,12 +6,10 @@ class SoftmaxWithLoss(LossLayer):
         self.axis = kwargs.get("axis", 1) # N,C,H,W
     def reshape(self):
         self.Y = 0.0 
-        self.axes = [slice(None)] * self.X.ndim
-        self.axes[self.axis] = np.newaxis
     def forward(self):
-        e = np.exp(self.X - np.max(self.X))
-        s = np.sum(e, axis = self.axis)
-        self.softmax = e / s[self.axes] 
+        e = np.exp(self.X - np.max(self.X, axis = self.axis, keepdims = True))
+        s = np.sum(e, axis = self.axis, keepdims = True)
+        self.softmax = e / s
         self.idx = get_idx_from_arg(self.softmax, self.label, self.axis)
         self.Y = -np.mean(np.log(self.softmax.ravel()[self.idx]))
     def backward(self):
