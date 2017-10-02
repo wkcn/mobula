@@ -5,33 +5,23 @@ from .utils.VModel import *
 from .utils.NullNet import *
 from .utils.LayerManager import *
 
+def is_layer(l):
+    return isinstance(l, Layer) or isinstance(l, YLayer)
+
+def is_layer_lst(lst):
+    for l in lst:
+        if not is_layer(l):
+            return False
+    return True
+
 class Layer(object):
-    def __init__(self, model, name = None, *args, **kwargs):
+    def __init__(self, model, *args, **kwargs):
         # NCHW
         # (batch_size, dim_in, H, W)
         # V
         # (batch_size, dim_out, H, W)
 
-        def is_layer(l):
-            return isinstance(l, Layer) or isinstance(l, YLayer)
-        def is_layer_lst(lst):
-            for l in lst:
-                if not is_layer(l):
-                    return False
-            return True
-
-        auto_rename = False 
-        if name is None:
-            name = self.__class__.__name__
-            auto_rename = True
-        else:
-            assert type(name) == str, "The type of Layer.name must be str. If you want multi inputs, please make the inputs in an array, ex: L.Add([a,b])"
-        self.name = LayerManager.new_layer(name, self, auto_rename = auto_rename)
-
-        self.next_layers = []
-        self.lr = kwargs.get("lr", 1.0)
-        self.args = args
-        self.kwargs = kwargs
+        model = self.base_init(model, *args, **kwargs)
 
         # bidirection
         if model is not None:
@@ -39,7 +29,7 @@ class Layer(object):
                 # Single Input 
                 self.model = model
                 self.model.next_layers.append(WeakrefLayer(self))
-            elif isinstance(model, list):
+            elif type(model) == list:
                 if is_layer_lst(model):
                     # It's a Multi Input Layer
                     self.model = MultiInput(model)
@@ -50,7 +40,7 @@ class Layer(object):
                     # for test
                     self.model = VModel() 
                     self.model.Y = model
-            elif isinstance(model, np.ndarray):
+            elif type(model) == np.ndarray:
                 # For test
                 self.model = VModel()
                 self.model.Y = model
@@ -61,6 +51,40 @@ class Layer(object):
             self.model = VModel() 
 
         self.net = NullNet 
+
+    def base_init(self, model, *args, **kwargs):
+        name = None
+        if model is not None:
+            # For more models parameters
+            if type(model) != list and len(args) > 0:
+                lst = [model]
+                for a in args:
+                    if is_layer(a) or type(a) == np.ndarray:
+                        lst.append(a)
+                    else:
+                        break
+                args = args[len(lst) - 1:]
+                if len(lst) > 1:
+                    model = lst
+
+        if "name" in kwargs:
+            name = kwargs["name"]
+        elif len(args) > 0 and type(args[0]) == str:
+            name = args[0]
+
+        # Name
+        auto_rename = False 
+        if name is None:
+            name = self.__class__.__name__
+            auto_rename = True
+        self.name = LayerManager.new_layer(name, self, auto_rename = auto_rename)
+
+        self.next_layers = []
+        self.lr = kwargs.get("lr", 1.0)
+        self.args = args
+        self.kwargs = kwargs
+        return model
+
     def reshape(self):
         pass
     def forward(self):

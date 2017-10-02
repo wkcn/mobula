@@ -17,28 +17,21 @@ If len(data) is not batch_size times, the batches are:
 
 class Data(Layer):
     INPUT_TYPE_ERROR = "Data.datas must be a List with ndarrays or an ndarray"
-    def __init__(self, datas = None, name = None, *args, **kwargs):
+    def __init__(self, datas = None, *args, **kwargs):
         # the type of datas is list with ndarrays or ndarray 
-# Type Check
+
+        datas = self.base_init(datas, *args, **kwargs)
+
+        # Type Check
         if datas is not None:
-            if isinstance(datas, list):
+            if type(datas) == list:
                 for d in datas:
                     if not isinstance(d, np.ndarray):
                         raise TypeError(Data.INPUT_TYPE_ERROR)
-            elif isinstance(datas, np.ndarray):
+            elif type(datas) == np.ndarray:
                 pass
             else:
                 raise TypeError(Data.INPUT_TYPE_ERROR)
-
-
-        auto_rename = False 
-        if name is None:
-            name = self.__class__.__name__
-            auto_rename = True
-        self.name = LayerManager.new_layer(name, self, auto_rename = auto_rename)
-
-        self.next_layers = []
-        self.lr = 0.0
 
         self.model = None
         self.__batch_size = None

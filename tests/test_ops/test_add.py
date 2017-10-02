@@ -6,7 +6,8 @@ def test_add():
     a = np.random.random((N, C, H, W))
     b = np.random.random((N, C, H, W))
     c = np.random.random((N, C, H, W))
-    l = L.Add([a, b])
+    l = L.Add([a, b], "add1")
+    assert l.name == "/add1"
     l.reshape()
     l.forward()
     assert np.allclose(a + b, l.Y)
@@ -18,7 +19,8 @@ def test_add2():
     c = np.random.random((N, C, H, W))
     data = L.Data([a,b,c])
     [la,lb,lc] = data()
-    l = L.Add([la, lb, lc]) 
+    l = L.Add([la, lb, lc], name = "add2") 
+    assert l.name == "/add2"
     l.reshape()
     l.forward()
     assert np.allclose(a + b + c, l.Y)
@@ -52,6 +54,17 @@ def test_add4():
     l = la + lb + lc
     assert type(l) == L.Add
     assert np.allclose(a + b + c, l.eval())
+
+def test_add5():
+    N, C, H, W = 2,3,4,5
+    a = np.random.random((N, C, H, W))
+    b = np.random.random((N, C, H, W))
+    c = np.random.random((N, C, H, W))
+    l = L.Add(a, b, c, "add5")
+    assert l.name == "/add5"
+    l.reshape()
+    l.forward()
+    assert np.allclose(a + b + c, l.Y)
 
 def test_add_constant():
     N, C, H, W = 2,3,4,5
