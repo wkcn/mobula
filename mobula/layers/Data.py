@@ -22,17 +22,6 @@ class Data(Layer):
 
         datas = self.base_init(datas, *args, **kwargs)
 
-        # Type Check
-        if datas is not None:
-            if type(datas) == list:
-                for d in datas:
-                    if not isinstance(d, np.ndarray):
-                        raise TypeError(Data.INPUT_TYPE_ERROR)
-            elif type(datas) == np.ndarray:
-                pass
-            else:
-                raise TypeError(Data.INPUT_TYPE_ERROR)
-
         self.model = None
         self.__batch_size = None
         self.datas = datas
@@ -77,9 +66,18 @@ class Data(Layer):
         return self.__datas
     @datas.setter
     def datas(self, value):
+        # Type Check
+        if value is not None:
+            if type(value) == list:
+                for d in value:
+                    assert type(d) == np.ndarray, TypeError(Data.INPUT_TYPE_ERROR) 
+            else:
+                assert type(value) == np.ndarray, TypeError(Data.INPUT_TYPE_ERROR)
+
         self.__datas = value
         if value is None:
             return
+
         self.__batch_i = 0
         if type(self.__datas) == list:
             self.n = len(self.__datas[0])

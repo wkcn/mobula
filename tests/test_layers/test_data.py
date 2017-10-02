@@ -15,6 +15,7 @@ def test_data():
             assert (data.Y.ravel() == target[i % 6]).all()
 
     data = L.Data(X, batch_size = 3)
+    assert data.batch_size == 3
     go_data(data)
     data = L.Data(X, batch_size = 3)()
     go_data(data)
