@@ -67,7 +67,11 @@ def test_get_layer():
     X = np.arange(16).reshape((8, 2))
     data0 = L.Data(X)
     data0_ref = M.get_layer(data0.name)
-    return data0_ref is data0
+    assert data0_ref is data0
+    data0_ref = M.get_layer("/Data")
+    assert data0_ref is data0
+    data0_ref = M.get_layer("Data")
+    assert data0_ref is data0
 
 def test_name():
     L.Add([L.ReLU(None), L.ReLU(None)])

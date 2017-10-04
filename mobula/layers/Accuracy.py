@@ -1,13 +1,9 @@
-from .Layer import *
+from .LossLayer import *
 
-class Accuracy(Layer):
+class Accuracy(LossLayer):
     def __init__(self, model, *args, **kwargs):
-        Layer.__init__(self, model, *args, **kwargs)
+        LossLayer.__init__(self, model, *args, **kwargs)
         self.top_k = kwargs.get("top_k", 1)
-        self.__label = kwargs["label"] 
-    @property
-    def label(self):
-        return self.__label.Y
     def reshape(self):
         self.Y = 0.0
     def forward(self):
