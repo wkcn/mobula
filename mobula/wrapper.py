@@ -40,3 +40,4 @@ less = O.less
 
 exp = O.exp
 log = O.log
+abs = O.abs

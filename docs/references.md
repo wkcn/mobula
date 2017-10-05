@@ -18,6 +18,12 @@ http://m.blog.csdn.net/article/details?id=52526056
 L2正则化:
 http://blog.csdn.net/u012162613/article/details/44261657
 
+范数：
+http://blog.csdn.net/zouxy09/article/details/24971995
+
+神经网络训练中的Tricks之高效BP（反向传播算法）:
+http://blog.csdn.net/zouxy09/article/details/45288129k
+
 激活函数：
 http://blog.csdn.net/memray/article/details/51442059
 
@@ -69,3 +75,4 @@ http://www.sohu.com/a/156495506_465975
 
 dlsys-course:
 https://github.com/dlsys-course
+

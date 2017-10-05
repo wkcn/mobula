@@ -13,6 +13,7 @@ Dot = MatMul # alias of Mulmat
 from .Power import *
 from .Exp import *
 from .Log import *
+from .Abs import *
 from .ReduceMean import *
 from .ReduceMax import *
 from .ReduceMin import *
@@ -57,6 +58,7 @@ less_equal = get_op2(LessEqual)
 less = get_op2(Less)
 exp = lambda x : Exp(x)
 log = lambda x : Log(x)
+abs = lambda x : Abs(x)
 
 for l in [Layer, YLayer]:
     l.__add__ = add 

@@ -42,6 +42,7 @@ The Layers supports multi-input and multi-output.
 - Dropout
 - Reshape
 - Crop
+- L0Norm, L1Norm, L2Norm (TODO)
 #### Activation Layer
 - Sigmoid
 - ReLU
@@ -58,7 +59,6 @@ The Layers supports multi-input and multi-output.
 - CrossEntropy
 - SigmoidCrossEntropy
 - SoftmaxWithLoss 
-- L1Loss
 - SmoothL1Loss
 - ContrastiveLoss
 #### Evaluation Layer (No Backward)
@@ -66,7 +66,7 @@ The Layers supports multi-input and multi-output.
 #### Operators
 - add, subtract
 - multiply, matmul, dot
-- positive, negative
+- positive, negative, abs
 - exp, log
 - reduce_mean, reduce_max, reduce_min
 - equal, not_equal
