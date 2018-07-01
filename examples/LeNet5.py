@@ -26,12 +26,12 @@ class LeNet5:
 
     @property
     def Y(self):
-        return self.net["/pred"].Y
+        return self.net["pred"].Y
 
     @property
     def loss(self):
-        return self.net["/loss"].loss
+        return self.net["loss"].loss
 
     @property
     def label(self):
-        return self.net["/data"](1).Y
+        return self.net["data"](1).Y

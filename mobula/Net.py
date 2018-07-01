@@ -4,6 +4,7 @@ from .layers.utils.MultiInput import *
 from .layers.utils.MultiOutput import *
 from .layers.utils.Saver import *
 from . import solvers
+from . import wrapper
 import functools
 import signal
 import weakref
@@ -132,7 +133,7 @@ class Net(object):
         print ("Loading Finished :-)")
 
     def __getitem__(self, name):
-        return self.layers.get(name)
+        return wrapper.get_layer(name)
     @property
     def lr(self):
         return self.solver.lr
