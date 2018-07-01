@@ -29,7 +29,7 @@ class ConvT(Layer):
         self.Y = np.zeros((N, self.dim_out, self.OH, self.OW))
         if self.W is None:
             self.W = Xavier((D, self.dim_out, self.kernel_h * self.kernel_w))
-            self.b = np.zeros((self.dim_out, self.OH, self.OW)) 
+            self.b = np.zeros((self.dim_out, ))
             self.PH = self.OH + self.pad_h * 2
             self.PW = self.OW + self.pad_w * 2
             self.I = im2col(np.arange(self.PH * self.PW).reshape((self.PH, self.PW)), (self.kernel_h, self.kernel_w), self.stride).ravel()
@@ -60,14 +60,14 @@ class ConvT(Layer):
         '''
         N,D,NH,NW = self.X.shape
         Y_col = np.tensordot(self.X.reshape((N, D, self.NHW)), self.W, axes = ([1], [0])).transpose((0,2,3,1))
-        self.Y = npg.aggregate(self.Bi, Y_col.ravel()[self.Bb], size = self.Y.size).reshape(self.Y.shape) + self.b 
+        self.Y = npg.aggregate(self.Bi, Y_col.ravel()[self.Bb], size = self.Y.size).reshape(self.Y.shape) + self.b.reshape((1, self.dim_out, 1, 1))
     def backward(self):
         N,D,NH,NW = self.X.shape
         dY = self.dY.reshape((N,self.dim_out,self.OHW))
-        self.db = np.mean(dY, 0).reshape((self.dim_out, self.OH, self.OW))
+        self.db = np.sum(dY, (0, 2)).reshape(self.b.shape)
         dY_col = self.get_col(self.dY.reshape(self.Y.shape)) 
         X = self.X.reshape((N, D, self.NHW))
-        self.dW = np.tensordot(X, dY_col, axes = ([0, 2], [0, 3])) / N
+        self.dW = np.tensordot(X, dY_col, axes = ([0, 2], [0, 3]))
         self.dX = np.tensordot(dY_col, self.W, axes = ([1, 2], [1, 2])).swapaxes(1, 2).reshape(self.X.shape)
     @property
     def params(self):

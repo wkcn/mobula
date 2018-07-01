@@ -58,10 +58,9 @@ def go_convt(stride, pad):
                                 dW[d, c].ravel()[t] += dY[i, c, oh, ow] * X[i, d, h, w]
                                 dX[i, d, h, w] += dY[i, c, oh, ow] * FW[d, c].ravel()[t]
 
-    ty += convT.b
+    ty += convT.b.reshape((1, -1, 1, 1))
 
-    db = np.mean(dY, 0)
-    dW /= N
+    db = np.sum(dY, (0, 2, 3)).reshape(convT.b.shape)
 
     convT.forward()
     assert np.allclose(convT.Y, ty)

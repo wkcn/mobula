@@ -48,7 +48,7 @@ net = nn.net
 net.set_solver(S.Momentum())
 
 # Learning Rate
-net.lr = 0.2
+net.lr = 0.005
 
 '''
 If start_iter > 0, load the existed model and continue to train.

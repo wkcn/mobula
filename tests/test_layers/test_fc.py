@@ -74,8 +74,8 @@ def test_fc3():
     fc.backward()
     Y = np.dot(X.reshape((2,-1)), fc.W.T) + fc.b.T
     dX = np.dot(fc.dY, fc.W)
-    db = np.mean(fc.dY, 0).reshape(fc.b.shape)
-    dW = np.dot(fc.dY.T, X.reshape((2,-1))).reshape(fc.W.shape) / len(X)
+    db = np.sum(fc.dY, 0).reshape(fc.b.shape)
+    dW = np.dot(fc.dY.T, X.reshape((2,-1))).reshape(fc.W.shape)
     assert np.allclose(fc.Y, Y)
     assert np.allclose(fc.dX, dX)
     assert np.allclose(fc.db, db)

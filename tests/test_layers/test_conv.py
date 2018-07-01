@@ -40,7 +40,7 @@ def go_conv(stride, pad):
                     a = x[:, th:th+K, tw:tw+K]
                     e = np.sum(a * f)
                     ty[i, d, h, w] = e
-        ty[i] += conv.b.reshape((D, NH, NW))
+        ty[i] += conv.b.reshape((D, 1, 1))
     conv.forward()
     print (np.max(np.abs(conv.Y - ty)), conv.Y.shape)
     assert np.allclose(conv.Y, ty)
@@ -49,7 +49,7 @@ def go_conv(stride, pad):
     # test backward, dX, dW, db
     conv.backward()
 
-    db = np.mean(conv.dY, 0)
+    db = np.sum(conv.dY, (0, 2, 3)).reshape(conv.b.shape)
 
     dF = np.zeros((D, C, K, K))
     dX = np.zeros(X.shape)
@@ -74,9 +74,6 @@ def go_conv(stride, pad):
                                 ow = pw - pad_w
                                 if oh >= 0 and ow >= 0 and oh < H and ow < W:
                                     dX[i, c, oh, ow] += conv.dY[i, d, h, w] * F[d, c, fh, fw]
-
-
-    dF /= N
 
     assert np.allclose(conv.db, db.reshape(conv.db.shape))
     assert np.allclose(conv.dW, dF.reshape(conv.dW.shape))

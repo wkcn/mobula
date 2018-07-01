@@ -30,7 +30,7 @@ class Conv(Layer):
         if self.W is None:
             self.NHW = self.NH * self.NW
             self.W = Xavier((self.dim_out, C, self.kernel_w * self.kernel_h))
-            self.b = np.zeros((self.dim_out, self.NHW))
+            self.b = np.zeros((self.dim_out, ))
             self.PH = H + self.pad_h * 2
             self.PW = W + self.pad_w * 2
             # X_col index
@@ -51,7 +51,9 @@ class Conv(Layer):
         return X.reshape((N,C,self.PH * self.PW))[:,:,self.I].reshape((N,C,self.kernel_h * self.kernel_w,self.NHW))
     def forward(self):
         self.X_col = self.get_col(self.X) # (N, C, kernel_h * kernel_w, NH * NW) 
-        self.Y = (np.tensordot(self.X_col, self.W, axes = ([1,2],[1,2])).swapaxes(1,2) + self.b).reshape(self.Y.shape)
+        # tensordot result: (N, NHW, dim_out)
+        # swapaxse(1, 2): (N, dim_out, NHW)
+        self.Y = (np.tensordot(self.X_col, self.W, axes = ([1,2],[1,2])).swapaxes(1,2) + self.b.reshape((1, self.dim_out, 1))).reshape(self.Y.shape)
     def backward(self):
         N,C,H,W = self.X.shape
         dY = self.dY.reshape((N,self.dim_out,self.NHW))
@@ -60,9 +62,9 @@ class Conv(Layer):
         # X_col: (N,C,H',W')
         # dW: (N,D,C,H')
         # W: (D, C, H')
-        self.dW = np.tensordot(dY, self.X_col, axes = ([0, 2],[0, 3])) / N
+        self.dW = np.tensordot(dY, self.X_col, axes = ([0, 2],[0, 3]))
         # Update db
-        self.db =  np.mean(dY, 0) 
+        self.db = np.sum(dY, (0, 2)).reshape(self.b.shape)
         # Update dX
         dX_col = np.tensordot(dY, self.W, axes = ([1],[0])).transpose((0, 2, 3, 1)) # (N, C, H', W')
         self.dX = npg.aggregate(self.Bi, dX_col.ravel()[self.Bb], size = self.X.size).reshape(self.X.shape)

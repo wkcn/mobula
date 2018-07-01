@@ -104,6 +104,7 @@ class Net(object):
                     l.dY = np.zeros(l.Y.shape) 
                     for e in l.next_layers:
                         l.dY += e.dX
+                l.dY = l.dY.reshape(l.Y.shape)
             # compute the gradient dX of layer l
             l.backward()
             # use the solver to update weights of layer l
