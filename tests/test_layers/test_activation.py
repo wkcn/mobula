@@ -64,13 +64,13 @@ def test_PReLU():
     y = l.eval()
     ty = np.zeros(X.shape)
     ty[X>0] = X[X>0]
-    ty[X<=0] = l.a * X[X<=0] 
+    ty[X<=0] = l.alpha * X[X<=0]
     assert np.allclose(y, ty)
     l.dY = np.random.random(l.Y.shape)
     l.backward()
     dX = np.zeros(X.shape)
     dX[X>0] = 1
-    dX[X<=0] = l.a
+    dX[X<=0] = l.alpha
     dX *= l.dY
     print (dX, l.dX)
     assert np.allclose(dX, l.dX)
