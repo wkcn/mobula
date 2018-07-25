@@ -7,14 +7,14 @@ class LeNet5:
     def __init__(self, X, labels):
 
         data, label = L.Data([X, labels], "data", batch_size = 100)
-        conv1 = L.Conv(data, "conv1", dim_out = 20, kernel = 5)
-        pool1 = L.Pool(conv1, "pool1", pool = L.Pool.MAX, kernel = 2, stride = 2)
-        relu1 = L.ReLU(pool1, "relu1")
-        conv2 = L.Conv(relu1, "conv2", dim_out = 50, kernel = 5)
-        pool2 = L.Pool(conv2, "pool2", pool = L.Pool.MAX, kernel = 2, stride = 2)
-        relu2 = L.ReLU(pool2, "relu2")
-        fc3   = L.FC(relu2, "fc3", dim_out = 500)
-        relu3 = L.ReLU(fc3, "relu3")
+        conv1 = L.Conv(data, dim_out = 20, kernel = 5)
+        pool1 = L.Pool(conv1, pool = L.Pool.MAX, kernel = 2, stride = 2)
+        relu1 = L.ReLU(pool1)
+        conv2 = L.Conv(relu1, dim_out = 50, kernel = 5)
+        pool2 = L.Pool(conv2, pool = L.Pool.MAX, kernel = 2, stride = 2)
+        relu2 = L.ReLU(pool2)
+        fc3   = L.FC(relu2, dim_out = 500)
+        relu3 = L.ReLU(fc3)
         pred  = L.FC(relu3, "pred", dim_out = 10)
         loss = L.SoftmaxWithLoss(pred, "loss", label = label)
 
