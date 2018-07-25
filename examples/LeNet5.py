@@ -16,7 +16,7 @@ class LeNet5:
         fc3   = L.FC(relu2, dim_out = 500)
         relu3 = L.ReLU(fc3)
         pred  = L.FC(relu3, "pred", dim_out = 10)
-        loss = L.SoftmaxWithLoss(pred, "loss", label = label)
+        loss  = L.SoftmaxWithLoss(pred, "loss", label = label)
 
         # Net Instance
         self.net = mobula.Net()
