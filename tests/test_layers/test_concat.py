@@ -20,7 +20,7 @@ def test_concat():
         def G(s):
             w = [slice(None) for _ in range(4)]
             w[axis] = s
-            return w
+            return tuple(w)
         ssa = G(sa)
         ssb = G(sb)
         ssc = G(sc)

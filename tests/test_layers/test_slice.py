@@ -45,8 +45,8 @@ def test_slice2():
         axes2 = [slice(None)] * 4
         axes1[axis] = slice(None, slice_point) 
         axes2[axis] = slice(slice_point, None) 
-        assert np.allclose(y1.Y, X[axes1])
-        assert np.allclose(y2.Y, X[axes2])
+        assert np.allclose(y1.Y, X[tuple(axes1)])
+        assert np.allclose(y2.Y, X[tuple(axes2)])
 
         y1.dY = np.random.random(y1.Y.shape)
         y2.dY = np.random.random(y2.Y.shape)
@@ -64,9 +64,9 @@ def test_slice2():
         axes1[axis] = slice(None, 3) 
         axes2[axis] = slice(3, 5) 
         axes3[axis] = slice(5, None) 
-        assert np.allclose(y1.Y, X[axes1])
-        assert np.allclose(y2.Y, X[axes2])
-        assert np.allclose(y3.Y, X[axes3])
+        assert np.allclose(y1.Y, X[tuple(axes1)])
+        assert np.allclose(y2.Y, X[tuple(axes2)])
+        assert np.allclose(y3.Y, X[tuple(axes3)])
 
 
         y1.dY = np.random.random(y1.Y.shape)

@@ -23,7 +23,13 @@ It's **an efficent Python-DNN Implementation used numpy mainly**, and it's aimed
 	Mobula is implemented by only Python. You can modify the code easily to implement what you want.
 
 ## How to install it?
+- Git:
+```bash
+git clone https://github.com/wkcn/mobula --recursive
 ```
+
+- pip:
+```bash
 pip install mobula
 ```
 

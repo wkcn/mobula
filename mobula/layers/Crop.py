@@ -16,7 +16,7 @@ class Crop(Layer):
             assert len(self.offset) == n, "len(Crop.offset) must be the number of dims which will be cropped"
             self.axes = [slice(None)] * self.axis + [slice(o, o + self.R.Y.shape[i + self.axis]) for i, o in enumerate(self.offset)]
     def forward(self):
-        self.Y = self.X[self.axes]
+        self.Y = self.X[tuple(self.axes)]
     def backward(self):
         self.dX = np.zeros(self.X.shape)
-        self.dX[self.axes] = self.dY
+        self.dX[tuple(self.axes)] = self.dY

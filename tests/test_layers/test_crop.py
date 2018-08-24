@@ -16,11 +16,11 @@ def test_crop():
             l = L.Crop([x1, x2], offset = offset, axis = axis)
             l.reshape()
             l.forward()
-            assert np.allclose(l.Y, X1[w]) 
+            assert np.allclose(l.Y, X1[tuple(w)])
             l.dY = np.random.random(l.Y.shape)
             l.backward()
             tmp = np.zeros(X1.shape)
-            tmp[w] = l.dY
+            tmp[tuple(w)] = l.dY
             assert np.allclose(l.dX, tmp)
 
 def test_crop2():

@@ -22,7 +22,7 @@ def test_softmax():
         axes[axis] = np.newaxis
         pu = [1] * 4
         pu[axis] = a.shape[axis]
-        s = np.tile(su[axes], pu)
+        s = np.tile(su[tuple(axes)], pu)
 
         # softmax forward
         assert np.allclose(y, exp / s)

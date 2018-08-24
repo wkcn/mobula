@@ -19,6 +19,7 @@ class Slice(Layer):
             self.Y[i] = self.X[s]
         s = slice(last, None)
         self.slices[-1][self.axis] = s
+        self.slices = [tuple(s) for s in self.slices]
         self.Y[-1] = self.X[s] 
     def forward(self):
         self.Y = [self.X[s] for s in self.slices]

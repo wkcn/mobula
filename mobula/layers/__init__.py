@@ -3,7 +3,9 @@ import os
 
 PATH = os.path.dirname(__file__)
 sys.path.append(PATH)
-sys.path.append(PATH + "/../../thirdparty")
+thirdparties = ['numpy-groupies']
+for name in thirdparties:
+    sys.path.append(os.path.join(PATH, '../../thirdparty/', name))
 
 # Data Layer
 from .Data import *

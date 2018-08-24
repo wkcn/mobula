@@ -11,6 +11,7 @@ class Concat(Layer):
             ss = x.shape[self.axis]
             self.slices[i][self.axis] = slice(last, last + ss)
             last += ss
+        self.slices = [tuple(s) for s in self.slices]
 
         shp = list(self.X[0].shape)
         shp[self.axis] = last
