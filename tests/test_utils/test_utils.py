@@ -5,7 +5,6 @@ def test_im2col():
     N, C, H, W = 3,4,5,6
     X = np.arange(N*C*H*W).reshape((N,C,H,W))
     def go_im2col(stride, KH, KW):
-        print (stride, KH, KW)
         NH = (H - KH) // stride + 1
         NW = (W - KW) // stride + 1
         Y = np.zeros((N, C, KH * KW, NH * NW))
@@ -18,7 +17,6 @@ def test_im2col():
                         sw = cw * stride
                         Y[i, c, :, ch * NW + cw] = X[i, c, sh:sh+KH, sw:sw+KW].ravel()
                 T[i, c] = im2col(X[i,c], (KH, KW), stride)
-        #print (T[0,0], "====", Y[0,0])
         assert np.allclose(T, Y) 
 
 

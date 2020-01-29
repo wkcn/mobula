@@ -1,4 +1,5 @@
 import mobula.layers as L
+from mobula.testing import gradcheck
 from mobula.layers.utils.Defines import *
 import numpy as np
 
@@ -33,8 +34,6 @@ def test_softmax():
         # softmax backward
         l.dY = np.random.random(l.Y.shape)
         l.backward()
-        dX = np.multiply(exp / s - np.square(exp / s), l.dY)
-        assert np.allclose(l.dX, dX)
         # softmax-with-loss backward
         loss_l.dY = np.random.random(loss_l.Y.shape)
         loss_l.backward()
@@ -42,3 +41,10 @@ def test_softmax():
         z.ravel()[get_idx_from_arg(z, label, axis)] = 1
         tl = y - z 
         assert np.allclose(tl * loss_l.dY, loss_l.dX)
+
+def test_softmax_grad():
+    N, C, H, W = 2, 3, 4, 5
+    a = np.random.random((N, C, H, W)) - 0.5
+    for axis in range(4):
+        l = L.Softmax(a, axis = axis)
+        gradcheck(l, a)
