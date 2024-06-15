@@ -1,8 +1,9 @@
+import numpy as np
 from .LossLayer import *
 
 class CrossEntropy(LossLayer):
     def __init__(self, model, *args, **kwargs):
-        LossLayer.__init__(self, model, *args, **kwargs)
+        super().__init__(model, *args, **kwargs)
     def reshape(self):
         self.Y = 0.0 
     def forward(self):

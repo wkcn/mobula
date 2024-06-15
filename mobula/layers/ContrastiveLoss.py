@@ -1,9 +1,9 @@
+import numpy as np
 from .LossLayer import *
 
 class ContrastiveLoss(LossLayer):
     def __init__(self, models, *args, **kwargs):
-        # models = [X1, X2, sim]
-        LossLayer.__init__(self, models, *args, **kwargs)
+        super().__init__(models, *args, **kwargs)
         self.margin = kwargs.get("margin", 1.0)
     def forward(self):
         self.sim = (self.X[2] == 1).ravel()

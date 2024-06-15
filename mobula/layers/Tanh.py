@@ -1,8 +1,9 @@
+import numpy as np
 from .Layer import *
 
 class Tanh(Layer):
     def __init__(self, model, *args, **kwargs):
-        Layer.__init__(self, model, *args, **kwargs)
+        super().__init__(model, *args, **kwargs)
     def reshape(self):
         self.Y = np.zeros(self.X.shape)
     def forward(self):
