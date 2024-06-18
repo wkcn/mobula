@@ -1,3 +1,0 @@
-[submodule "thirdparty/numpy-groupies"]
-	path = thirdparty/numpy-groupies
-	url = https://github.com/ml31415/numpy-groupies
