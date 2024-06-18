@@ -25,7 +25,7 @@ class Eltwise(Layer):
         elif self.op == Eltwise.PROD:
             for i in range(len(self.X)):
                 x = self.X[i]
-                x[x == 0] = 1e-100
+                x[x == 0] = 1e-10
             self.Y = np.prod(self.X, 0) * np.prod(self.coeffs)
         else:
             # self.op == Eltwise.MAX

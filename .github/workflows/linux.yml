@@ -1,0 +1,22 @@
+name: linux-x64-gcc
+on: [push, pull_request]
+jobs:
+  linux-x64-gcc:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -v -e .
+          pip install coveralls nose
+      - name: cpu-test
+        run: nosetests -s --with-coverage

@@ -25,7 +25,7 @@ fin.close()
 
 n = len(data)
 X = data[:, 1:]
-labels = data[:, 0].astype(np.int)
+labels = data[:, 0].astype(np.int32)
 # one-hot
 #Y = np.eye(10)[labels.ravel()] 
 print ("Read OK", n)

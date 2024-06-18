@@ -42,7 +42,7 @@ def test_grads():
     momentum = 0.9
     eps = 1e-5
     use_global_stats = False
-    X = np.arange(24).reshape((4, 6)).astype(np.float)
+    X = np.arange(24).reshape((4, 6)).astype(np.float32)
     bn = L.BatchNorm(None, momentum = momentum, eps = eps, use_global_stats = use_global_stats)
     bn.X = X
     bn.reshape()
