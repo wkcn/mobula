@@ -3,18 +3,19 @@ import mobula.layers as L
 import numpy as np
 
 def go_eltwise(op):
-    a = np.array([1,0,6]).astype(np.float)
-    b = np.array([4,5,3]).astype(np.float)
+    a = np.array([1,0,6]).astype(np.float32)
+    b = np.array([4,5,3]).astype(np.float32)
     print ("a: ", a)
     print ("b: ", b)
     data1 = L.Data(a)
     data2 = L.Data(b)
     coeffs = np.array([-1.0,1.2])
     l = L.Eltwise([data1,data2], op = op, coeffs = coeffs)
+    print ('coeffs: ', coeffs)
     l.reshape()
     l.forward()
     print ("Y: ", l.Y)
-    dY = np.array([7, 8, 9]).astype(np.float)
+    dY = np.array([7, 8, 9]).astype(np.float32)
     l.dY = dY 
     print ("dY: ", l.dY)
     l.backward()
@@ -38,7 +39,7 @@ def go_eltwise(op):
 
     print ("Y", l.Y, Y)
     assert np.allclose(l.Y, Y)
-    assert np.allclose(l.dX[0], dX0)
+    assert np.allclose(l.dX[0], dX0), (l.dX[0], dX0)
     assert np.allclose(l.dX[1], dX1)
 
 def test_eltwise():
