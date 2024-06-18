@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mobula',
-    version='1.0.2',
+    version='1.1.0',
     description='A Lightweight & Flexible Deep Learning (Neural Network) Framework in Python',
     author='wkcn',
     author_email='wkcn@live.cn',
