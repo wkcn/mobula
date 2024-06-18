@@ -2,11 +2,12 @@ from .Layer import *
 
 class BatchNorm(Layer):
     def __init__(self, model, *args, **kwargs):
-        Layer.__init__(self, model, *args, **kwargs)
+        super().__init__(model, *args, **kwargs)
         self.momentum = kwargs.get('momentum', 0.9)
         self.eps = kwargs.get('eps', 1e-5)
         self.use_global_stats = kwargs.get('use_global_stats', False)
         self.axis = kwargs.get('axis', 1)
+
     def reshape(self):
         assert 0 <= self.axis < self.X.ndim
         self.cshape = [1] * self.X.ndim
@@ -21,6 +22,7 @@ class BatchNorm(Layer):
         # Current Mean
         self.moving_mean = np.zeros(self.cshape)
         self.moving_var = np.ones(self.cshape)
+
     def forward(self):
         if self.is_training() and not self.use_global_stats:
             # The mean and var of this batch
@@ -38,6 +40,7 @@ class BatchNorm(Layer):
         self.nx = (self.X - self.batch_mean) * self.nd
         # Scale and Shift
         self.Y = np.multiply(self.nx, self.W) + self.b
+
     def backward(self):
         # Compute self.dX, self.dW, self.db
         dnx = np.multiply(self.dY, self.W)
@@ -48,9 +51,11 @@ class BatchNorm(Layer):
         self.dX = dnx * self.nd + dvar * xsm * (2.0 / m) + dmean * (1.0 / m)
         self.dW = np.sum(self.dY * self.nx, self.valid_axes, keepdims = True)
         self.db = np.sum(self.dY, self.valid_axes, keepdims = True)
+
     @property
     def params(self):
         return [self.W, self.b, self.moving_mean, self.moving_var]
+
     @property
     def grads(self):
         return [self.dW, self.db]
