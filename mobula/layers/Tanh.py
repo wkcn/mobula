@@ -1,4 +1,3 @@
-import numpy as np
 from .Layer import *
 import numpy as np
 

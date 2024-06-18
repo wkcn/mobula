@@ -1,4 +1,3 @@
-import numpy as np
 from .LossLayer import *
 import numpy as np
 
