@@ -1,10 +1,12 @@
 import numpy as np
 from .LossLayer import *
+import numpy as np
 
 class ContrastiveLoss(LossLayer):
     def __init__(self, models, *args, **kwargs):
         super().__init__(models, *args, **kwargs)
         self.margin = kwargs.get("margin", 1.0)
+
     def forward(self):
         self.sim = (self.X[2] == 1).ravel()
         n = self.sim.shape[0]
@@ -14,6 +16,7 @@ class ContrastiveLoss(LossLayer):
         df = (self.margin - self.dist).ravel()
         self.bdf = ((~self.sim) & (df > 0))
         self.Y = (np.sum(dist_sq[self.sim]) + np.sum(np.square(df[self.bdf]))) / (2.0 * n)
+
     def backward(self):
         n = self.sim.shape[0]
         dX = np.zeros(self.X[0].shape)
